@@ -1,31 +1,28 @@
-import 'package:store_go/login/model/data/login_local_data.dart';
-import 'package:store_go/products/model/entities/product_category_response.dart';
 import 'package:store_go/products/model/entities/product_details_get_response.dart';
+import 'package:store_go/products/model/entities/product_category_response.dart';
+import 'package:store_go/products/model/entities/product_get_response.dart';
 import 'package:store_go/products/model/entities/single_product.dart';
+import 'package:store_go/login/model/data/login_local_data.dart';
 import 'package:store_go/store/model/data/store_local_data.dart';
 
 class ProductsLocalData {
-  static String productsCategoryServiceLink =
+  String productsCategoryServiceLink =
       'https://dev.storego.io/api/v1/manager-product-categories';
-  static String productDetailsServiceLink =
+  String productDetailsServiceLink =
       'https://dev.storego.io/api/v1/manager-show-product/';
-  static String productDeleteServiceLink =
+  String productDeleteServiceLink =
       'https://dev.storego.io/api/v1/delete-product';
-  static String productUpdateServiceLink =
+  String productUpdateServiceLink =
       'https://dev.storego.io/api/v1/update-product';
-  static String productSaveServiceLink =
-      'https://dev.storego.io/api/v1/save-product';
-  static String uploadFileServiceLink =
-      'https://dev.storego.io/api/v1/upload-file';
-  static String deleteFileServiceLink =
-      'https://dev.storego.io/api/v1/delete-file';
-  static String productsServiceLink =
-      'https://dev.storego.io/api/v1/manager-products';
+  String productSaveServiceLink = 'https://dev.storego.io/api/v1/save-product';
+  String uploadFileServiceLink = 'https://dev.storego.io/api/v1/upload-file';
+  String deleteFileServiceLink = 'https://dev.storego.io/api/v1/delete-file';
+  String productsServiceLink = 'https://dev.storego.io/api/v1/manager-products';
 
-  static String userLoggedInAcceptLanguage = LoginLocalData.loginAcceptLanguage;
+  String userLoggedInAcceptLanguage;
   static String deleteResultMessage;
-  static String userLoggedInToken = LoginLocalData.userToken;
   static String imageListFileName;
+  String userLoggedInToken;
   static String additionMessage;
   static String updateMessage;
   static String imageFileName;
@@ -44,15 +41,20 @@ class ProductsLocalData {
   static int categoryId;
   static int productId;
 
-  static bool productUpdated;
+  static bool networkConnectionState;
+  static bool imageUploadedState;
   static bool productImageStatus;
   static bool productUpdateState;
+  static bool imageDeleteState;
+  static bool productUpdated;
 
-  static SingleProduct singleProduct;
+  static ProductDetailsResponse productDetailsResponse;
+  static ProductsGetRequestData productsResponse;
   static OtherImage singleOtherImage;
+  static SingleProduct singleProduct;
   static Data productDetails;
 
-  static List<SingleProduct> products = StoreLocalData.storeProducts;
+  static List<SingleProduct> products;
   static List<OtherImage> productOtherImagesList;
   static List<SingleCategory> categoriesList;
   static List<StockTransfer> stockTransfer;
@@ -75,5 +77,10 @@ class ProductsLocalData {
         0, oldModel.otherImagesNames.length, newModel.otherImagesNames);
     oldModel.otherImages
         .replaceRange(0, oldModel.otherImages.length, newModel.otherImages);
+  }
+
+  ProductsLocalData() {
+    userLoggedInAcceptLanguage = LoginLocalData.loginAcceptLanguage;
+    userLoggedInToken = LoginLocalData.userToken;
   }
 }

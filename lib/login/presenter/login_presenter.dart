@@ -1,5 +1,5 @@
-import 'package:store_go/login/model/data/login_local_data.dart';
 import 'package:store_go/login/model/entities/login_response_data.dart';
+import 'package:store_go/login/model/data/login_local_data.dart';
 
 class LoginPresenter {
   void verifyingLoginConstrains(Function successFunction) {

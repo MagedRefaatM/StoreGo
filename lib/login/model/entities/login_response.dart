@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'login_response_data.dart';
+import 'dart:convert';
 
 LoginResponse loginResponseFromJson(String str) =>
     LoginResponse.fromJson(json.decode(str));

@@ -1,9 +1,9 @@
-import 'package:store_go/login/model/data/login_local_data.dart';
 import 'package:store_go/orders/model/entities/orders_get_response.dart';
+import 'package:store_go/login/model/data/login_local_data.dart';
 
 class OrdersLocalData {
-  static String loggedInUserToken = LoginLocalData.userToken;
-  static String loggedInUserAcceptLanguage = LoginLocalData.loginAcceptLanguage;
+  String loggedInUserToken;
+  String loggedInUserAcceptLanguage;
   static String ordersServiceLink = 'https://dev.storego.io/api/v1/orders';
 
   static bool ordersDataReadyChecker;
@@ -17,5 +17,10 @@ class OrdersLocalData {
   static int currentDisplayedOrdersPageFilter = 1;
 
   static OrdersGetResponse ordersGetResponse;
-  static List<SingleOrder> ordersList;
+  static List<SingleOrder> ordersList = [];
+
+  OrdersLocalData() {
+    loggedInUserAcceptLanguage = LoginLocalData.loginAcceptLanguage;
+    loggedInUserToken = LoginLocalData.userToken;
+  }
 }

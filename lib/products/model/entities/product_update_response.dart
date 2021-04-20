@@ -1,7 +1,5 @@
-
+import 'package:store_go/products/model/entities/product_details_get_response.dart';
 import 'dart:convert';
-
-import 'file:///C:/Users/maged.refaat/AndroidStudioProjects/store_go/lib/products/model/entities/product_details_get_response.dart';
 
 ProductUpdateResponse productUpdateResponseFromJson(String str) =>
     ProductUpdateResponse.fromJson(json.decode(str));
@@ -34,10 +32,10 @@ class OtherImage2 {
   String path;
 
   factory OtherImage2.fromJson(Map<String, dynamic> json) => OtherImage2(
-    id: json["id"],
-    name: json["name"],
-    path: json["path"],
-  );
+        id: json["id"],
+        name: json["name"],
+        path: json["path"],
+      );
 }
 
 class StockTransfer2 {
@@ -58,11 +56,11 @@ class StockTransfer2 {
   String operationDate;
 
   factory StockTransfer2.fromJson(Map<String, dynamic> json) => StockTransfer2(
-    operationType: json["operation_type"],
-    orderId: json["order_id"],
-    source: json["source"],
-    quantity: json["quantity"],
-    balance: json["balance"],
-    operationDate: json["operation_date"],
-  );
+        operationType: json["operation_type"],
+        orderId: json["order_id"],
+        source: json["source"],
+        quantity: json["quantity"],
+        balance: json["balance"],
+        operationDate: json["operation_date"],
+      );
 }

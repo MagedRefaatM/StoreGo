@@ -1,13 +1,16 @@
+import 'package:store_go/products/model/services/products/add_product_category.dart';
+import 'package:store_go/products/model/entities/product_details_get_response.dart';
+import 'package:store_go/products/model/entities/product_category_response.dart';
+import 'package:store_go/products/model/entities/product_delete_response.dart';
+import 'package:store_go/products/model/services/products/delete_product.dart';
+import 'package:store_go/products/model/data/products_local_data.dart';
+import 'package:store_go/products/presenter/products_presenter.dart';
+import 'package:store_go/dialogs/delete_product_dialog.dart';
+import 'package:store_go/products/view/update_product.dart';
+import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:store_go/dialogs/delete_product_dialog.dart';
-import 'package:store_go/dialogs/loading_dialog.dart';
-import 'package:store_go/products/model/data/products_local_data.dart';
-import 'package:store_go/products/model/entities/product_details_get_response.dart';
-import 'package:store_go/products/model/services/products/add_product_category.dart';
-import 'package:store_go/products/model/services/products/delete_product.dart';
-import 'package:store_go/products/presenter/products_presenter.dart';
-import 'package:store_go/products/view/update_product.dart';
+import 'package:toast/toast.dart';
 
 class ProductDetails extends StatefulWidget {
   @override
@@ -16,20 +19,18 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   final _getProductCategory = GetProductCategory();
+  final _productDetails = ProductsLocalData.productDetails;
+  final _stockTransfer = ProductsLocalData.stockTransfer;
   final _deleteProduct = DeleteProduct();
   final _keyLoader2 = new GlobalKey<State>();
   final _keyLoader = new GlobalKey<State>();
   final _presenter = ProductsPresenter();
 
-  Data productDetails;
-
-  List<StockTransfer> stockTransfer;
+  ProductsLocalData localData;
 
   @override
   void initState() {
-    productDetails = ProductsLocalData.productDetails;
-    stockTransfer = ProductsLocalData.stockTransfer;
-
+    localData = ProductsLocalData();
     ProductsLocalData.productUpdateState = false;
     super.initState();
   }
@@ -54,6 +55,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      SizedBox(height: 15.0),
                       SizedBox(),
                       Text(
                         'تفاصيل المنتج',
@@ -156,7 +158,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   padding: EdgeInsets.only(
                                       left: 8.0, right: 8.0, bottom: 3.0),
                                   child: Text(
-                                    '${_presenter.getProductDisplayedState(productDetails.status)}',
+                                    '${_presenter.getProductDisplayedState(_productDetails.status)}',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Colors.white,
@@ -165,7 +167,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   ),
                                   decoration: BoxDecoration(
                                     color: _presenter.getProductStatusColor(
-                                        productDetails.status),
+                                        _productDetails.status),
                                     borderRadius: BorderRadius.circular(15.0),
                                   ),
                                 ),
@@ -180,7 +182,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   child: Container(
                                     padding: EdgeInsets.all(13.0),
                                     child: Text(
-                                      '${_presenter.getProductQuantity(productDetails.quantity)}',
+                                      '${_presenter.getProductQuantity(_productDetails.quantity)}',
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.visible,
                                       style: TextStyle(
@@ -199,7 +201,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
                         image: DecorationImage(
-                          image: NetworkImage(productDetails.image),
+                          image: NetworkImage(_productDetails.image),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -211,7 +213,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        '${productDetails.name}',
+                        '${_productDetails.name}',
                         style: TextStyle(
                           color: Colors.grey[700],
                           fontFamily: 'ArabicUiDisplay',
@@ -225,7 +227,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            '${_presenter.getProductQuantity(productDetails.quantity)}',
+                            '${_presenter.getProductQuantity(_productDetails.quantity)}',
                             style: TextStyle(
                               color: Colors.grey[500],
                               fontFamily: 'ArabicUiDisplay',
@@ -263,7 +265,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                           SizedBox(width: 10.0),
                           Text(
-                            '${productDetails.price}',
+                            '${_productDetails.price}',
                             style: TextStyle(
                               color: Colors.deepPurpleAccent,
                               fontFamily: 'ArabicUiDisplay',
@@ -275,7 +277,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ],
                       ),
                       Text(
-                        '${_presenter.getProductDescription(productDetails.description)}',
+                        '${_presenter.getProductDescription(_productDetails.description)}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.grey[500],
@@ -378,7 +380,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     child: ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
-                      itemCount: stockTransfer.length,
+                      itemCount: _stockTransfer.length,
                       itemBuilder: (context, index) {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -387,7 +389,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           children: [
                             Expanded(
                               child:
-                                  Text('${stockTransfer[index].operationDate}',
+                                  Text('${_stockTransfer[index].operationDate}',
                                       style: TextStyle(
                                         color: Colors.grey[700],
                                         fontFamily: 'ArabicUiDisplay',
@@ -399,7 +401,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               flex: 2,
                             ),
                             Expanded(
-                              child: Text('${stockTransfer[index].balance}',
+                              child: Text('${_stockTransfer[index].balance}',
                                   style: TextStyle(
                                     color: Colors.grey[700],
                                     fontFamily: 'ArabicUiDisplay',
@@ -412,7 +414,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             ),
                             Expanded(
                               child: Text(
-                                  '${stockTransfer[index].quantity.toString()}',
+                                  '${_stockTransfer[index].quantity.toString()}',
                                   style: TextStyle(
                                     color: Colors.grey[700],
                                     fontFamily: 'ArabicUiDisplay',
@@ -424,7 +426,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               flex: 1,
                             ),
                             Expanded(
-                              child: Text('${stockTransfer[index].source}',
+                              child: Text('${_stockTransfer[index].source}',
                                   style: TextStyle(
                                     color: Colors.grey[700],
                                     fontFamily: 'ArabicUiDisplay',
@@ -437,7 +439,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             ),
                             Expanded(
                               child:
-                                  Text('${stockTransfer[index].operationType}',
+                                  Text('${_stockTransfer[index].operationType}',
                                       style: TextStyle(
                                         color: Colors.grey[700],
                                         fontFamily: 'ArabicUiDisplay',
@@ -465,43 +467,55 @@ class _ProductDetailsState extends State<ProductDetails> {
   void onEditProductPressed() {
     LoadingDialog.showLoadingDialog(context, _keyLoader);
     _getProductCategory
-        .getProductCategory(ProductsLocalData.productsCategoryServiceLink,
-            ProductsLocalData.userLoggedInToken)
-        .then((productCategory) {
-      ProductsLocalData.categoriesList = productCategory.data;
-      ProductsLocalData.productImageStatus = productDetails.imageStatus;
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      moveToEditProduct();
-    });
+        .getProductCategory(
+            localData.productsCategoryServiceLink, localData.userLoggedInToken)
+        .then((productCategory) => _presenter.checkConnectionStatus(
+            ProductsLocalData.networkConnectionState,
+            () => successProductCategoryConnection(productCategory),
+            () => showToast));
+  }
+
+  successProductCategoryConnection(ProductCategoryResponse productCategory) {
+    ProductsLocalData.categoriesList = productCategory.data;
+    ProductsLocalData.productImageStatus = _productDetails.imageStatus;
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    moveToEditProduct();
   }
 
   void deleteCurrentProduct() {
     LoadingDialog.showLoadingDialog(context, _keyLoader);
     _deleteProduct
-        .deleteProduct(
-            ProductsLocalData.productDeleteServiceLink,
-            ProductsLocalData.userLoggedInToken,
-            ProductsLocalData.productId.toString())
-        .then((deleteResponse) {
-      ProductsLocalData.deleteResultMessage = deleteResponse.message;
+        .deleteProduct(localData.productDeleteServiceLink,
+            localData.userLoggedInToken, ProductsLocalData.productId.toString())
+        .then((deleteResponse) => _presenter.checkConnectionStatus(
+            ProductsLocalData.networkConnectionState,
+            () => successDeleteConnection(deleteResponse),
+            () => showToast));
+  }
 
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Navigator.of(_keyLoader2.currentContext, rootNavigator: true).pop();
+  successDeleteConnection(ProductDeleteResponse deleteResponse) {
+    ProductsLocalData.deleteResultMessage = deleteResponse.message;
 
-      ProductsLocalData.products.remove(ProductsLocalData.singleProduct);
-      Navigator.pop(context, ProductsLocalData.singleProduct);
-    });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(_keyLoader2.currentContext, rootNavigator: true ?? context).pop();
+
+    ProductsLocalData.products.remove(ProductsLocalData.singleProduct);
+    Navigator.pop(context, ProductsLocalData.singleProduct);
   }
 
   void moveToEditProduct() async {
     final _product = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => EditProduct()));
-    _product != null
-        ? updateDisplayedProduct(_product)
-        : Navigator.pop(context);
+    _presenter.checkObjectActivity(_product, () => updateIgnoreCase(),
+        () => updateDisplayedProduct(_product));
   }
 
-  void updateDisplayedProduct(Data product) {
+  updateIgnoreCase() {
+    ProductsLocalData.productUpdated = false;
+    Navigator.pop(context);
+  }
+
+  updateDisplayedProduct(Data product) {
     setState(() {
       ProductsLocalData.updateModel(ProductsLocalData.productDetails, product);
       ProductsLocalData.stockTransfer.replaceRange(
@@ -521,5 +535,11 @@ class _ProductDetailsState extends State<ProductDetails> {
     _singleProduct.name = product.name.toString();
     _singleProduct.quantity = product.quantity;
     _singleProduct.imageLink = product.image;
+  }
+
+  void showToast() {
+    Navigator.pop(context);
+    Toast.show('من فضلك تحقق من اتصال الإنترنت لديك', context,
+        duration: 3, gravity: Toast.BOTTOM);
   }
 }

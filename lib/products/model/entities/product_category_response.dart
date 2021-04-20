@@ -12,7 +12,8 @@ class ProductCategoryResponse {
 
   factory ProductCategoryResponse.fromJson(Map<String, dynamic> json) =>
       ProductCategoryResponse(
-        data: List<SingleCategory>.from(json["data"].map((x) => SingleCategory.fromJson(x))),
+        data: List<SingleCategory>.from(
+            json["data"].map((x) => SingleCategory.fromJson(x))),
       );
 }
 
@@ -28,8 +29,8 @@ class SingleCategory {
   int order;
 
   factory SingleCategory.fromJson(Map<String, dynamic> json) => SingleCategory(
-    id: json["id"],
-    name: json["name"],
-    order: json["order"],
-  );
+        id: json["id"],
+        name: json["name"],
+        order: json["order"],
+      );
 }

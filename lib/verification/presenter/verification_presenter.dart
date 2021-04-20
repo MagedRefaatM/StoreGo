@@ -1,9 +1,8 @@
-class VerificationPresenter{
-
-  void logoutServiceHandler(bool networkConnectionState, Function successFunction, Function failureFunction) {
-    if(networkConnectionState == true)
+class VerificationPresenter {
+  void logoutServiceHandler(bool networkConnectionState,
+      Function successFunction, Function failureFunction) {
+    if (networkConnectionState == true)
       successFunction();
-    else if (networkConnectionState == false)
-      failureFunction();
+    else if (networkConnectionState == false) failureFunction();
   }
 }

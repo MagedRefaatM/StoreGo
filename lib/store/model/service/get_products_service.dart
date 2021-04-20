@@ -1,8 +1,7 @@
-import 'dart:async';
-
-import 'package:http/http.dart';
 import 'package:store_go/products/model/entities/product_get_response.dart';
 import 'package:store_go/store/model/data/store_local_data.dart';
+import 'package:http/http.dart';
+import 'dart:async';
 
 class GetProducts {
   Future<ProductsGetRequestData> getProducts(String productsLink, String token,
@@ -24,7 +23,7 @@ class GetProducts {
       final response = await get(
         Uri.parse(requestUrl),
         headers: <String, String>{'authorization': authorizationToken},
-      ).timeout(Duration(seconds: 2));
+      ).timeout(Duration(seconds: 5));
 
       if (response.statusCode == 200) {
         StoreLocalData.networkConnectionState = true;
@@ -36,7 +35,7 @@ class GetProducts {
         StoreLocalData.validDataState = false;
         return null;
       }
-    } on TimeoutException catch(_) {
+    } on TimeoutException catch (_) {
       StoreLocalData.networkConnectionState = false;
       StoreLocalData.validDataState = false;
     }

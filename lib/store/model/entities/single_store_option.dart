@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 class SingleStoreOption {
   String name;
+
   IconData icon;
+
   int id;
+
   double opacityVisibility;
   double moneyAccountAmount;
 

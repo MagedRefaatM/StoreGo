@@ -1,20 +1,21 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_switch/flutter_switch.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:store_go/dialogs/delete_photo_dialog.dart';
-import 'package:store_go/dialogs/exit_edit_product_dialog.dart';
-import 'package:store_go/dialogs/image_dialog.dart';
-import 'package:store_go/dialogs/loading_dialog.dart';
-import 'package:store_go/products/model/data/products_local_data.dart';
-import 'package:store_go/products/model/entities/product_category_response.dart';
 import 'package:store_go/products/model/entities/product_details_get_response.dart';
 import 'package:store_go/products/model/services/files/upload_selected_image.dart';
 import 'package:store_go/products/model/services/products/update_product_api.dart';
+import 'package:store_go/products/model/entities/product_category_response.dart';
+import 'package:store_go/products/model/entities/product_update_response.dart';
+import 'package:store_go/products/model/entities/upload_image_response.dart';
+import 'package:store_go/products/model/data/products_local_data.dart';
 import 'package:store_go/products/presenter/products_presenter.dart';
+import 'package:store_go/dialogs/exit_edit_product_dialog.dart';
+import 'package:store_go/dialogs/delete_photo_dialog.dart';
+import 'package:store_go/dialogs/loading_dialog.dart';
+import 'package:flutter_switch/flutter_switch.dart';
+import 'package:store_go/dialogs/image_dialog.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
+import 'dart:io';
 
 class EditProduct extends StatefulWidget {
   @override
@@ -22,40 +23,40 @@ class EditProduct extends StatefulWidget {
 }
 
 class _EditProductState extends State<EditProduct> {
-  GetUpdateProductResponse _getUpdateProductResponse;
-  ProductsPresenter _presenter = ProductsPresenter();
-  UploadSelectedImage _uploadSelectedImage;
-
-  List<SingleCategory> categoriesList = ProductsLocalData.categoriesList;
-  List<String> productOtherImages = [];
   List<String> productOtherDeletedImages = [];
+  List<String> productOtherImages = [];
 
-  String dropdownValue = ProductsLocalData.categoriesList[0].name;
-  String mainProductImage;
-  String mainProductImageFileName;
+  var mainProductImageFileName;
+  var mainProductImage;
+  var dropdownValue = ProductsLocalData.categoriesList[0].name;
 
-  int idAutoIncrement = 0;
+  var idAutoIncrement = 0;
 
-  bool isQuantityToggleChecked;
-  bool isStateToggleChecked;
-  bool isTextFieldEnabled;
-  bool mainImageStatus;
+  var isQuantityToggleChecked;
+  var isStateToggleChecked;
+  var isTextFieldEnabled;
+  var mainImageStatus;
 
-  final _productNameController = TextEditingController();
-  final _productSectionController = TextEditingController();
-  final _productPriceController = TextEditingController();
   final _productDescriptionController = TextEditingController();
   final _productQuantityController = TextEditingController();
-  final _keyLoader = new GlobalKey<State>();
-  final _keyLoader2 = new GlobalKey<State>();
-  final _keyLoader3 = new GlobalKey<State>();
+  final _getUpdateProductResponse = GetUpdateProductResponse();
+  final _productSectionController = TextEditingController();
+  final _productPriceController = TextEditingController();
+  final _productNameController = TextEditingController();
+  final _uploadSelectedImage = UploadSelectedImage();
+  final _keyLoader2 = GlobalKey<State>();
+  final _keyLoader3 = GlobalKey<State>();
+  final _keyLoader = GlobalKey<State>();
+  final _presenter = ProductsPresenter();
   final _picker = ImagePicker();
+
+  final categoriesList = ProductsLocalData.categoriesList;
+
+  ProductsLocalData localData;
 
   @override
   void initState() {
-    _getUpdateProductResponse = GetUpdateProductResponse();
-    _uploadSelectedImage = UploadSelectedImage();
-
+    localData = ProductsLocalData();
     //Data Integrity
     isQuantityToggleChecked = _presenter
         .getQuantityToggleState(ProductsLocalData.productDetails.quantity);
@@ -94,6 +95,7 @@ class _EditProductState extends State<EditProduct> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
+                    SizedBox(height: 15.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -217,7 +219,8 @@ class _EditProductState extends State<EditProduct> {
                             color: Colors.grey[700],
                           ),
                           hintText: "السعر",
-                          labelText: ProductsLocalData.productDetails.price,
+                          labelText:
+                              ProductsLocalData.productDetails.price.toString(),
                           labelStyle: TextStyle(
                               color: Colors.black,
                               fontFamily: 'ArabicUiDisplay',
@@ -577,6 +580,7 @@ class _EditProductState extends State<EditProduct> {
           SizedBox(height: 5.0),
           Text('يرجى العلم أنه ستتم إضافة صورة للمنتج رئيسية أولا إن لم توجد',
               textAlign: TextAlign.center,
+              maxLines: 2,
               style: TextStyle(
                   color: Colors.grey[500],
                   fontSize: 12.0,
@@ -601,23 +605,15 @@ class _EditProductState extends State<EditProduct> {
   Future getImageFromGallery() async {
     final pickedFile = await _picker.getImage(source: ImageSource.gallery);
     File image = File(pickedFile.path);
-    uploadImageToServer(
-        ProductsLocalData.uploadFileServiceLink,
-        ProductsLocalData.userLoggedInToken,
-        image,
-        image.path.toString(),
-        'image');
+    uploadImageToServer(localData.uploadFileServiceLink,
+        localData.userLoggedInToken, image, image.path.toString(), 'image');
   }
 
   Future getImageFromCamera() async {
     final pickedFile = await _picker.getImage(source: ImageSource.camera);
     File image = File(pickedFile.path);
-    uploadImageToServer(
-        ProductsLocalData.uploadFileServiceLink,
-        ProductsLocalData.userLoggedInToken,
-        image,
-        image.path.toString(),
-        'image');
+    uploadImageToServer(localData.uploadFileServiceLink,
+        localData.userLoggedInToken, image, image.path.toString(), 'image');
   }
 
   void uploadImageToServer(String uploadLink, String userToken,
@@ -625,29 +621,47 @@ class _EditProductState extends State<EditProduct> {
     LoadingDialog.showLoadingDialog(context, _keyLoader);
     _uploadSelectedImage
         .uploadImage(uploadLink, userToken, selectedFile, path, selectedType)
-        .then((uploadResponse) {
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Navigator.of(_keyLoader2.currentContext, rootNavigator: true).pop();
-      viewImageHandler(
-          uploadResponse.path, uploadResponse.fileName, uploadResponse.path);
-    });
+        .then((uploadResponse) => _presenter.uploadImageStatesHandler(
+            ProductsLocalData.networkConnectionState,
+            ProductsLocalData.imageUploadedState,
+            () => successImageUpload(uploadResponse),
+            () => failureImageUpload(),
+            () => failureUploadConnection()));
+  }
+
+  successImageUpload(UploadImageResponse uploadResponse) {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(_keyLoader2.currentContext, rootNavigator: true ?? context).pop();
+    viewImageHandler(
+        uploadResponse.path, uploadResponse.fileName, uploadResponse.path);
+  }
+
+  failureImageUpload() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(_keyLoader2.currentContext, rootNavigator: true ?? context).pop();
+    ProductsLocalData.updateMessage = 'حدث خطأ ما برجاء إعادة المحاولة';
+    showToast();
+  }
+
+  failureUploadConnection() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(_keyLoader2.currentContext, rootNavigator: true ?? context).pop();
+    ProductsLocalData.updateMessage =
+        'برجاء التأكد من وجود اتصال ثابت بالانترنت';
+    showToast();
   }
 
   void viewImageHandler(
-      String returnedImage, String returnedFileName, String returnedPath) {
-    if (mainImageStatus == false)
-      updateMainImage(returnedFileName, returnedImage);
-    else {
-      if (ProductsLocalData.singleOtherImage != null &&
-          ProductsLocalData.productOtherImagesList
-                  .contains(ProductsLocalData.singleOtherImage) ==
-              true) {
-        productOtherImages.removeAt(ProductsLocalData.otherImagesIndex);
-        updateOtherImagesList(returnedPath, returnedFileName);
-      } else
-        addNewOtherImageList(returnedFileName, returnedPath);
-    }
-  }
+          String returnedImage, String returnedFileName, String returnedPath) =>
+      _presenter.productImagesHandler(
+          mainImageStatus,
+          ProductsLocalData.singleOtherImage,
+          ProductsLocalData.productOtherImagesList,
+          productOtherImages,
+          ProductsLocalData.otherImagesIndex,
+          () => updateMainImage(returnedFileName, returnedImage),
+          () => updateOtherImagesList(returnedPath, returnedFileName),
+          () => addNewOtherImageList(returnedFileName, returnedPath));
 
   updateMainImage(String returnedFileName, String returnedImage) {
     setState(() {
@@ -681,52 +695,65 @@ class _EditProductState extends State<EditProduct> {
   void removeImageFromList() {
     productOtherDeletedImages.add(ProductsLocalData.imageListFileName);
     productOtherImages.removeAt(ProductsLocalData.otherImagesIndex);
-    if (ProductsLocalData.productOtherImagesList.length == 1) {
-      Navigator.of(_keyLoader3.currentContext, rootNavigator: true).pop();
-      setState(() => ProductsLocalData.productOtherImagesList
-          .removeAt(ProductsLocalData.currentImageListIndex));
-      inflateAddImageTexts();
-    } else {
-      Navigator.of(_keyLoader3.currentContext, rootNavigator: true).pop();
-      setState(() => ProductsLocalData.productOtherImagesList
-          .removeAt(ProductsLocalData.currentImageListIndex));
-    }
+    _presenter.otherImagesListHandler(
+        ProductsLocalData.productOtherImagesList.length,
+        () => lastListIndexHandler(),
+        () => currentListIndexHandler());
+  }
+
+  void currentListIndexHandler() {
+    Navigator.of(_keyLoader3.currentContext, rootNavigator: true ?? context).pop();
+    setState(() => ProductsLocalData.productOtherImagesList
+        .removeAt(ProductsLocalData.currentImageListIndex));
+  }
+
+  void lastListIndexHandler() {
+    Navigator.of(_keyLoader3.currentContext, rootNavigator: true ?? context).pop();
+    setState(() => ProductsLocalData.productOtherImagesList
+        .removeAt(ProductsLocalData.currentImageListIndex));
+    inflateAddImageTexts();
   }
 
   void onUpdateProductClicked() {
     LoadingDialog.showLoadingDialog(context, _keyLoader);
-    try {
-      _getUpdateProductResponse
-          .getUpdateResponse(
-              ProductsLocalData.productUpdateServiceLink,
-              ProductsLocalData.userLoggedInToken,
-              ProductsLocalData.productDetails.id.toString(),
-              _presenter.getTextFieldText(_productNameController,
-                  ProductsLocalData.productDetails.name),
-              ProductsLocalData.categoryId.toString(),
-              _presenter.getTextFieldText(_productPriceController,
-                  ProductsLocalData.productDetails.price),
-              _presenter.getTextFieldText(_productDescriptionController,
-                  ProductsLocalData.productDetails.description),
-              _presenter
-                  .getProductQuantityState(isQuantityToggleChecked)
-                  .toString(),
-              _presenter.getTextFieldText(_productQuantityController,
-                  ProductsLocalData.productDetails.quantity.toString()),
-              _presenter
-                  .getProductDisplayState(isStateToggleChecked)
-                  .toString(),
-              mainProductImageFileName,
-              productOtherImages,
-              productOtherDeletedImages)
-          .then((updateResponse) {
-        ProductsLocalData.productUpdateState = true;
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Navigator.pop(context, updateResponse.product);
-      });
-    } catch (error) {
-      print(error);
-    }
+    _getUpdateProductResponse
+        .getUpdateResponse(
+            localData.productUpdateServiceLink,
+            localData.userLoggedInToken,
+            ProductsLocalData.productDetails.id.toString(),
+            _presenter.getTextFieldText(
+                _productNameController, ProductsLocalData.productDetails.name),
+            ProductsLocalData.categoryId.toString(),
+            _presenter.getTextFieldText(_productPriceController,
+                ProductsLocalData.productDetails.price.toString()),
+            _presenter.getTextFieldText(_productDescriptionController,
+                ProductsLocalData.productDetails.description),
+            _presenter
+                .getProductQuantityState(isQuantityToggleChecked)
+                .toString(),
+            _presenter.getTextFieldText(_productQuantityController,
+                ProductsLocalData.productDetails.quantity.toString()),
+            _presenter.getProductDisplayState(isStateToggleChecked).toString(),
+            mainProductImageFileName,
+            productOtherImages,
+            productOtherDeletedImages)
+        .then((updateResponse) => _presenter.checkConnectionStatus(
+            ProductsLocalData.networkConnectionState,
+            () => onProductUpdatedSuccessfully(updateResponse),
+            onNetworkConnectionTimeOut));
+  }
+
+  void onProductUpdatedSuccessfully(ProductUpdateResponse updateResponse) {
+    ProductsLocalData.productUpdated = true;
+    ProductsLocalData.productUpdateState = true;
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.pop(context, updateResponse.product);
+  }
+
+  void onNetworkConnectionTimeOut() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    ProductsLocalData.updateMessage = 'برجاء التأكد من اتصال الانترنت لديك';
+    showToast();
   }
 
   void showToast() {

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:store_go/products/model/entities/product_details_get_response.dart';
 import 'package:store_go/products/model/data/products_local_data.dart';
+import 'package:flutter/material.dart';
 
 class ProductsPresenter {
   String getProductStatus(int status) {
@@ -14,6 +15,13 @@ class ProductsPresenter {
       return Colors.red;
     else
       return Colors.deepPurpleAccent;
+  }
+
+  bool getInteractionState(bool toggleState) {
+    if (toggleState)
+      return false;
+    else
+      return true;
   }
 
   double getQuantityVisibilityStatus(dynamic quantity) {
@@ -205,7 +213,8 @@ class ProductsPresenter {
     if (!mainImageStatus &&
         (productName.isEmpty || productName == null) &&
         (productPrice.isEmpty || productPrice == null)) {
-      ProductsLocalData.additionMessage = 'برجاء تحديد خصائص المنتج قبل الإضافة';
+      ProductsLocalData.additionMessage =
+          'برجاء تحديد خصائص المنتج قبل الإضافة';
       failureHandlerFunction();
     } else if (!mainImageStatus) {
       ProductsLocalData.additionMessage = 'برجاء إضافة صورة رئيسية للمنتج';
@@ -230,9 +239,86 @@ class ProductsPresenter {
   }
 
   String getCurrentProductStatus(bool displayStatus) {
-    if(!displayStatus)
+    if (!displayStatus)
       return 'معروض';
     else
       return 'غير معروض';
+  }
+
+  void checkConnectionStatus(bool networkConnectionState,
+      Function connectionSuccess, Function connectionFailure) {
+    if (networkConnectionState)
+      connectionSuccess();
+    else
+      connectionFailure();
+  }
+
+  void checkProductUpdateState(
+      bool productUpdateState, Function updateOccurred) {
+    if (productUpdateState) updateOccurred();
+  }
+
+  void checkObjectActivity(dynamic object, Function singleProductEmptyProcedure,
+      Function singleProductFullProcedure) {
+    if (object != null)
+      singleProductFullProcedure();
+    else
+      singleProductEmptyProcedure();
+  }
+
+  void checkPageReturnState(
+      bool pageReturnedState, Function pageReturnedHandler) {
+    if (pageReturnedState) pageReturnedHandler();
+  }
+
+  void uploadImageStatesHandler(
+      bool networkConnectionState,
+      bool uploadImageState,
+      Function successUpload,
+      Function failureUpload,
+      Function networkFailure) {
+    if (networkConnectionState && uploadImageState)
+      successUpload();
+    else if (networkConnectionState && !uploadImageState)
+      failureUpload();
+    else
+      networkFailure();
+  }
+
+  void otherImagesListHandler(
+      int length, Function lastIndexHandler, Function currentIndexHandler) {
+    if (length == 1)
+      lastIndexHandler();
+    else
+      currentIndexHandler();
+  }
+
+  void productImagesHandler(
+      bool productMainImageStatus,
+      OtherImage singleOtherImage,
+      List<OtherImage> otherImagesList,
+      List<String> productOtherImages,
+      int index,
+      Function updateMainImage,
+      Function updateOtherImagesList,
+      Function addNewOtherImage) {
+    if (productMainImageStatus == false)
+      updateMainImage();
+    else {
+      if (singleOtherImage != null &&
+          otherImagesList.contains(singleOtherImage) == true) {
+        productOtherImages.removeAt(index);
+        updateOtherImagesList();
+      } else
+        addNewOtherImage();
+    }
+  }
+
+  void newProductImageHandler(bool mainImageState, Function addToMainImage,
+      Function addToOtherImagesList) {
+    if (!mainImageState)
+      addToMainImage();
+    else
+      addToOtherImagesList();
   }
 }

@@ -1,5 +1,6 @@
 class LoginLocalData {
-  static String loginServiceLink = 'https://dev.storego.io/api/v1/manager-login';
+  static String loginServiceLink =
+      'https://dev.storego.io/api/v1/manager-login';
   static String loginAcceptLanguage = 'en';
 
   static String userEmail;

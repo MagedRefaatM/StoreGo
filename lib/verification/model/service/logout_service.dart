@@ -1,8 +1,7 @@
-import 'dart:async';
-
-import 'package:http/http.dart';
-import 'file:///C:/Users/maged.refaat/AndroidStudioProjects/store_go/lib/login/model/entities/logout_response_data.dart';
 import 'package:store_go/verification/model/data/verification_local_data.dart';
+import 'package:store_go/login/model/entities/logout_response_data.dart';
+import 'package:http/http.dart';
+import 'dart:async';
 
 class LogoutAPIService {
   Future<String> getLogoutResponse(
@@ -17,9 +16,7 @@ class LogoutAPIService {
           'accept-language': logoutLang,
           'authorization': authorizationToken
         },
-      ).timeout(Duration(seconds: 2));
-
-      print(response.statusCode);
+      ).timeout(Duration(seconds: 5));
 
       if (response.statusCode == 200) {
         VerificationLocalData.networkConnectionPass = true;
@@ -29,7 +26,7 @@ class LogoutAPIService {
         VerificationLocalData.networkConnectionPass = false;
         return null;
       }
-    } on TimeoutException catch(_) {
+    } on TimeoutException catch (_) {
       VerificationLocalData.networkConnectionPass = false;
     }
   }

@@ -1,15 +1,15 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:store_go/dialogs/loading_dialog.dart';
-import 'package:store_go/products/model/data/products_local_data.dart';
-import 'package:store_go/products/model/entities/single_product.dart';
 import 'package:store_go/products/model/services/products/add_product_category.dart';
 import 'package:store_go/products/model/services/products/get_product_details.dart';
 import 'package:store_go/products/model/services/products/get_products_api.dart';
+import 'package:store_go/products/model/data/products_local_data.dart';
+import 'package:store_go/products/model/entities/single_product.dart';
 import 'package:store_go/products/presenter/products_presenter.dart';
+import 'package:store_go/store/model/data/store_local_data.dart';
 import 'package:store_go/products/view/product_details.dart';
+import 'package:store_go/dialogs/loading_dialog.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
-
 import 'add_new_product.dart';
 
 class Products extends StatefulWidget {
@@ -18,32 +18,21 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
-  GetProducts _getProducts;
-  GetProductCategory _getProductCategory;
-  GetProductDetails _getProductDetails;
-  ProductsPresenter _presenter;
-
   final _productsScrollController = ScrollController();
+  final _getProductCategory = GetProductCategory();
+  final _getProductDetails = GetProductDetails();
   final _keyLoader = new GlobalKey<State>();
+  final _presenter = ProductsPresenter();
+  final _getProducts = GetProducts();
 
-  _scrollListener() {
-    _presenter.handleScrollDirection(
-        _productsScrollController,
-        () => setState(() {
-              ProductsLocalData.currentProductPage =
-                  ProductsLocalData.currentProductPage + 1;
-              getFilteredProducts(
-                  ProductsLocalData.currentProductPageFilter, 8);
-            }));
-  }
+  ProductsLocalData localData;
+  bool enableInteraction = true;
 
   @override
   void initState() {
+    localData = ProductsLocalData();
     super.initState();
-    _presenter = ProductsPresenter();
-    _getProducts = GetProducts();
-    _getProductDetails = GetProductDetails();
-    _getProductCategory = GetProductCategory();
+    ProductsLocalData.products = StoreLocalData.storeProducts;
     _productsScrollController.addListener(_scrollListener);
   }
 
@@ -59,6 +48,7 @@ class _ProductsState extends State<Products> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                SizedBox(height: 15.0),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(12.0, 10.0, 8.0, 15.0),
                   child: Row(
@@ -97,9 +87,10 @@ class _ProductsState extends State<Products> {
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontFamily: 'ArabicUiDisplay',
-                            fontSize: 26.0,
+                            fontSize: 24.0,
                             color: Colors.black),
                       ),
+                      SizedBox(width: 5.0),
                       GestureDetector(
                         child: Icon(
                           Icons.arrow_forward_ios_outlined,
@@ -111,33 +102,23 @@ class _ProductsState extends State<Products> {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'منتهى الكمية',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontSize: 14.0,
-                                    fontFamily: 'ArabicUiDisplay',
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              SizedBox(width: 8.0),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 9.0),
-                                child: Text(
-                                  '${ProductsLocalData.totalEmptyQuantityProducts}',
+                IgnorePointer(
+                  ignoring: _presenter.getInteractionState(enableInteraction),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'منتهى الكمية',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.grey[600],
@@ -145,46 +126,47 @@ class _ProductsState extends State<Products> {
                                       fontFamily: 'ArabicUiDisplay',
                                       fontWeight: FontWeight.w400),
                                 ),
-                              ),
-                            ],
+                                SizedBox(width: 8.0),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 9.0),
+                                  child: Text(
+                                    '${ProductsLocalData.totalEmptyQuantityProducts}',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 14.0,
+                                        fontFamily: 'ArabicUiDisplay',
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onTap: () => setState(() {
+                              enableInteraction = false;
+                              ProductsLocalData.products.clear();
+                              ProductsLocalData.currentProductPageFilter = 2;
+                              ProductsLocalData.currentProductPage = 1;
+                              getFilteredProducts(2, 8);
+                            }),
                           ),
-                          onTap: () => setState(() {
-                            ProductsLocalData.products.clear();
-                            ProductsLocalData.currentProductPageFilter = 2;
-                            ProductsLocalData.currentProductPage = 1;
-                            getFilteredProducts(2, 8);
-                          }),
-                        ),
-                        Container(
-                          height: 1.5,
-                          width: 25.0,
-                          color: Colors.deepOrangeAccent,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'غير معروض',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontSize: 14.0,
-                                    fontFamily: 'ArabicUiDisplay',
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              SizedBox(width: 8.0),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 9.0),
-                                child: Text(
-                                  '${ProductsLocalData.totalNotDisplayedProducts}',
+                          Container(
+                            height: 1.5,
+                            width: 25.0,
+                            color: Colors.deepOrangeAccent,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'غير معروض',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.grey[600],
@@ -192,46 +174,47 @@ class _ProductsState extends State<Products> {
                                       fontFamily: 'ArabicUiDisplay',
                                       fontWeight: FontWeight.w400),
                                 ),
-                              ),
-                            ],
+                                SizedBox(width: 8.0),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 9.0),
+                                  child: Text(
+                                    '${ProductsLocalData.totalNotDisplayedProducts}',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 14.0,
+                                        fontFamily: 'ArabicUiDisplay',
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onTap: () => setState(() {
+                              enableInteraction = false;
+                              ProductsLocalData.products.clear();
+                              ProductsLocalData.currentProductPageFilter = 0;
+                              ProductsLocalData.currentProductPage = 1;
+                              getFilteredProducts(0, 8);
+                            }),
                           ),
-                          onTap: () => setState(() {
-                            ProductsLocalData.products.clear();
-                            ProductsLocalData.currentProductPageFilter = 0;
-                            ProductsLocalData.currentProductPage = 1;
-                            getFilteredProducts(0, 8);
-                          }),
-                        ),
-                        Container(
-                          height: 1.5,
-                          width: 25.0,
-                          color: Colors.red,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'معروض',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontSize: 14.0,
-                                    fontFamily: 'ArabicUiDisplay',
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              SizedBox(width: 8.0),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 9.0),
-                                child: Text(
-                                  '${ProductsLocalData.totalDisplayedProducts}',
+                          Container(
+                            height: 1.5,
+                            width: 25.0,
+                            color: Colors.red,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'معروض',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.grey[600],
@@ -239,24 +222,38 @@ class _ProductsState extends State<Products> {
                                       fontFamily: 'ArabicUiDisplay',
                                       fontWeight: FontWeight.w400),
                                 ),
-                              ),
-                            ],
+                                SizedBox(width: 8.0),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 9.0),
+                                  child: Text(
+                                    '${ProductsLocalData.totalDisplayedProducts}',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 14.0,
+                                        fontFamily: 'ArabicUiDisplay',
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onTap: () => setState(() {
+                              enableInteraction = false;
+                              ProductsLocalData.products.clear();
+                              ProductsLocalData.currentProductPage = 1;
+                              ProductsLocalData.currentProductPageFilter = 1;
+                              getFilteredProducts(1, 8);
+                            }),
                           ),
-                          onTap: () => setState(() {
-                            ProductsLocalData.products.clear();
-                            ProductsLocalData.currentProductPage = 1;
-                            ProductsLocalData.currentProductPageFilter = 1;
-                            getFilteredProducts(1, 8);
-                          }),
-                        ),
-                        Container(
-                          height: 1.5,
-                          width: 25.0,
-                          color: Colors.deepPurpleAccent,
-                        ),
-                      ],
-                    ),
-                  ],
+                          Container(
+                            height: 1.5,
+                            width: 25.0,
+                            color: Colors.deepPurpleAccent,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 15.0),
                 inflateProductsList()
@@ -283,8 +280,11 @@ class _ProductsState extends State<Products> {
                 Expanded(
                   flex: 2,
                   child: GestureDetector(
-                    onTap: () =>
-                        getProductDetails(ProductsLocalData.products[index]),
+                    onTap: () {
+                      ProductsLocalData.singleProduct =
+                          ProductsLocalData.products[index];
+                      getProductDetails();
+                    },
                     child: Container(
                       child: Stack(
                         children: [
@@ -405,105 +405,139 @@ class _ProductsState extends State<Products> {
     );
   }
 
+  _scrollListener() {
+    _presenter.handleScrollDirection(
+        _productsScrollController,
+        () => setState(() {
+              ProductsLocalData.currentProductPage =
+                  ProductsLocalData.currentProductPage + 1;
+              getFilteredProducts(
+                  ProductsLocalData.currentProductPageFilter, 8);
+            }));
+  }
+
   void onAddProductPressed() {
+    enableInteraction = false;
     LoadingDialog.showLoadingDialog(context, _keyLoader);
     _getProductCategory
-        .getProductCategory(ProductsLocalData.productsCategoryServiceLink,
-            ProductsLocalData.userLoggedInToken)
+        .getProductCategory(
+            localData.productsCategoryServiceLink, localData.userLoggedInToken)
         .then((productCategory) async {
+      enableInteraction = true;
       ProductsLocalData.categoriesList = productCategory.data;
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      final bool _isPageReturned = await Navigator.push(
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+
+      final _isPageReturned = await Navigator.push(
           context, MaterialPageRoute(builder: (context) => AddProduct()));
-      if (_isPageReturned)
-        setState(() {
-          ProductsLocalData.currentProductPage = 1;
-          getFilteredProducts(1, 8);
-        });
+      _presenter.checkPageReturnState(
+          _isPageReturned,
+          () => setState(() {
+                ProductsLocalData.currentProductPage = 1;
+                getFilteredProducts(1, 8);
+              }));
     });
   }
 
   void getFilteredProducts(int pageFilter, int productsNumber) {
-    try {
-      LoadingDialog.showLoadingDialog(context, _keyLoader);
-      _getProducts
-          .getProducts(
-              ProductsLocalData.productsServiceLink,
-              ProductsLocalData.userLoggedInToken,
-              '$productsNumber',
-              '${ProductsLocalData.currentProductPage}',
-              '$pageFilter')
-          .then((productsResponse) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    LoadingDialog.showLoadingDialog(context, _keyLoader);
+    _getProducts
+        .getProducts(
+            localData.productsServiceLink,
+            localData.userLoggedInToken,
+            '$productsNumber',
+            '${ProductsLocalData.currentProductPage}',
+            '$pageFilter')
+        .then((productsResponse) {
+      enableInteraction = true;
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
 
-        setState(() {
-          ProductsLocalData.products.addAll(productsResponse.data);
-          ProductsLocalData.totalProducts = productsResponse.totalProducts;
-          ProductsLocalData.totalDisplayedProducts =
-              productsResponse.totalActive;
-          ProductsLocalData.totalNotDisplayedProducts =
-              productsResponse.totalNotActive;
-          ProductsLocalData.totalEmptyQuantityProducts =
-              productsResponse.totalEmpty;
-        });
-      });
-    } catch (error) {
-      showToast();
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    }
+      ProductsLocalData.productsResponse = productsResponse;
+      _presenter.checkConnectionStatus(ProductsLocalData.networkConnectionState,
+          onFilteredProductsConnectionSuccess, showToast);
+    });
   }
+
+  void onFilteredProductsConnectionSuccess() => setState(() {
+        ProductsLocalData.products
+            .addAll(ProductsLocalData.productsResponse.data);
+        ProductsLocalData.totalProducts =
+            ProductsLocalData.productsResponse.totalProducts;
+        ProductsLocalData.totalDisplayedProducts =
+            ProductsLocalData.productsResponse.totalActive;
+        ProductsLocalData.totalNotDisplayedProducts =
+            ProductsLocalData.productsResponse.totalNotActive;
+        ProductsLocalData.totalEmptyQuantityProducts =
+            ProductsLocalData.productsResponse.totalEmpty;
+      });
 
   SingleProduct passSingleProductToRequestTap(int index) {
     ProductsLocalData.singleProduct = ProductsLocalData.products[index];
     return ProductsLocalData.products[index];
   }
 
-  getProductDetails(SingleProduct singleProduct) {
-    try {
-      LoadingDialog.showLoadingDialog(context, _keyLoader);
-      ProductsLocalData.productId = singleProduct.id;
+  getProductDetails() {
+    enableInteraction = false;
+    LoadingDialog.showLoadingDialog(context, _keyLoader);
+    ProductsLocalData.productId = ProductsLocalData.singleProduct.id;
 
-      _getProductDetails
-          .getProductDetails(
-              ProductsLocalData.productDetailsServiceLink,
-              ProductsLocalData.productId.toString(),
-              ProductsLocalData.userLoggedInToken)
-          .then((response) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    _getProductDetails
+        .getProductDetails(localData.productDetailsServiceLink,
+            ProductsLocalData.productId.toString(), localData.userLoggedInToken)
+        .then((response) {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
 
-        ProductsLocalData.productOtherImagesList = response.data.otherImages;
-        ProductsLocalData.productDetails = response.data;
-        ProductsLocalData.stockTransfer = response.data.stockTransfer;
-        moveToProductDetails(singleProduct);
-      });
-    } catch (error) {
-      print(error);
-    }
+      ProductsLocalData.productDetailsResponse = response;
+      _presenter.checkConnectionStatus(ProductsLocalData.networkConnectionState,
+          onProductDetailsConnectionSuccess, showToast);
+    });
   }
 
-  void moveToProductDetails(SingleProduct singleProduct) async {
-    ProductsLocalData.singleProduct = singleProduct;
+  void onProductDetailsConnectionSuccess() {
+    enableInteraction = true;
+    ProductsLocalData.productOtherImagesList =
+        ProductsLocalData.productDetailsResponse.data.otherImages;
+    ProductsLocalData.productDetails =
+        ProductsLocalData.productDetailsResponse.data;
+    ProductsLocalData.stockTransfer =
+        ProductsLocalData.productDetailsResponse.data.stockTransfer;
+    moveToProductDetails();
+  }
+
+  void moveToProductDetails() async {
     final _singleProduct = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => ProductDetails()));
-    _singleProduct != null
-        ? removeItemFromDisplayedList(_singleProduct)
-        : getNewProductsList();
+    _presenter.checkObjectActivity(_singleProduct, () => getNewProductsList(),
+        () => removeItemFromDisplayedList(_singleProduct));
   }
 
-  getNewProductsList() {
-    if (ProductsLocalData.productUpdateState)
-      setState(() => getFilteredProducts(1, 8));
-  }
+  getNewProductsList() => _presenter.checkProductUpdateState(
+      ProductsLocalData.productUpdated,
+      () => setState(() {
+            ProductsLocalData.products.clear();
+            ProductsLocalData.currentProductPage = 1;
+            ProductsLocalData.currentProductPageFilter = 1;
+            getFilteredProducts(1, 8);
+          }));
 
   removeItemFromDisplayedList(SingleProduct singleProduct) {
     setState(() {
       ProductsLocalData.products.remove(singleProduct);
+      ProductsLocalData.products.clear();
+      ProductsLocalData.currentProductPage = 1;
+      ProductsLocalData.currentProductPageFilter = 1;
       getFilteredProducts(1, 8);
     });
   }
 
   void showToast() {
+    Navigator.pop(context);
     Toast.show('من فضلك تحقق من اتصال الإنترنت لديك', context,
         duration: 3, gravity: Toast.BOTTOM);
+  }
+
+  @override
+  void dispose() {
+    _productsScrollController.dispose();
+    super.dispose();
   }
 }

@@ -20,9 +20,9 @@ class LoginResponseData {
       );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "image": image,
-    "token": token,
-  };
+        "id": id,
+        "name": name,
+        "image": image,
+        "token": token,
+      };
 }

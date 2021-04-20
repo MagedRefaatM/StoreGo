@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
-class NewInvoice extends StatefulWidget {
-  @override
-  _NewInvoiceState createState() => _NewInvoiceState();
-}
-
-class _NewInvoiceState extends State<NewInvoice> {
+class NewInvoice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -57,13 +52,11 @@ class _NewInvoiceState extends State<NewInvoice> {
                     style: ButtonStyle(
                         padding:
                             MaterialStateProperty.all(EdgeInsets.all(20.0)),
-                        shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(7),
-                                side: BorderSide(
-                                    color: Colors.deepPurpleAccent))),
-                        backgroundColor: MaterialStateProperty.all(
-                            Colors.deepPurpleAccent),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(7),
+                            side: BorderSide(color: Colors.deepPurpleAccent))),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.deepPurpleAccent),
                         textStyle: MaterialStateProperty.all(
                             TextStyle(color: Colors.white))),
                     onPressed: () {},

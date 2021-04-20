@@ -7,7 +7,7 @@ class SingleProduct {
 
   String name;
   String imageLink;
-  String price;
+  dynamic price;
   String createdAt;
 
   Color statusColor;
@@ -24,12 +24,12 @@ class SingleProduct {
   });
 
   factory SingleProduct.fromJson(Map<String, dynamic> json) => SingleProduct(
-    id: json["id"],
-    name: json["name"],
-    imageLink: json["image"],
-    price: json["price"],
-    status: json["status"],
-    quantity: json["quantity"],
-    createdAt: json["created_at"],
-  );
+        id: json["id"],
+        name: json["name"],
+        imageLink: json["image"],
+        price: json["price"],
+        status: json["status"],
+        quantity: json["quantity"],
+        createdAt: json["created_at"],
+      );
 }

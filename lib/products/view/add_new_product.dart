@@ -1,20 +1,21 @@
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_switch/flutter_switch.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:store_go/dialogs/delete_photo_dialog.dart';
-import 'package:store_go/dialogs/exit_add_product-dialog.dart';
-import 'package:store_go/dialogs/image_dialog.dart';
-import 'package:store_go/dialogs/loading_dialog.dart';
-import 'package:store_go/products/model/data/products_local_data.dart';
-import 'package:store_go/products/model/entities/new_product_other_image.dart';
-import 'package:store_go/products/model/entities/product_category_response.dart';
 import 'package:store_go/products/model/services/files/delete_selected_image.dart';
 import 'package:store_go/products/model/services/files/upload_selected_image.dart';
+import 'package:store_go/products/model/entities/product_category_response.dart';
+import 'package:store_go/products/model/entities/new_product_other_image.dart';
+import 'package:store_go/products/model/entities/delete_image_response.dart';
 import 'package:store_go/products/model/services/products/save_product.dart';
+import 'package:store_go/products/model/entities/upload_image_response.dart';
+import 'package:store_go/products/model/data/products_local_data.dart';
 import 'package:store_go/products/presenter/products_presenter.dart';
+import 'package:store_go/dialogs/exit_add_product-dialog.dart';
+import 'package:store_go/dialogs/delete_photo_dialog.dart';
+import 'package:store_go/dialogs/loading_dialog.dart';
+import 'package:store_go/dialogs/image_dialog.dart';
+import 'package:flutter_switch/flutter_switch.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
+import 'dart:io';
 
 class AddProduct extends StatefulWidget {
   @override
@@ -22,54 +23,51 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
-  int currentId;
-  int currentIndex;
-  int categoryId;
-
-  bool isQuantityToggleChecked;
-  bool isStateToggleChecked;
-  bool isTextFieldEnabled;
-  bool mainImageStatus;
-
-  final _productNameController = TextEditingController();
-  final _productSectionController = TextEditingController();
-  final _productPriceController = TextEditingController();
   final _productDescriptionController = TextEditingController();
   final _productQuantityController = TextEditingController();
-  final _keyLoader = new GlobalKey<State>();
-  final _keyLoader2 = new GlobalKey<State>();
-  final _keyLoader3 = new GlobalKey<State>();
+  final _productSectionController = TextEditingController();
+  final _getSaveProductResponse = GetSaveProductResponse();
+  final _productPriceController = TextEditingController();
+  final _productNameController = TextEditingController();
+  final _deleteSelectedImage = DeleteSelectedImage();
+  final _uploadSelectedImage = UploadSelectedImage();
+  final _keyLoader2 = GlobalKey<State>();
+  final _keyLoader3 = GlobalKey<State>();
+  final _keyLoader = GlobalKey<State>();
+  final _presenter = ProductsPresenter();
   final _picker = ImagePicker();
 
-  DeleteSelectedImage _deleteSelectedImage;
-  GetSaveProductResponse _getSaveProductResponse;
-  UploadSelectedImage _uploadSelectedImage;
-  ProductsPresenter _presenter;
-  NewProductOtherImage singleNewOtherImage;
+  final _categoriesList = ProductsLocalData.categoriesList;
+
+  var singleNewOtherImage = NewProductOtherImage();
 
   List<SingleCategory> categoriesList = ProductsLocalData.categoriesList;
   List<NewProductOtherImage> newProductOtherImages = [];
   List<String> productOtherImagesNames = [];
 
-  String dropdownValue = ProductsLocalData.categoriesList[0].name;
-  String mainProductImage = '';
-  String mainProductImageFileName;
-  String imageListFileName;
+  var mainProductImageFileName;
+  var imageListFileName;
+  var mainProductImage = '';
+  var dropdownValue = ProductsLocalData.categoriesList[0].name;
 
-  int additionalImageId;
+  var currentIndex;
+  var categoryId;
+  var currentId;
+
+  var isQuantityToggleChecked;
+  var isStateToggleChecked;
+  var isTextFieldEnabled;
+  var mainImageStatus;
+
+  ProductsLocalData localData;
 
   @override
   void initState() {
-    _presenter = ProductsPresenter();
-    _getSaveProductResponse = GetSaveProductResponse();
-    _uploadSelectedImage = UploadSelectedImage();
-    _deleteSelectedImage = DeleteSelectedImage();
-    singleNewOtherImage = NewProductOtherImage();
-
-    mainImageStatus = false;
+    localData = ProductsLocalData();
     isQuantityToggleChecked = true;
     isStateToggleChecked = false;
     isTextFieldEnabled = false;
+    mainImageStatus = false;
 
     newProductOtherImages = [
       NewProductOtherImage(
@@ -130,6 +128,7 @@ class _AddProductState extends State<AddProduct> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
+                    SizedBox(height: 15.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -205,7 +204,7 @@ class _AddProductState extends State<AddProduct> {
                                         dropdownValue = newValue;
                                       });
                                     },
-                                    items: categoriesList
+                                    items: _categoriesList
                                         .map((SingleCategory value) {
                                       return DropdownMenuItem<String>(
                                         value: value.name,
@@ -603,23 +602,15 @@ class _AddProductState extends State<AddProduct> {
   Future getImageFromGallery() async {
     final pickedFile = await _picker.getImage(source: ImageSource.gallery);
     File image = File(pickedFile.path);
-    uploadImageToServer(
-        ProductsLocalData.uploadFileServiceLink,
-        ProductsLocalData.userLoggedInToken,
-        image,
-        image.path.toString(),
-        'image');
+    uploadImageToServer(localData.uploadFileServiceLink,
+        localData.userLoggedInToken, image, image.path.toString(), 'image');
   }
 
   Future getImageFromCamera() async {
     final pickedFile = await _picker.getImage(source: ImageSource.camera);
     File image = File(pickedFile.path);
-    uploadImageToServer(
-        ProductsLocalData.uploadFileServiceLink,
-        ProductsLocalData.userLoggedInToken,
-        image,
-        image.path.toString(),
-        'image');
+    uploadImageToServer(localData.uploadFileServiceLink,
+        localData.userLoggedInToken, image, image.path.toString(), 'image');
   }
 
   void uploadImageToServer(String uploadLink, String userToken,
@@ -627,35 +618,56 @@ class _AddProductState extends State<AddProduct> {
     LoadingDialog.showLoadingDialog(context, _keyLoader);
     _uploadSelectedImage
         .uploadImage(uploadLink, userToken, selectedFile, path, selectedType)
-        .then((uploadResponse) {
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Navigator.of(_keyLoader2.currentContext, rootNavigator: true).pop();
-      viewImageHandler(
-          uploadResponse.path, uploadResponse.fileName, uploadResponse.path);
-    });
+        .then((uploadResponse) => _presenter.uploadImageStatesHandler(
+            ProductsLocalData.networkConnectionState,
+            ProductsLocalData.imageUploadedState,
+            () => successImageUpload(uploadResponse),
+            () => failureImageUpload(),
+            () => failureUploadConnection()));
+  }
+
+  successImageUpload(UploadImageResponse uploadResponse) {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(_keyLoader2.currentContext, rootNavigator: true ?? context).pop();
+    viewImageHandler(
+        uploadResponse.path, uploadResponse.fileName, uploadResponse.path);
+  }
+
+  failureImageUpload() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(_keyLoader2.currentContext, rootNavigator: true ?? context).pop();
+    ProductsLocalData.additionMessage = 'حدث خطأ ما برجاء إعادة المحاولة';
+    showToast();
+  }
+
+  failureUploadConnection() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(_keyLoader2.currentContext, rootNavigator: true ?? context).pop();
+    ProductsLocalData.additionMessage =
+        'برجاء التأكد من وجود اتصال ثابت بالانترنت';
+    showToast();
   }
 
   void viewImageHandler(
-      String returnedImage, String returnedFileName, String returnedPath) {
-    if (mainImageStatus == false)
-      updateMainImage(returnedFileName, returnedImage);
-    else
-      updateOtherImagesList(returnedPath, returnedFileName);
-  }
+          String returnedImage, String returnedFileName, String returnedPath) =>
+      _presenter.newProductImageHandler(
+          mainImageStatus,
+          () => updateMainImage(returnedFileName, returnedImage),
+          () => updateOtherImagesList(returnedPath, returnedFileName));
 
-  updateMainImage(String returnedFileName, String returnedImage) {
-    setState(() {
-      mainImageStatus = true;
-      mainProductImage = returnedImage;
-      mainProductImageFileName = returnedFileName;
-    });
-  }
+  updateMainImage(String returnedFileName, String returnedImage) =>
+      setState(() {
+        mainImageStatus = true;
+        mainProductImage = returnedImage;
+        mainProductImageFileName = returnedFileName;
+      });
 
   updateOtherImagesList(String returnedPath, String returnedFileName) {
     final otherNewImage =
         newProductOtherImages.firstWhere((item) => item.imageId == currentId);
     productOtherImagesNames.add(returnedFileName);
     setState(() {
+      otherNewImage.imageName = returnedFileName;
       otherNewImage.imagePath = returnedPath;
       otherNewImage.imageState = true;
     });
@@ -663,72 +675,92 @@ class _AddProductState extends State<AddProduct> {
 
   //Remove Image part
   void removeMainImage() {
-    Navigator.of(_keyLoader3.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader3.currentContext, rootNavigator: true ?? context).pop();
     LoadingDialog.showLoadingDialog(context, _keyLoader);
     _deleteSelectedImage
         .getDeleteResponse(
-            ProductsLocalData.deleteFileServiceLink,
-            ProductsLocalData.userLoggedInAcceptLanguage,
+            localData.deleteFileServiceLink,
+            localData.userLoggedInAcceptLanguage,
             mainProductImageFileName,
-            ProductsLocalData.userLoggedInToken)
-        .then((deleteResponse) {
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      mainImageStatus = false;
-      setState(() => mainProductImage = deleteResponse.defaultImage);
-    });
+            localData.userLoggedInToken)
+        .then((deleteResponse) => _presenter.uploadImageStatesHandler(
+            ProductsLocalData.networkConnectionState,
+            ProductsLocalData.imageDeleteState,
+            () => successMainImageDelete(deleteResponse),
+            () => failureImageUpload(),
+            () => failureUploadConnection()));
+  }
+
+  successMainImageDelete(DeleteResponseData deleteResponse) {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    mainImageStatus = false;
+    setState(() => mainProductImage = deleteResponse.defaultImage);
   }
 
   void removeImageFromList() {
+    print(imageListFileName);
     productOtherImagesNames.removeAt(currentIndex);
     LoadingDialog.showLoadingDialog(context, _keyLoader);
     _deleteSelectedImage
         .getDeleteResponse(
-            ProductsLocalData.deleteFileServiceLink,
-            ProductsLocalData.userLoggedInAcceptLanguage,
+            localData.deleteFileServiceLink,
+            localData.userLoggedInAcceptLanguage,
             imageListFileName,
-            ProductsLocalData.userLoggedInToken)
-        .then((deleteResponse) {
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-      Navigator.of(_keyLoader3.currentContext, rootNavigator: true).pop();
-      setState(() {
-        final otherNewImage = newProductOtherImages
-            .firstWhere((item) => item.imageId == currentId);
-        otherNewImage.imagePath = '';
-        otherNewImage.imageName = 'images/no_image.jpg';
-        otherNewImage.imageState = false;
-      });
+            localData.userLoggedInToken)
+        .then((deleteResponse) => _presenter.uploadImageStatesHandler(
+            ProductsLocalData.networkConnectionState,
+            ProductsLocalData.imageDeleteState,
+            () => successOtherImageDelete(deleteResponse),
+            () => failureImageDelete(),
+            () => failureUploadConnection()));
+  }
+
+  successOtherImageDelete(DeleteResponseData deleteResponse) {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(_keyLoader3.currentContext, rootNavigator: true ?? context).pop();
+    setState(() {
+      final otherNewImage =
+          newProductOtherImages.firstWhere((item) => item.imageId == currentId);
+      otherNewImage.imagePath = '';
+      otherNewImage.imageName = 'images/no_image.jpg';
+      otherNewImage.imageState = false;
     });
+  }
+
+  failureImageDelete() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(_keyLoader3.currentContext, rootNavigator: true ?? context).pop();
+    ProductsLocalData.additionMessage = 'حدث خطأ ما برجاء إعادة المحاولة';
+    showToast();
   }
 
   void onSaveProductClicked() {
     LoadingDialog.showLoadingDialog(context, _keyLoader);
-    try {
-      _getSaveProductResponse
-          .getSaveResponse(
-              ProductsLocalData.productSaveServiceLink,
-              ProductsLocalData.userLoggedInToken,
-              _productNameController.text.toString(),
-              _presenter.productCategoryController(categoryId),
-              _productPriceController.text.toString(),
-              _presenter
-                  .descriptionTextController(_productDescriptionController),
-              _presenter
-                  .getProductQuantityState(isQuantityToggleChecked)
-                  .toString(),
-              _presenter.quantityTextController(
-                  _productQuantityController, isQuantityToggleChecked),
-              _presenter
-                  .getProductDisplayState(isStateToggleChecked)
-                  .toString(),
-              mainProductImageFileName,
-              productOtherImagesNames)
-          .then((saveResponse) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        Navigator.pop(context, true);
-      });
-    } catch (error) {
-      print(error);
-    }
+    _getSaveProductResponse
+        .getSaveResponse(
+            localData.productSaveServiceLink,
+            localData.userLoggedInToken,
+            _productNameController.text.toString(),
+            _presenter.productCategoryController(categoryId),
+            _productPriceController.text.toString(),
+            _presenter.descriptionTextController(_productDescriptionController),
+            _presenter
+                .getProductQuantityState(isQuantityToggleChecked)
+                .toString(),
+            _presenter.quantityTextController(
+                _productQuantityController, isQuantityToggleChecked),
+            _presenter.getProductDisplayState(isStateToggleChecked).toString(),
+            mainProductImageFileName,
+            productOtherImagesNames)
+        .then((saveResponse) => _presenter.checkConnectionStatus(
+            ProductsLocalData.networkConnectionState,
+            () => successAddingNewProduct(),
+            () => failureUploadConnection()));
+  }
+
+  successAddingNewProduct() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.pop(context, true);
   }
 
   void showToast() {
@@ -738,12 +770,12 @@ class _AddProductState extends State<AddProduct> {
 
   @override
   void dispose() {
-    productOtherImagesNames.clear();
-    _productNameController.dispose();
-    _productSectionController.dispose();
-    _productPriceController.dispose();
     _productDescriptionController.dispose();
     _productQuantityController.dispose();
+    _productSectionController.dispose();
+    _productPriceController.dispose();
+    _productNameController.dispose();
+    productOtherImagesNames.clear();
     super.dispose();
   }
 }

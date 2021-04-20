@@ -22,7 +22,8 @@ class OrdersGetResponse {
 
   factory OrdersGetResponse.fromJson(Map<String, dynamic> json) =>
       OrdersGetResponse(
-        data: List<SingleOrder>.from(json["data"].map((x) => SingleOrder.fromJson(x))),
+        data: List<SingleOrder>.from(
+            json["data"].map((x) => SingleOrder.fromJson(x))),
         totalOrders: json["total_orders"],
         totalPages: json["total_pages"],
         totalNew: json["total_new"],

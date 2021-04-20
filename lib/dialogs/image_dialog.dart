@@ -12,7 +12,8 @@ class ImageDialog {
               onWillPop: () async => false,
               child: SimpleDialog(
                   key: key,
-                  title: Text('تحميل صورة من الهاتف', textAlign: TextAlign.center),
+                  title:
+                      Text('تحميل صورة من الهاتف', textAlign: TextAlign.center),
                   elevation: 3.0,
                   titleTextStyle: TextStyle(
                     color: Colors.white,
@@ -35,17 +36,18 @@ class ImageDialog {
                               fontFamily: 'ArabicUiDisplay',
                               fontWeight: FontWeight.w500),
                         ),
-                        SizedBox(height:10.0),
+                        SizedBox(height: 10.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             ElevatedButton.icon(
                                 onPressed: getImageFromCamera,
-                                icon: Icon(Icons.camera_enhance_rounded, color: Colors.white),
+                                icon: Icon(Icons.camera_enhance_rounded,
+                                    color: Colors.white),
                                 style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(Colors.deepPurpleAccent)
-                                ),
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.deepPurpleAccent)),
                                 label: Text('الكاميرا',
                                     style: TextStyle(
                                         color: Colors.white,
@@ -56,8 +58,8 @@ class ImageDialog {
                                 onPressed: getImageFromGallery,
                                 icon: Icon(Icons.image, color: Colors.white),
                                 style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(Colors.deepPurpleAccent)
-                                ),
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.deepPurpleAccent)),
                                 label: Text('المعرض',
                                     style: TextStyle(
                                         color: Colors.white,

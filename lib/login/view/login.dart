@@ -1,9 +1,9 @@
+import 'package:store_go/login/model/service/login_api_service.dart';
+import 'package:store_go/login/model/data/login_local_data.dart';
+import 'package:store_go/login/presenter/login_presenter.dart';
+import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:store_go/dialogs/loading_dialog.dart';
-import 'package:store_go/login/model/data/login_local_data.dart';
-import 'package:store_go/login/model/service/login_api_service.dart';
-import 'package:store_go/login/presenter/login_presenter.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -11,16 +11,15 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
   final _loginAPIService = LoginAPIService();
+  final _passwordFocus = FocusNode();
+  final _emailFocus = FocusNode();
   final _presenter = LoginPresenter();
   final _keyLoader = GlobalKey<State>();
 
-  FocusNode _emailFocus = FocusNode();
-  FocusNode _passwordFocus = FocusNode();
-
-  String message = '';
+  var message = '';
 
   @override
   void initState() {
@@ -39,6 +38,7 @@ class _LoginState extends State<Login> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(height: 15.0),
             Expanded(
               flex: 1,
               child: Padding(
@@ -95,6 +95,9 @@ class _LoginState extends State<Login> {
                       controller: _passwordController,
                       focusNode: _passwordFocus,
                       textInputAction: TextInputAction.done,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      obscureText: true,
                       onSubmitted: (String string) {
                         LoginLocalData.userEmail =
                             _emailController.text.trim().toString();
@@ -238,19 +241,17 @@ class _LoginState extends State<Login> {
             LoginLocalData.loginAcceptLanguage,
             LoginLocalData.userEmail.trim(),
             LoginLocalData.userPassword)
-        .then((loginResponse) {
-      _presenter.loginCallSuccessCheck(
-          LoginLocalData.loginPassed,
-          LoginLocalData.networkConnectionPass,
-          authorizedLogin,
-          unAuthorizedLogin,
-          onNetworkFailed,
-          loginResponse);
-    });
+        .then((loginResponse) => _presenter.loginCallSuccessCheck(
+            LoginLocalData.loginPassed,
+            LoginLocalData.networkConnectionPass,
+            authorizedLogin,
+            unAuthorizedLogin,
+            onNetworkFailed,
+            loginResponse));
   }
 
   void authorizedLogin() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
 
     _emailController.clear();
     _passwordController.clear();
@@ -261,7 +262,7 @@ class _LoginState extends State<Login> {
   }
 
   void onNetworkFailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
     setState(() {
       _emailController.text = '';
       _passwordController.text = '';
@@ -270,7 +271,7 @@ class _LoginState extends State<Login> {
   }
 
   void unAuthorizedLogin() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
     setState(() => message = _presenter.unAuthorizedLogin());
   }
 
@@ -278,6 +279,8 @@ class _LoginState extends State<Login> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _passwordFocus.dispose();
+    _emailFocus.dispose();
     super.dispose();
   }
 }

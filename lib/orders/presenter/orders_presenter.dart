@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:store_go/orders/model/entities/orders_get_response.dart';
+import 'package:flutter/material.dart';
 
 class OrdersPresenter {
   var firstPageIndicatorOpacity = 1.0;
@@ -74,6 +74,13 @@ class OrdersPresenter {
         }
         break;
     }
+  }
+
+  bool getInteractionState(bool toggleState) {
+    if (toggleState)
+      return false;
+    else
+      return true;
   }
 
   Color orderStatusColor(String status) {

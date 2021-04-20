@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 ProductSaveResponse productSaveResponseFromJson(String str) =>
@@ -42,13 +41,13 @@ class Product {
   String slugKey;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
-    id: json["id"],
-    name: json["name"],
-    image: json["image"],
-    price: json["price"],
-    status: int.parse(json["status"].toString()),
-    quantity: json["quantity"],
-    createdAt: json["created_at"],
-    slugKey: json["slug_key"],
-  );
+        id: json["id"],
+        name: json["name"],
+        image: json["image"],
+        price: json["price"],
+        status: int.parse(json["status"].toString()),
+        quantity: json["quantity"],
+        createdAt: json["created_at"],
+        slugKey: json["slug_key"],
+      );
 }

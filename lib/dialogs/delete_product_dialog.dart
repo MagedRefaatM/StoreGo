@@ -51,8 +51,8 @@ class DeleteProductDialog {
                                       fontSize: 15.0)),
                               onPressed: cancelDelete,
                               style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(Colors.deepPurpleAccent)
-                              ),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.deepPurpleAccent)),
                             ),
                             ElevatedButton(
                               child: Text('تأكيد',
@@ -63,8 +63,8 @@ class DeleteProductDialog {
                                       fontSize: 15.0)),
                               onPressed: deleteProductFunction,
                               style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(Colors.deepPurpleAccent)
-                              ),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.deepPurpleAccent)),
                             )
                           ],
                         )

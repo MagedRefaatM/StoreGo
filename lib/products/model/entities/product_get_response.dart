@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:store_go/products/model/entities/single_product.dart';
+import 'dart:convert';
 
 ProductsGetRequestData productsGetRequestDataFromJson(String str) =>
     ProductsGetRequestData.fromJson(json.decode(str));

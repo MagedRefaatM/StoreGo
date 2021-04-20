@@ -1,9 +1,9 @@
+import 'package:store_go/orders/model/data/orders_local_data.dart';
+import 'package:store_go/orders/presenter/orders_presenter.dart';
+import 'package:store_go/orders/model/service/get_orders.dart';
+import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:store_go/orders/model/data/orders_local_data.dart';
-import 'package:store_go/orders/model/service/get_orders.dart';
-import 'package:store_go/orders/presenter/orders_presenter.dart';
-
 import 'orders_card.dart';
 
 class Orders extends StatefulWidget {
@@ -12,18 +12,22 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
+  final _ordersScrollController = ScrollController();
+  final _keyLoader = new GlobalKey<State>();
   final _getOrders = GetOrders();
   final _presenter = OrdersPresenter();
-  final _ordersScrollController = ScrollController();
 
   Widget currentDisplayedWidget;
+  OrdersLocalData localData;
+
+  bool enableInteraction = true;
 
   @override
   void initState() {
-    OrdersLocalData.ordersDataReadyChecker = false;
-    OrdersLocalData.ordersNetworkCallChecker = false;
+    localData = OrdersLocalData();
     handleCurrentView();
-    getFilteredOrders(8, OrdersLocalData.currentDisplayedOrdersPageFilter);
+    getFilteredOrders(5, OrdersLocalData.currentDisplayedOrdersPageFilter);
+    _ordersScrollController.addListener(_scrollListener);
     super.initState();
   }
 
@@ -38,6 +42,7 @@ class _OrdersState extends State<Orders> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                SizedBox(height: 15.0),
                 Text(
                   'الطلبات',
                   textAlign: TextAlign.center,
@@ -52,160 +57,169 @@ class _OrdersState extends State<Orders> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 7.0),
-                              child: RichText(
+                    IgnorePointer(
+                      ignoring:
+                          _presenter.getInteractionState(enableInteraction),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 7.0),
+                                child: RichText(
+                                  textAlign: TextAlign.start,
+                                  text: TextSpan(
+                                      text: 'الكل',
+                                      style: TextStyle(
+                                          color: _presenter.fourthPageTextColor,
+                                          fontSize: 16.0,
+                                          fontFamily: 'ArabicUiDisplay',
+                                          fontWeight: FontWeight.w400),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () => setState(() {
+                                              enableInteraction = false;
+                                              _presenter.inflateRequestTap(3);
+                                              OrdersLocalData.ordersList
+                                                  .clear();
+                                              OrdersLocalData
+                                                  .currentDisplayedOrdersPage = 1;
+                                              OrdersLocalData
+                                                  .currentDisplayedOrdersPageFilter = 4;
+                                              handleCurrentView();
+                                              getFilteredOrders(5, 4);
+                                            })),
+                                ),
+                              ),
+                              Opacity(
+                                opacity: _presenter.fourthPageIndicatorOpacity,
+                                child: Container(
+                                  height: 1.5,
+                                  width: 40.0,
+                                  color: Colors.deepPurpleAccent,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              RichText(
                                 textAlign: TextAlign.start,
                                 text: TextSpan(
-                                    text: 'الكل',
+                                    text:
+                                        'تم الشحن(${OrdersLocalData.totalShippedOrdersNumber})',
                                     style: TextStyle(
-                                        color: _presenter.fourthPageTextColor,
+                                        color: _presenter.thirdPageTextColor,
                                         fontSize: 16.0,
                                         fontFamily: 'ArabicUiDisplay',
                                         fontWeight: FontWeight.w400),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () => setState(() {
-                                            _presenter.inflateRequestTap(3);
+                                            enableInteraction = false;
+                                            _presenter.inflateRequestTap(2);
                                             OrdersLocalData.ordersList.clear();
                                             OrdersLocalData
                                                 .currentDisplayedOrdersPage = 1;
                                             OrdersLocalData
-                                                .currentDisplayedOrdersPageFilter = 4;
+                                                .currentDisplayedOrdersPageFilter = 3;
                                             handleCurrentView();
-                                            getFilteredOrders(8, 4);
+                                            getFilteredOrders(5, 3);
                                           })),
                               ),
-                            ),
-                            Opacity(
-                              opacity: _presenter.fourthPageIndicatorOpacity,
-                              child: Container(
-                                height: 1.5,
-                                width: 40.0,
-                                color: Colors.deepPurpleAccent,
+                              Opacity(
+                                opacity: _presenter.thirdPageIndicatorOpacity,
+                                child: Container(
+                                  height: 1.5,
+                                  width: 40.0,
+                                  color: Colors.deepPurpleAccent,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            RichText(
-                              textAlign: TextAlign.start,
-                              text: TextSpan(
-                                  text:
-                                      'تم الشحن(${OrdersLocalData.totalShippedOrdersNumber})',
-                                  style: TextStyle(
-                                      color: _presenter.thirdPageTextColor,
-                                      fontSize: 16.0,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      fontWeight: FontWeight.w400),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () => setState(() {
-                                          _presenter.inflateRequestTap(2);
-                                          OrdersLocalData.ordersList.clear();
-                                          OrdersLocalData
-                                              .currentDisplayedOrdersPage = 1;
-                                          OrdersLocalData
-                                              .currentDisplayedOrdersPageFilter = 3;
-                                          handleCurrentView();
-                                          getFilteredOrders(8, 3);
-                                        })),
-                            ),
-                            Opacity(
-                              opacity: _presenter.thirdPageIndicatorOpacity,
-                              child: Container(
-                                height: 1.5,
-                                width: 40.0,
-                                color: Colors.deepPurpleAccent,
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              RichText(
+                                textAlign: TextAlign.start,
+                                text: TextSpan(
+                                    text:
+                                        'جارى التجهيز(${OrdersLocalData.totalReadyOrdersNumber})',
+                                    style: TextStyle(
+                                        color: _presenter.secondPageTextColor,
+                                        fontSize: 16.0,
+                                        fontFamily: 'ArabicUiDisplay',
+                                        fontWeight: FontWeight.w400),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () => setState(() {
+                                            enableInteraction = false;
+                                            _presenter.inflateRequestTap(1);
+                                            OrdersLocalData.ordersList.clear();
+                                            OrdersLocalData
+                                                .currentDisplayedOrdersPage = 1;
+                                            OrdersLocalData
+                                                .currentDisplayedOrdersPageFilter = 2;
+                                            handleCurrentView();
+                                            getFilteredOrders(5, 2);
+                                          })),
                               ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            RichText(
-                              textAlign: TextAlign.start,
-                              text: TextSpan(
-                                  text:
-                                      'جارى التجهيز(${OrdersLocalData.totalReadyOrdersNumber})',
-                                  style: TextStyle(
-                                      color: _presenter.secondPageTextColor,
-                                      fontSize: 16.0,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      fontWeight: FontWeight.w400),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () => setState(() {
-                                          _presenter.inflateRequestTap(1);
-                                          OrdersLocalData.ordersList.clear();
-                                          OrdersLocalData
-                                              .currentDisplayedOrdersPage = 1;
-                                          OrdersLocalData
-                                              .currentDisplayedOrdersPageFilter = 2;
-                                          handleCurrentView();
-                                          getFilteredOrders(8, 2);
-                                        })),
-                            ),
-                            Opacity(
-                              opacity: _presenter.secondPageIndicatorOpacity,
-                              child: Container(
-                                height: 1.5,
-                                width: 40.0,
-                                color: Colors.deepPurpleAccent,
+                              Opacity(
+                                opacity: _presenter.secondPageIndicatorOpacity,
+                                child: Container(
+                                  height: 1.5,
+                                  width: 40.0,
+                                  color: Colors.deepPurpleAccent,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            RichText(
-                              textAlign: TextAlign.start,
-                              text: TextSpan(
-                                  text:
-                                      'جديد(${OrdersLocalData.totalNewOrdersNumber})',
-                                  style: TextStyle(
-                                      color: _presenter.firstPageTextColor,
-                                      fontSize: 16.0,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      fontWeight: FontWeight.w400),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () => setState(() {
-                                          _presenter.inflateRequestTap(0);
-                                          OrdersLocalData.ordersList.clear();
-                                          OrdersLocalData
-                                              .currentDisplayedOrdersPage = 1;
-                                          OrdersLocalData
-                                              .currentDisplayedOrdersPageFilter = 1;
-                                          handleCurrentView();
-                                          getFilteredOrders(8, 1);
-                                        })),
-                            ),
-                            SizedBox(
-                              height: 2.0,
-                            ),
-                            Opacity(
-                              opacity: _presenter.firstPageIndicatorOpacity,
-                              child: Container(
-                                height: 1.5,
-                                width: 40.0,
-                                color: Colors.deepPurpleAccent,
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              RichText(
+                                textAlign: TextAlign.start,
+                                text: TextSpan(
+                                    text:
+                                        'جديد(${OrdersLocalData.totalNewOrdersNumber})',
+                                    style: TextStyle(
+                                        color: _presenter.firstPageTextColor,
+                                        fontSize: 16.0,
+                                        fontFamily: 'ArabicUiDisplay',
+                                        fontWeight: FontWeight.w400),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () => setState(() {
+                                            enableInteraction = false;
+                                            _presenter.inflateRequestTap(0);
+                                            OrdersLocalData.ordersList.clear();
+                                            OrdersLocalData
+                                                .currentDisplayedOrdersPage = 1;
+                                            OrdersLocalData
+                                                .currentDisplayedOrdersPageFilter = 1;
+                                            handleCurrentView();
+                                            getFilteredOrders(5, 1);
+                                          })),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                              SizedBox(
+                                height: 2.0,
+                              ),
+                              Opacity(
+                                opacity: _presenter.firstPageIndicatorOpacity,
+                                child: Container(
+                                  height: 1.5,
+                                  width: 40.0,
+                                  color: Colors.deepPurpleAccent,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     Row(
                       children: [
@@ -249,7 +263,7 @@ class _OrdersState extends State<Orders> {
               maxLines: 2,
               style: TextStyle(
                   color: Colors.red[700],
-                  fontSize: 25.0,
+                  fontSize: 23.0,
                   fontFamily: 'ArabicUiDisplay',
                   fontWeight: FontWeight.w600),
             ),
@@ -263,7 +277,7 @@ class _OrdersState extends State<Orders> {
                 OrdersLocalData.networkCallPassedChecker = false;
                 handleCurrentView();
                 getFilteredOrders(
-                    6, OrdersLocalData.currentDisplayedOrdersPageFilter);
+                    5, OrdersLocalData.currentDisplayedOrdersPageFilter);
               },
             )
           ],
@@ -275,8 +289,7 @@ class _OrdersState extends State<Orders> {
           padding: EdgeInsets.only(left: 15.0, right: 15.0),
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount:
-                _presenter.getCurrentItemCount(OrdersLocalData.ordersList, 8),
+            itemCount: 1,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               OrdersLocalData.networkCallPassedChecker = false;
@@ -301,16 +314,49 @@ class _OrdersState extends State<Orders> {
         );
       });
 
+  _scrollListener() {
+    enableInteraction = false;
+    _presenter.handleScrollDirection(
+        _ordersScrollController,
+        () => setState(() {
+              OrdersLocalData.currentDisplayedOrdersPage =
+                  OrdersLocalData.currentDisplayedOrdersPage + 1;
+              loadMoreOrders(
+                  5, OrdersLocalData.currentDisplayedOrdersPageFilter);
+            }));
+  }
+
   void getFilteredOrders(int orderLimit, int orderFilter) {
     _getOrders
         .getOrders(
             OrdersLocalData.ordersServiceLink,
-            OrdersLocalData.loggedInUserToken,
-            OrdersLocalData.loggedInUserAcceptLanguage,
+            localData.loggedInUserToken,
+            localData.loggedInUserAcceptLanguage,
             orderLimit.toString(),
             OrdersLocalData.currentDisplayedOrdersPage.toString(),
             orderFilter.toString())
         .then((ordersResponse) {
+      enableInteraction = true;
+      OrdersLocalData.ordersGetResponse = ordersResponse;
+      setState(() => _presenter.observeIncomingResponse(
+          ordersResponse, onDataAvailable, handleCurrentView));
+    });
+  }
+
+  void loadMoreOrders(int orderLimit, int orderFilter) {
+    LoadingDialog.showLoadingDialog(context, _keyLoader);
+    _getOrders
+        .getOrders(
+            OrdersLocalData.ordersServiceLink,
+            localData.loggedInUserToken,
+            localData.loggedInUserAcceptLanguage,
+            orderLimit.toString(),
+            OrdersLocalData.currentDisplayedOrdersPage.toString(),
+            orderFilter.toString())
+        .then((ordersResponse) {
+      enableInteraction = true;
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+
       OrdersLocalData.ordersGetResponse = ordersResponse;
       setState(() => _presenter.observeIncomingResponse(
           ordersResponse, onDataAvailable, handleCurrentView));
@@ -328,7 +374,7 @@ class _OrdersState extends State<Orders> {
   }
 
   void onDataAvailable() {
-    OrdersLocalData.ordersList = OrdersLocalData.ordersGetResponse.data;
+    OrdersLocalData.ordersList.addAll(OrdersLocalData.ordersGetResponse.data);
     OrdersLocalData.totalNewOrdersNumber =
         OrdersLocalData.ordersGetResponse.totalNew;
     OrdersLocalData.totalReadyOrdersNumber =
@@ -340,6 +386,8 @@ class _OrdersState extends State<Orders> {
 
   @override
   void dispose() {
+    _ordersScrollController.dispose();
+    OrdersLocalData.ordersList.clear();
     OrdersLocalData.currentDisplayedOrdersPage = 1;
     OrdersLocalData.currentDisplayedOrdersPageFilter = 1;
     OrdersLocalData.ordersDataReadyChecker = false;

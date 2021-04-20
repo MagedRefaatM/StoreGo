@@ -1,5 +1,7 @@
-import 'package:http/http.dart' as http;
 import 'package:store_go/products/model/entities/delete_image_response.dart';
+import 'package:store_go/products/model/data/products_local_data.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
 
 class DeleteSelectedImage {
   Future<DeleteResponseData> getDeleteResponse(String deleteFileLink,
@@ -18,14 +20,24 @@ class DeleteSelectedImage {
       'file_name': fileName,
     };
 
-    http.Response response =
-    await http.Response.fromStream(await request.send());
+    try {
+      http.Response response = await http.Response.fromStream(
+              await request.send().timeout(Duration(seconds: 5)))
+          .timeout(Duration(seconds: 5));
 
-    if (response.statusCode == 200) {
-      deleteResponse = deleteResponseDataFromJson(response.body);
-      return deleteResponse;
-    } else {
-      return null;
+      if (response.statusCode == 200) {
+        ProductsLocalData.networkConnectionState = true;
+        ProductsLocalData.imageDeleteState = true;
+        deleteResponse = deleteResponseDataFromJson(response.body);
+        return deleteResponse;
+      } else {
+        ProductsLocalData.networkConnectionState = true;
+        ProductsLocalData.imageDeleteState = false;
+        return null;
+      }
+    } on TimeoutException catch (_) {
+      ProductsLocalData.networkConnectionState = false;
+      ProductsLocalData.imageDeleteState = false;
     }
   }
 }

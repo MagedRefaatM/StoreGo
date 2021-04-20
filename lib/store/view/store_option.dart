@@ -1,6 +1,7 @@
+import 'package:store_go/store/model/data/store_local_data.dart';
 import 'package:flutter/material.dart';
 
-class StoreOptions extends StatelessWidget {
+class StoreOption extends StatelessWidget {
   String optionName;
   IconData optionIcon;
   int optionId;
@@ -8,7 +9,7 @@ class StoreOptions extends StatelessWidget {
   double optionMoneyAccountAmount;
   Function optionClickHandler;
 
-  StoreOptions(
+  StoreOption(
       {this.optionName,
       this.optionIcon,
       this.optionId,
@@ -21,7 +22,11 @@ class StoreOptions extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: GestureDetector(
-        onTap: optionClickHandler,
+        onTap: () {
+          StoreLocalData.optionClickChecker = true;
+          StoreLocalData.optionId = optionId;
+          optionClickHandler();
+        },
         child: Container(
           child: Padding(
             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),

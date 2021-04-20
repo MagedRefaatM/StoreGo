@@ -1,12 +1,13 @@
+import 'package:store_go/store/model/entities/single_store_option.dart';
+import 'package:store_go/store/model/service/get_products_service.dart';
+import 'package:store_go/store/model/data/store_local_data.dart';
+import 'package:store_go/store/presenter/store_presenter.dart';
+import 'package:store_go/store/view/store_option.dart';
+import 'package:store_go/dialogs/loading_dialog.dart';
+import 'package:store_go/products/view/products.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:store_go/products/view/products.dart';
-import 'package:store_go/store/model/data/store_local_data.dart';
-import 'package:store_go/store/model/entities/single_store_option.dart';
-import 'package:store_go/store/model/service/get_products_service.dart';
-import 'package:store_go/store/presenter/store_presenter.dart';
-import 'package:store_go/store/view/store_options.dart';
 import 'package:toast/toast.dart';
 
 class Store extends StatefulWidget {
@@ -25,9 +26,13 @@ class _StoreState extends State<Store> {
   final _getProducts = GetProducts();
   final _presenter = StorePresenter();
 
+  StoreLocalData localData;
+
   @override
   void initState() {
+    localData = StoreLocalData();
     StoreLocalData.networkConnectionState = false;
+    StoreLocalData.optionClickChecker = false;
     StoreLocalData.validDataState = false;
     super.initState();
   }
@@ -44,6 +49,7 @@ class _StoreState extends State<Store> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             mainAxisSize: MainAxisSize.min,
             children: [
+              SizedBox(height: 15.0),
               Text(
                 'المتجر',
                 style: TextStyle(
@@ -63,13 +69,13 @@ class _StoreState extends State<Store> {
                     child: CircleAvatar(
                       radius: 80,
                       backgroundImage:
-                          NetworkImage(StoreLocalData.userLoggedInImageLink),
+                          NetworkImage(localData.userLoggedInImageLink),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 13.0),
                     child: Text(
-                      '${StoreLocalData.userLoggedInName} Store',
+                      '${localData.userLoggedInName} Store',
                       maxLines: 1,
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -100,13 +106,12 @@ class _StoreState extends State<Store> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      //TODO: later take the store link from view constructor calling
                       RichText(
                         maxLines: 1,
                         textAlign: TextAlign.center,
                         text: TextSpan(
                             text:
-                                'https://${StoreLocalData.userLoggedInName}.storego.io',
+                                'https://${localData.userLoggedInName}.storego.io',
                             style: TextStyle(
                                 color: Colors.deepPurpleAccent,
                                 fontSize: 18.0,
@@ -260,19 +265,19 @@ class _StoreState extends State<Store> {
               Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: options
-                      .map((option) => StoreOptions(
-                            optionName: option.name,
-                            optionIcon: option.icon,
-                            optionOpacityVisibility: option.opacityVisibility,
-                            optionMoneyAccountAmount: option.moneyAccountAmount,
-                            optionId: option.id,
-                            optionClickHandler:
-                                _presenter.currentOptionClickFunction(
-                                    option.id,
-                                    onMyWalletClicked,
-                                    onCustomersClicked,
-                                    onProductsCLicked),
-                          ))
+                      .map((option) => StoreOption(
+                          optionName: option.name,
+                          optionIcon: option.icon,
+                          optionOpacityVisibility: option.opacityVisibility,
+                          optionMoneyAccountAmount: option.moneyAccountAmount,
+                          optionId: option.id,
+                          optionClickHandler: () =>
+                              _presenter.currentOptionClickFunction(
+                                  StoreLocalData.optionId,
+                                  onMyWalletClicked,
+                                  onCustomersClicked,
+                                  onProductsCLicked,
+                                  StoreLocalData.optionClickChecker)))
                       .toList()),
             ],
           ),
@@ -286,9 +291,10 @@ class _StoreState extends State<Store> {
   void onCustomersClicked() {}
 
   void onProductsCLicked() {
+    LoadingDialog.showLoadingDialog(context, _keyLoader);
     _getProducts
-        .getProducts(StoreLocalData.productsServiceLink,
-            StoreLocalData.userLoggedInToken, '8', '1', '1')
+        .getProducts(localData.productsServiceLink, localData.userLoggedInToken,
+            '8', '1', '1')
         .then((productsResponse) {
       StoreLocalData.requestResponse = productsResponse;
       _presenter.handleCurrentConnectionState(
@@ -300,12 +306,14 @@ class _StoreState extends State<Store> {
   }
 
   void onConnectionError() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
     Toast.show(StoreLocalData.currentStateMessage, context,
         duration: 3, gravity: Toast.BOTTOM);
   }
 
   void onConnectionSuccess() {
     //TODO: in the future you've to use presenter to know which option is clicked
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
     StoreLocalData.storeProducts = StoreLocalData.requestResponse.data;
     StoreLocalData.totalStoreProducts =
         StoreLocalData.requestResponse.totalProducts;

@@ -1,7 +1,9 @@
-import 'dart:io';
+import 'package:store_go/products/model/entities/upload_image_response.dart';
+import 'package:store_go/products/model/data/products_local_data.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
-import 'package:store_go/products/model/entities/upload_image_response.dart';
+import 'dart:async';
+import 'dart:io';
 
 class UploadSelectedImage {
   Future<UploadImageResponse> uploadImage(
@@ -32,14 +34,24 @@ class UploadSelectedImage {
     request.fields.addAll(requestBody);
     request.files.add(multipartFile);
 
-    http.Response response =
-    await http.Response.fromStream(await request.send());
+    try {
+      http.Response response = await http.Response.fromStream(
+              await request.send().timeout(Duration(seconds: 4)))
+          .timeout(Duration(seconds: 10));
 
-    if (response.statusCode == 200) {
-      uploadImageResponse = uploadImageResponseFromJson(response.body);
-      return uploadImageResponse;
-    } else {
-      return null;
+      if (response.statusCode == 200) {
+        ProductsLocalData.networkConnectionState = true;
+        ProductsLocalData.imageUploadedState = true;
+        uploadImageResponse = uploadImageResponseFromJson(response.body);
+        return uploadImageResponse;
+      } else {
+        ProductsLocalData.networkConnectionState = true;
+        ProductsLocalData.imageUploadedState = false;
+        return null;
+      }
+    } on TimeoutException catch (_) {
+      ProductsLocalData.networkConnectionState = false;
+      ProductsLocalData.imageUploadedState = false;
     }
   }
 }

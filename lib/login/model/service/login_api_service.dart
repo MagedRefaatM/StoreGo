@@ -1,9 +1,8 @@
-import 'dart:async';
-
-import 'package:http/http.dart';
-import 'package:store_go/login/model/data/login_local_data.dart';
-import 'package:store_go/login/model/entities/login_response.dart';
 import 'package:store_go/login/model/entities/login_response_data.dart';
+import 'package:store_go/login/model/entities/login_response.dart';
+import 'package:store_go/login/model/data/login_local_data.dart';
+import 'package:http/http.dart';
+import 'dart:async';
 
 class LoginAPIService {
   Future<LoginResponseData> getLoginResponse(
@@ -14,7 +13,7 @@ class LoginAPIService {
       final response = await post(Uri.parse(loginLink),
               headers: <String, String>{'accept-language': loginLang},
               body: <String, String>{'email': email, 'password': password})
-          .timeout(Duration(seconds: 2));
+          .timeout(Duration(seconds: 5));
 
       if (response.statusCode == 200) {
         LoginLocalData.loginPassed = true;
