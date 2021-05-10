@@ -90,7 +90,7 @@ class _OrdersState extends State<Orders> {
                                               OrdersLocalData
                                                   .currentDisplayedOrdersPageFilter = 4;
                                               handleCurrentView();
-                                              getFilteredOrders(5, 4);
+                                              getFilteredOrders(8, 4);
                                             })),
                                 ),
                               ),
@@ -128,7 +128,7 @@ class _OrdersState extends State<Orders> {
                                             OrdersLocalData
                                                 .currentDisplayedOrdersPageFilter = 3;
                                             handleCurrentView();
-                                            getFilteredOrders(5, 3);
+                                            getFilteredOrders(8, 3);
                                           })),
                               ),
                               Opacity(
@@ -165,7 +165,7 @@ class _OrdersState extends State<Orders> {
                                             OrdersLocalData
                                                 .currentDisplayedOrdersPageFilter = 2;
                                             handleCurrentView();
-                                            getFilteredOrders(5, 2);
+                                            getFilteredOrders(8, 2);
                                           })),
                               ),
                               Opacity(
@@ -202,7 +202,7 @@ class _OrdersState extends State<Orders> {
                                             OrdersLocalData
                                                 .currentDisplayedOrdersPageFilter = 1;
                                             handleCurrentView();
-                                            getFilteredOrders(5, 1);
+                                            getFilteredOrders(8, 1);
                                           })),
                               ),
                               SizedBox(
@@ -322,7 +322,7 @@ class _OrdersState extends State<Orders> {
               OrdersLocalData.currentDisplayedOrdersPage =
                   OrdersLocalData.currentDisplayedOrdersPage + 1;
               loadMoreOrders(
-                  5, OrdersLocalData.currentDisplayedOrdersPageFilter);
+                  8, OrdersLocalData.currentDisplayedOrdersPageFilter);
             }));
   }
 
@@ -355,7 +355,7 @@ class _OrdersState extends State<Orders> {
             orderFilter.toString())
         .then((ordersResponse) {
       enableInteraction = true;
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+      Navigator.of(context).pop();
 
       OrdersLocalData.ordersGetResponse = ordersResponse;
       setState(() => _presenter.observeIncomingResponse(

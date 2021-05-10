@@ -315,7 +315,7 @@ class _ProductsState extends State<Products> {
                                 ),
                               )),
                           Padding(
-                            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                            padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 3.0),
                             child: Opacity(
                               opacity: _presenter.getQuantityVisibilityStatus(
                                   ProductsLocalData.products[index].quantity),
@@ -351,6 +351,7 @@ class _ProductsState extends State<Products> {
                     ),
                   ),
                 ),
+                SizedBox(height: 2.0),
                 Expanded(
                   flex: 1,
                   child: Column(
@@ -366,6 +367,7 @@ class _ProductsState extends State<Products> {
                             fontWeight: FontWeight.w500,
                             fontSize: 18.0),
                       ),
+                      SizedBox(height: 2.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -425,7 +427,7 @@ class _ProductsState extends State<Products> {
         .then((productCategory) async {
       enableInteraction = true;
       ProductsLocalData.categoriesList = productCategory.data;
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+      Navigator.of(context).pop();
 
       final _isPageReturned = await Navigator.push(
           context, MaterialPageRoute(builder: (context) => AddProduct()));
@@ -449,7 +451,7 @@ class _ProductsState extends State<Products> {
             '$pageFilter')
         .then((productsResponse) {
       enableInteraction = true;
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+      Navigator.of(context).pop();
 
       ProductsLocalData.productsResponse = productsResponse;
       _presenter.checkConnectionStatus(ProductsLocalData.networkConnectionState,
@@ -484,7 +486,7 @@ class _ProductsState extends State<Products> {
         .getProductDetails(localData.productDetailsServiceLink,
             ProductsLocalData.productId.toString(), localData.userLoggedInToken)
         .then((response) {
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+      Navigator.of(context).pop();
 
       ProductsLocalData.productDetailsResponse = response;
       _presenter.checkConnectionStatus(ProductsLocalData.networkConnectionState,

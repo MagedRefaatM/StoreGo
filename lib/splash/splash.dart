@@ -10,7 +10,7 @@ class _SplashState extends State<Splash> {
   Timer navigateToLoginTimer;
 
   void delayTheThread() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 3));
     Navigator.pushReplacementNamed(context, '/login_page');
   }
 
@@ -20,9 +20,11 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.deepPurpleAccent,
-      child: Image.asset('images/splash.png'),
+    return Image.asset(
+      'images/splash.png',
+      fit: BoxFit.cover,
+      height: double.infinity,
+      width: double.infinity,
     );
   }
 }

@@ -540,9 +540,7 @@ class _AddProductState extends State<AddProduct> {
                                 DeleteProductImageDialog
                                     .showDeleteProductImageDialog(context,
                                         _keyLoader3, removeImageFromList, () {
-                                  Navigator.of(_keyLoader3.currentContext,
-                                          rootNavigator: true)
-                                      .pop();
+                                  Navigator.of(context).pop();
                                 });
                               },
                             ),
@@ -627,22 +625,22 @@ class _AddProductState extends State<AddProduct> {
   }
 
   successImageUpload(UploadImageResponse uploadResponse) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
-    Navigator.of(_keyLoader2.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
     viewImageHandler(
         uploadResponse.path, uploadResponse.fileName, uploadResponse.path);
   }
 
   failureImageUpload() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
-    Navigator.of(_keyLoader2.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
     ProductsLocalData.additionMessage = 'حدث خطأ ما برجاء إعادة المحاولة';
     showToast();
   }
 
   failureUploadConnection() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
-    Navigator.of(_keyLoader2.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
     ProductsLocalData.additionMessage =
         'برجاء التأكد من وجود اتصال ثابت بالانترنت';
     showToast();
@@ -675,7 +673,8 @@ class _AddProductState extends State<AddProduct> {
 
   //Remove Image part
   void removeMainImage() {
-    Navigator.of(_keyLoader3.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(_keyLoader3.currentContext, rootNavigator: true ?? context)
+        .pop();
     LoadingDialog.showLoadingDialog(context, _keyLoader);
     _deleteSelectedImage
         .getDeleteResponse(
@@ -692,7 +691,7 @@ class _AddProductState extends State<AddProduct> {
   }
 
   successMainImageDelete(DeleteResponseData deleteResponse) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
     mainImageStatus = false;
     setState(() => mainProductImage = deleteResponse.defaultImage);
   }
@@ -716,8 +715,8 @@ class _AddProductState extends State<AddProduct> {
   }
 
   successOtherImageDelete(DeleteResponseData deleteResponse) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
-    Navigator.of(_keyLoader3.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
     setState(() {
       final otherNewImage =
           newProductOtherImages.firstWhere((item) => item.imageId == currentId);
@@ -728,8 +727,8 @@ class _AddProductState extends State<AddProduct> {
   }
 
   failureImageDelete() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
-    Navigator.of(_keyLoader3.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
     ProductsLocalData.additionMessage = 'حدث خطأ ما برجاء إعادة المحاولة';
     showToast();
   }
@@ -759,7 +758,7 @@ class _AddProductState extends State<AddProduct> {
   }
 
   successAddingNewProduct() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
     Navigator.pop(context, true);
   }
 

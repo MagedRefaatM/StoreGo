@@ -1,6 +1,12 @@
+import 'package:store_go/verification/model/service/account_information_service.dart';
+import 'package:store_go/verification/model/entities/account_info_response.dart';
+import 'package:store_go/verification/model/entities/banks_info_response.dart';
 import 'package:store_go/verification/model/data/verification_local_data.dart';
 import 'package:store_go/verification/presenter/verification_presenter.dart';
+import 'package:store_go/my_account/model/data/my_account_local_data.dart';
 import 'package:store_go/verification/model/service/logout_service.dart';
+import 'package:store_go/verification/model/service/banks_service.dart';
+import 'package:store_go/my_account/view/my_account_info.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -12,7 +18,9 @@ class Verification extends StatefulWidget {
 }
 
 class _VerificationState extends State<Verification> {
+  final _accountInfoService = AccountInformationService();
   final _logoutAPIService = LogoutAPIService();
+  final _banksAPIService = BanksInformationService();
   final _presenter = VerificationPresenter();
   final _keyLoader = new GlobalKey<State>();
 
@@ -88,7 +96,7 @@ class _VerificationState extends State<Verification> {
                                   textStyle: MaterialStateProperty.all(
                                       TextStyle(color: Colors.white)),
                                 ),
-                                onPressed: () {},
+                                onPressed: getAccountInfo,
                                 child: Text('التحقق من حسابى',
                                     style: TextStyle(
                                         fontSize: 19.0,
@@ -178,6 +186,55 @@ class _VerificationState extends State<Verification> {
         false;
   }
 
+  void getAccountInfo() {
+    LoadingDialog.showLoadingDialog(context, _keyLoader);
+    _accountInfoService
+        .getAccountInformation(
+            localData.accountInfoServiceLink,
+            localData.userLoggedInApplicationId,
+            localData.userLoggedInApplicationSecret)
+        .then((accountInfoResponse) => _presenter.accountInfoResponseHandler(
+            VerificationLocalData.networkConnectionPass,
+            VerificationLocalData.dataConnectionPass,
+            () => getAllBanks(accountInfoResponse),
+            () => failureAccountConnection(),
+            () => dataFailureConnection()));
+  }
+
+  void getAllBanks(AccountInformationResponse accountResponse) {
+    _banksAPIService
+        .getBanksList(
+            localData.banksCategoryServiceLink,
+            localData.userLoggedInApplicationId,
+            localData.userLoggedInApplicationSecret)
+        .then((banksResponse) => _presenter.accountInfoResponseHandler(
+            VerificationLocalData.networkConnectionPass,
+            VerificationLocalData.dataConnectionPass,
+            () => navigatesToAccountInfoPage(accountResponse, banksResponse),
+            () => failureAccountConnection(),
+            () => dataFailureConnection()));
+  }
+
+  void navigatesToAccountInfoPage(
+      AccountInformationResponse informationResponse,
+      BanksInformationResponse banksResponse) {
+    MyAccountLocalData.accountInformation = informationResponse.data;
+    MyAccountLocalData.banksList = banksResponse.data;
+    Navigator.of(context).pop();
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MyAccountInfo()));
+  }
+
+  void dataFailureConnection() {
+    Navigator.of(context).pop();
+    setState(() => message = 'حدث خطأ ما برجاء إعادة المحاولة');
+  }
+
+  void failureAccountConnection() {
+    Navigator.of(context).pop();
+    setState(() => message = 'برجاء التأكد من إتصال الإنترنت بهاتفك');
+  }
+
   void postLogoutRequest() {
     LoadingDialog.showLoadingDialog(context, _keyLoader);
     _logoutAPIService
@@ -190,7 +247,7 @@ class _VerificationState extends State<Verification> {
   }
 
   void successLogout() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
     Navigator.of(context).pop(true);
   }
 

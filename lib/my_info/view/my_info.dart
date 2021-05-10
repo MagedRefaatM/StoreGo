@@ -104,9 +104,7 @@ class _MyInfoState extends State<MyInfo> {
                           _profileImageKey,
                           () => getImage(),
                           () => deleteImage(),
-                          () => Navigator.of(_profileImageKey.currentContext,
-                                  rootNavigator: true)
-                              .pop()),
+                          () => Navigator.of(context).pop()),
                     ),
                     SizedBox(height: 5.0),
                     Text(
@@ -297,14 +295,9 @@ class _MyInfoState extends State<MyInfo> {
   }
 
   successImageUpload(UploadImageResponse uploadResponse) {
-    Navigator.of(_loadingKey.currentContext, rootNavigator: true ?? context)
-        .pop();
-    Navigator.of(_imageSelectionKey.currentContext,
-            rootNavigator: true ?? context)
-        .pop();
-    Navigator.of(_profileImageKey.currentContext,
-            rootNavigator: true ?? context)
-        .pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
     setState(() {
       MyInfoLocalData.managerProfileInfo.imageName = uploadResponse.fileName;
       MyInfoLocalData.managerProfileInfo.image = uploadResponse.path;
@@ -312,27 +305,17 @@ class _MyInfoState extends State<MyInfo> {
   }
 
   failureImageUpload() {
-    Navigator.of(_loadingKey.currentContext, rootNavigator: true ?? context)
-        .pop();
-    Navigator.of(_imageSelectionKey.currentContext,
-            rootNavigator: true ?? context)
-        .pop();
-    Navigator.of(_profileImageKey.currentContext,
-            rootNavigator: true ?? context)
-        .pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
     localData.updateMessage = 'حدث خطأ ما برجاء إعادة المحاولة';
     showToast();
   }
 
   imageUploadConnectionTimeout() {
-    Navigator.of(_loadingKey.currentContext, rootNavigator: true ?? context)
-        .pop();
-    Navigator.of(_imageSelectionKey.currentContext,
-            rootNavigator: true ?? context)
-        .pop();
-    Navigator.of(_profileImageKey.currentContext,
-            rootNavigator: true ?? context)
-        .pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
     localData.updateMessage = 'برجاء التأكد من وجود اتصال ثابت بالانترنت';
     showToast();
   }
@@ -346,8 +329,7 @@ class _MyInfoState extends State<MyInfo> {
       context,
       _profileDeleteKey,
       removeMainImage,
-      () => Navigator.of(_profileDeleteKey.currentContext, rootNavigator: true)
-          .pop());
+      () => Navigator.of(context).pop());
 
   void onImageEmpty() {
     Navigator.of(context).pop();
@@ -357,7 +339,7 @@ class _MyInfoState extends State<MyInfo> {
 
   void removeMainImage() {
     MyInfoLocalData.managerProfileInfo.imageStatus = 0;
-    Navigator.of(_profileDeleteKey.currentContext, rootNavigator: true).pop();
+    Navigator.of(context).pop();
     LoadingDialog.showLoadingDialog(context, _loadingKey);
     _deleteProfileImage
         .getDeleteResponse(
@@ -374,31 +356,22 @@ class _MyInfoState extends State<MyInfo> {
   }
 
   successMainImageDelete(DeleteResponseData deleteResponse) {
-    Navigator.of(_loadingKey.currentContext, rootNavigator: true ?? context)
-        .pop();
-    Navigator.of(_profileImageKey.currentContext,
-            rootNavigator: true ?? context)
-        .pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
     setState(() =>
         MyInfoLocalData.managerProfileInfo.image = deleteResponse.defaultImage);
   }
 
   failureMainImageDelete() {
-    Navigator.of(_loadingKey.currentContext, rootNavigator: true ?? context)
-        .pop();
-    Navigator.of(_profileImageKey.currentContext,
-            rootNavigator: true ?? context)
-        .pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
     localData.updateMessage = 'حدث خطأ ما برجاء إعادة المحاولة';
     showToast();
   }
 
   deleteConnectionTimeout() {
-    Navigator.of(_loadingKey.currentContext, rootNavigator: true ?? context)
-        .pop();
-    Navigator.of(_profileImageKey.currentContext,
-            rootNavigator: true ?? context)
-        .pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
     localData.updateMessage = 'برجاء التأكد من وجود اتصال ثابت بالانترنت';
     showToast();
   }
@@ -428,8 +401,7 @@ class _MyInfoState extends State<MyInfo> {
   }
 
   successProfileUpdate(UpdateProfileResponse updateResponse) {
-    Navigator.of(_loadingKey.currentContext, rootNavigator: true ?? context)
-        .pop();
+    Navigator.of(context).pop();
     localData.updateMessage = 'تم الحفظ';
     showToast();
     _presenter.updateBehaviorHandler(MyInfoLocalData.passwordChangeState,
@@ -437,15 +409,13 @@ class _MyInfoState extends State<MyInfo> {
   }
 
   failureProfileUpdate() {
-    Navigator.of(_loadingKey.currentContext, rootNavigator: true ?? context)
-        .pop();
+    Navigator.of(context).pop();
     localData.updateMessage = 'حدث خطأ ما برجاء إعادة المحاولة';
     showToast();
   }
 
   profileUpdateTimeout() {
-    Navigator.of(_loadingKey.currentContext, rootNavigator: true ?? context)
-        .pop();
+    Navigator.of(context).pop();
     localData.updateMessage = 'برجاء التأكد من وجود اتصال ثابت بالانترنت';
     showToast();
   }

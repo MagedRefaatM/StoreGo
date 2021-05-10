@@ -15,4 +15,7 @@ class LoginLocalData {
   static String userId;
   static String userImageLink;
   static String userToken;
+  static String sureBillAppId;
+  static String sureBillAppSecret;
+
 }

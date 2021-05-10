@@ -251,7 +251,7 @@ class _LoginState extends State<Login> {
   }
 
   void authorizedLogin() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
 
     _emailController.clear();
     _passwordController.clear();
@@ -262,7 +262,7 @@ class _LoginState extends State<Login> {
   }
 
   void onNetworkFailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
     setState(() {
       _emailController.text = '';
       _passwordController.text = '';
@@ -271,7 +271,7 @@ class _LoginState extends State<Login> {
   }
 
   void unAuthorizedLogin() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
     setState(() => message = _presenter.unAuthorizedLogin());
   }
 

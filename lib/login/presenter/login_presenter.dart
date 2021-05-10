@@ -36,6 +36,8 @@ class LoginPresenter {
       LoginLocalData.userId = loginResponse.id.toString();
       LoginLocalData.userImageLink = loginResponse.image;
       LoginLocalData.userToken = loginResponse.token;
+      LoginLocalData.sureBillAppSecret = loginResponse.sureBillAppSecret;
+      LoginLocalData.sureBillAppId = loginResponse.sureBillAppId;
       onLoginPassed();
     } else if (!networkCallPassed) {
       onNetworkError();

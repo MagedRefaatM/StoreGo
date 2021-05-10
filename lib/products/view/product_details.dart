@@ -98,9 +98,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               DeleteProductDialog.showDeleteProductDialog(
                                   context, _keyLoader2, deleteCurrentProduct,
                                   () {
-                            Navigator.of(_keyLoader2.currentContext,
-                                    rootNavigator: true)
-                                .pop();
+                            Navigator.of(context).pop();
                           }),
                           child: Text(
                             'حذف',
@@ -153,7 +151,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               alignment: Alignment.topLeft,
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
+                                    const EdgeInsets.only(left: 8.0, top: 10.0),
                                 child: Container(
                                   padding: EdgeInsets.only(
                                       left: 8.0, right: 8.0, bottom: 3.0),
@@ -178,7 +176,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 alignment: Alignment.bottomLeft,
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                      bottom: 5.0, left: 5.0),
+                                      bottom: 8.0, left: 8.0),
                                   child: Container(
                                     padding: EdgeInsets.all(13.0),
                                     child: Text(
@@ -222,6 +220,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                         maxLines: 1,
                       ),
+                      SizedBox(height: 2.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -249,6 +248,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           )
                         ],
                       ),
+                      SizedBox(height: 2.0),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -276,6 +276,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           )
                         ],
                       ),
+                      SizedBox(height: 2.0),
                       Text(
                         '${_presenter.getProductDescription(_productDetails.description)}',
                         textAlign: TextAlign.center,
@@ -478,7 +479,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   successProductCategoryConnection(ProductCategoryResponse productCategory) {
     ProductsLocalData.categoriesList = productCategory.data;
     ProductsLocalData.productImageStatus = _productDetails.imageStatus;
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
     moveToEditProduct();
   }
 
@@ -496,8 +497,8 @@ class _ProductDetailsState extends State<ProductDetails> {
   successDeleteConnection(ProductDeleteResponse deleteResponse) {
     ProductsLocalData.deleteResultMessage = deleteResponse.message;
 
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
-    Navigator.of(_keyLoader2.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
 
     ProductsLocalData.products.remove(ProductsLocalData.singleProduct);
     Navigator.pop(context, ProductsLocalData.singleProduct);

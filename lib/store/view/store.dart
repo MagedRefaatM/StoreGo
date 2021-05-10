@@ -306,14 +306,14 @@ class _StoreState extends State<Store> {
   }
 
   void onConnectionError() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
     Toast.show(StoreLocalData.currentStateMessage, context,
         duration: 3, gravity: Toast.BOTTOM);
   }
 
   void onConnectionSuccess() {
     //TODO: in the future you've to use presenter to know which option is clicked
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
     StoreLocalData.storeProducts = StoreLocalData.requestResponse.data;
     StoreLocalData.totalStoreProducts =
         StoreLocalData.requestResponse.totalProducts;

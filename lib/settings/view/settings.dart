@@ -68,46 +68,46 @@ class _SettingsState extends State<Settings> {
       color: Colors.white,
       child: SafeArea(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 15.0),
-              Expanded(
-                flex: 1,
-                child: Text(
-                  'الإعدادات',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'ArabicUiDisplay',
-                      fontSize: 26.0,
-                      color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 15.0),
-              Expanded(
-                flex: 14,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15.0, right: 15.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: _options
-                            .map((option) => SettingsTab(
-                          settingName: option.name,
-                          settingIcon: option.icon,
-                          settingHandler: () => _presenter.settingsHandler(
-                              option.id,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 15.0),
+          Expanded(
+            flex: 1,
+            child: Text(
+              'الإعدادات',
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'ArabicUiDisplay',
+                  fontSize: 26.0,
+                  color: Colors.black),
+            ),
+          ),
+          SizedBox(height: 15.0),
+          Expanded(
+            flex: 14,
+            child: Padding(
+              padding: EdgeInsets.only(left: 15.0, right: 15.0),
+              child: SingleChildScrollView(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: _options
+                        .map((option) => SettingsTab(
+                              settingName: option.name,
+                              settingIcon: option.icon,
+                              settingHandler: () => _presenter.settingsHandler(
+                                  option.id,
                                   () => onMyInfoClicked(),
                                   () => onManagerSettingsClicked(option.id),
                                   () => onStoreDepartmentsClicked(),
                                   () => ExitDialog.showExitDialog(
                                       context, () => onLogoutClicked())),
-                        ))
-                            .toList()),
-                  ),
-                ),
-              )
-            ],
-          )),
+                            ))
+                        .toList()),
+              ),
+            ),
+          )
+        ],
+      )),
     );
   }
 
@@ -231,7 +231,7 @@ class _SettingsState extends State<Settings> {
 
   void onConnectionError() {
     SettingsLocalData.managerSettingsApiCalled = false;
-    Navigator.of(_loadingDialogKey.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
     Toast.show('برجاء التأكد من إتصال الإنترنت', context,
         duration: 3, gravity: Toast.BOTTOM);
   }

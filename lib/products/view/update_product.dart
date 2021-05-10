@@ -516,9 +516,7 @@ class _EditProductState extends State<EditProduct> {
                                   .showDeleteProductImageDialog(
                                       context, _keyLoader3, removeImageFromList,
                                       () {
-                                Navigator.of(_keyLoader3.currentContext,
-                                        rootNavigator: true)
-                                    .pop();
+                                Navigator.of(context).pop();
                               });
                             },
                           ),
@@ -630,22 +628,22 @@ class _EditProductState extends State<EditProduct> {
   }
 
   successImageUpload(UploadImageResponse uploadResponse) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
-    Navigator.of(_keyLoader2.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
     viewImageHandler(
         uploadResponse.path, uploadResponse.fileName, uploadResponse.path);
   }
 
   failureImageUpload() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
-    Navigator.of(_keyLoader2.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
     ProductsLocalData.updateMessage = 'حدث خطأ ما برجاء إعادة المحاولة';
     showToast();
   }
 
   failureUploadConnection() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
-    Navigator.of(_keyLoader2.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
     ProductsLocalData.updateMessage =
         'برجاء التأكد من وجود اتصال ثابت بالانترنت';
     showToast();
@@ -702,13 +700,13 @@ class _EditProductState extends State<EditProduct> {
   }
 
   void currentListIndexHandler() {
-    Navigator.of(_keyLoader3.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
     setState(() => ProductsLocalData.productOtherImagesList
         .removeAt(ProductsLocalData.currentImageListIndex));
   }
 
   void lastListIndexHandler() {
-    Navigator.of(_keyLoader3.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(context).pop();
     setState(() => ProductsLocalData.productOtherImagesList
         .removeAt(ProductsLocalData.currentImageListIndex));
     inflateAddImageTexts();
@@ -746,12 +744,14 @@ class _EditProductState extends State<EditProduct> {
   void onProductUpdatedSuccessfully(ProductUpdateResponse updateResponse) {
     ProductsLocalData.productUpdated = true;
     ProductsLocalData.productUpdateState = true;
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context)
+        .pop();
     Navigator.pop(context, updateResponse.product);
   }
 
   void onNetworkConnectionTimeOut() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true ?? context)
+        .pop();
     ProductsLocalData.updateMessage = 'برجاء التأكد من اتصال الانترنت لديك';
     showToast();
   }
