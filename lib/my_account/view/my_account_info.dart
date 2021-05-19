@@ -525,7 +525,8 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                       documentContainerColor:
                           _presenter.documentCellColorHandler(0, document.id),
                       documentUrl: _cdtFilePath,
-                      deleteFunction: () => deleteDocumentCell(),
+                      deleteFunction: () => setState(
+                          () => apiCommercialDocuments.removeAt(index)),
                     ))
                 .toList());
       },
@@ -546,7 +547,8 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                       documentContainerColor:
                           _presenter.documentCellColorHandler(1, document.id),
                       documentUrl: _bdFilePath,
-                      deleteFunction: () => deleteDocumentCell(),
+                      deleteFunction: () =>
+                          setState(() => apiBankDocuments.removeAt(index)),
                     ))
                 .toList());
       },
@@ -585,7 +587,8 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                       documentContainerColor:
                           _presenter.documentCellColorHandler(0, document.id),
                       documentUrl: document.fullUrl,
-                      deleteFunction: () => deleteDocumentCell(),
+                      deleteFunction: () => setState(
+                          () => newCommercialDocuments.removeAt(index)),
                     ))
                 .toList());
       },
@@ -605,14 +608,13 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                       documentContainerColor:
                           _presenter.documentCellColorHandler(1, document.id),
                       documentUrl: document.fullUrl,
-                      deleteFunction: () => deleteDocumentCell(),
+                      deleteFunction: () =>
+                          setState(() => newBankDocuments.removeAt(index)),
                     ))
                 .toList());
       },
     );
   }
-
-  void deleteDocumentCell() {}
 
   @override
   void dispose() {

@@ -32,4 +32,11 @@ class MyAccountPresenter {
     else
       MyAccountLocalData.bankDocumentIndex += 1;
   }
+
+  void decreaseDocumentIndex(int documentType) {
+    if (documentType == 0)
+      MyAccountLocalData.commercialDocumentIndex -= 1;
+    else
+      MyAccountLocalData.bankDocumentIndex -= 1;
+  }
 }
