@@ -1,7 +1,11 @@
+import 'package:store_go/verification/model/entities/account_info_response.dart';
 import 'package:store_go/my_account/model/data/my_account_local_data.dart';
+import 'package:store_go/my_account/presenter/my_account_presenter.dart';
+import 'package:store_go/my_account/view/document_cell.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class MyAccountInfo extends StatefulWidget {
   @override
@@ -23,19 +27,23 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
   final _arabicNameController = TextEditingController();
   final _taxNumberController = TextEditingController();
   final _addressController = TextEditingController();
-  final _IBANController = TextEditingController();
+  final _ibanController = TextEditingController();
+  final _presenter = MyAccountPresenter();
 
   final licenceTypes = ["Commercial Record", "Freelance"];
-  final banksCategories = MyAccountLocalData.banksList;
+  final banks = MyAccountLocalData.banksList;
 
-  List<dynamic> businessDocuments =
+  List<Document> apiCommercialDocuments =
       MyAccountLocalData.accountInformation.businessDocuments ?? [];
-  List<dynamic> bankDocuments =
+  List<Document> apiBankDocuments =
       MyAccountLocalData.accountInformation.bankDocuments ?? [];
+  List<Document> newCommercialDocuments = [];
+  List<Document> newBankDocuments = [];
 
-  String _fileName;
-  List<PlatformFile> _paths;
-  FileType _pickingType = FileType.any;
+  String _cdtFilePath;
+  String _bdFilePath;
+
+  Document documentCell;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +54,7 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           body: SingleChildScrollView(
-            padding: EdgeInsets.only(left: 25.0, right: 15.0),
+            padding: EdgeInsets.only(left: 15.0, right: 15.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -89,6 +97,7 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                 drawSectionText('نوع الترخيص'),
                 SizedBox(height: 10.0),
                 Container(
+                  padding: EdgeInsets.only(left: 10.0),
                   child: FormField<String>(
                     builder: (FormFieldState<String> state) {
                       return InputDecorator(
@@ -200,16 +209,18 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                     Expanded(
                       flex: 1,
                       child: Container(
-                        padding: EdgeInsets.only(top: 15.0, bottom: 11.0),
-                        child: Text(
-                          '+966',
-                          maxLines: 1,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18.0),
+                        height: 60,
+                        child: Center(
+                          child: Text(
+                            '+966',
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'ArabicUiDisplay',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18.0),
+                          ),
                         ),
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey[400]),
@@ -218,9 +229,9 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                                 BorderRadius.all(Radius.circular(5.0))),
                       ),
                     ),
-                    SizedBox(width: 10.0),
+                    SizedBox(width: 5.0),
                     Expanded(
-                        flex: 3,
+                        flex: 4,
                         child: drawTextField(
                             'الهاتف',
                             MyAccountLocalData
@@ -246,41 +257,11 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                       fontSize: 16.0),
                 ),
                 SizedBox(height: 15.0),
-                GestureDetector(
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(5.0, 8.0, 5.0, 8.0),
-                    width: MediaQuery.of(context).size.width,
-                    height: 80.0,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Image.asset("images/upload.png"),
-                        ),
-                        Expanded(
-                            flex: 1,
-                            child: Text(
-                              'حدد الملف للتحميل',
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: 'ArabicUiDisplay',
-                                  fontSize: 15.0),
-                            )),
-                      ],
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.grey[600], width: 0.5),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  onTap: openFileExplorer,
-                ),
+                inflateUploadDocumentsButton(
+                    _cdtFilePath, newCommercialDocuments, 0),
+                SizedBox(height: 10.0),
+                inflateApiCommercialDocumentsList(),
+                inflateNewCommercialDocumentList(),
                 SizedBox(height: 50.0),
                 Container(
                     child: Divider(
@@ -313,6 +294,7 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                 drawSectionText('البنك'),
                 SizedBox(height: 10.0),
                 Container(
+                  padding: EdgeInsets.only(left: 10.0),
                   child: FormField<String>(
                     builder: (FormFieldState<String> state) {
                       return InputDecorator(
@@ -351,7 +333,7 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                             isExpanded: true,
                             onChanged: (newValue) =>
                                 setState(() => currentSelectedBank = newValue),
-                            items: banksCategories.map((bank) {
+                            items: banks.map((bank) {
                               return DropdownMenuItem<String>(
                                 value: bank.name,
                                 child: Text(bank.name),
@@ -370,7 +352,7 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                     '(IBAN) رقم الحساب المصرفى',
                     MyAccountLocalData.accountInformation.ibanNumber ??
                         "(IBAN) رقم الحساب المصرفى",
-                    _IBANController,
+                    _ibanController,
                     TextInputType.text,
                     TextInputAction.next),
                 SizedBox(height: 20.0),
@@ -398,41 +380,10 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                       fontSize: 16.0),
                 ),
                 SizedBox(height: 15.0),
-                GestureDetector(
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(5.0, 8.0, 5.0, 8.0),
-                    width: MediaQuery.of(context).size.width,
-                    height: 80.0,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Image.asset("images/upload.png"),
-                        ),
-                        Expanded(
-                            flex: 1,
-                            child: Text(
-                              'حدد الملف للتحميل',
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: 'ArabicUiDisplay',
-                                  fontSize: 15.0),
-                            )),
-                      ],
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.grey[600], width: 0.5),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  onTap: openFileExplorer,
-                ),
+                inflateUploadDocumentsButton(_bdFilePath, newBankDocuments, 1),
+                SizedBox(height: 10.0),
+                inflateApiBanksDocumentsList(),
+                inflateNewBankDocumentList(),
                 SizedBox(height: 60.0),
                 ConstrainedBox(
                   constraints: BoxConstraints(minWidth: double.infinity),
@@ -485,44 +436,183 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
       TextEditingController controller,
       TextInputType type,
       TextInputAction action) {
-    return TextField(
-      textAlign: TextAlign.end,
-      textInputAction: action,
-      keyboardType: type,
-      controller: controller,
-      maxLines: 1,
-      decoration: new InputDecoration(
-          border: new OutlineInputBorder(
-            borderRadius: const BorderRadius.all(
-              const Radius.circular(5.0),
+    return Padding(
+      padding: EdgeInsets.only(left: 10.0),
+      child: TextField(
+        textAlign: TextAlign.center,
+        textInputAction: action,
+        keyboardType: type,
+        controller: controller,
+        maxLines: 1,
+        decoration: new InputDecoration(
+            border: new OutlineInputBorder(
+              borderRadius: const BorderRadius.all(
+                const Radius.circular(5.0),
+              ),
             ),
-          ),
-          hintStyle: new TextStyle(
-            fontSize: 15.0,
-            fontFamily: 'ArabicUiDisplay',
-            fontWeight: FontWeight.w300,
-            color: Colors.grey[700],
-          ),
-          labelStyle: TextStyle(
-              color: Colors.black,
+            hintStyle: new TextStyle(
+              fontSize: 15.0,
               fontFamily: 'ArabicUiDisplay',
-              fontSize: 17.0,
-              fontWeight: FontWeight.w600),
-          hintText: hintText,
-          labelText: labelText,
-          fillColor: Colors.white),
+              fontWeight: FontWeight.w300,
+              color: Colors.grey[700],
+            ),
+            labelStyle: TextStyle(
+                color: Colors.black,
+                fontFamily: 'ArabicUiDisplay',
+                fontSize: 17.0,
+                fontWeight: FontWeight.w600),
+            hintText: hintText,
+            labelText: labelText,
+            fillColor: Colors.white),
+      ),
     );
   }
 
-  void openFileExplorer() async {
-    _paths = (await FilePicker.platform.pickFiles(
-      type: _pickingType,
-      allowMultiple: false,
-    ))
-        ?.files;
-    setState(() => _fileName =
-        _paths != null ? _paths.map((e) => e.name).toString() : '...');
+  Widget inflateUploadDocumentsButton(String workingOnVariable,
+      List<Document> workingOnList, int documentType) {
+    return Padding(
+      padding: EdgeInsets.only(left: 10.0),
+      child: GestureDetector(
+        child: Container(
+          padding: EdgeInsets.fromLTRB(5.0, 8.0, 5.0, 8.0),
+          width: MediaQuery.of(context).size.width,
+          height: 80.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 2,
+                child: Image.asset("images/upload.png"),
+              ),
+              Expanded(
+                  flex: 1,
+                  child: Text(
+                    'حدد الملف للتحميل',
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'ArabicUiDisplay',
+                        fontSize: 15.0),
+                  )),
+            ],
+          ),
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            border: Border.all(color: Colors.grey[600], width: 0.5),
+            borderRadius: BorderRadius.circular(5),
+          ),
+        ),
+        onTap: () =>
+            openFileExplorer(workingOnVariable, workingOnList, documentType),
+      ),
+    );
   }
+
+  Widget inflateApiCommercialDocumentsList() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: 1,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: apiCommercialDocuments
+                .map((document) => DocumentCell(
+                      documentContainerColor:
+                          _presenter.documentCellColorHandler(0, document.id),
+                      documentUrl: _cdtFilePath,
+                      deleteFunction: () => deleteDocumentCell(),
+                    ))
+                .toList());
+      },
+    );
+  }
+
+  Widget inflateApiBanksDocumentsList() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: 1,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: apiBankDocuments
+                .map((document) => DocumentCell(
+                      documentContainerColor:
+                          _presenter.documentCellColorHandler(1, document.id),
+                      documentUrl: _bdFilePath,
+                      deleteFunction: () => deleteDocumentCell(),
+                    ))
+                .toList());
+      },
+    );
+  }
+
+  void openFileExplorer(
+      String fillingPathVariable, List<Document> list, int documentType) async {
+    FilePickerResult result = await FilePicker.platform.pickFiles();
+    File file = File(result.files.single.path);
+    fillingPathVariable = file.path;
+    prepareNewDocumentList(list, fillingPathVariable, documentType);
+  }
+
+  void prepareNewDocumentList(
+      List<Document> workingOnList, String path, int documentType) {
+    documentCell = Document();
+    documentCell.fullUrl = path;
+    documentCell.id = _presenter.getCorrectDocumentIndex(documentType);
+    setState(() {
+      _presenter.increaseDocumentIndex(documentType);
+      workingOnList.add(documentCell);
+    });
+  }
+
+  Widget inflateNewCommercialDocumentList() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: 1,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: newCommercialDocuments
+                .map((document) => DocumentCell(
+                      documentContainerColor:
+                          _presenter.documentCellColorHandler(0, document.id),
+                      documentUrl: document.fullUrl,
+                      deleteFunction: () => deleteDocumentCell(),
+                    ))
+                .toList());
+      },
+    );
+  }
+
+  Widget inflateNewBankDocumentList() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: 1,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: newBankDocuments
+                .map((document) => DocumentCell(
+                      documentContainerColor:
+                          _presenter.documentCellColorHandler(1, document.id),
+                      documentUrl: document.fullUrl,
+                      deleteFunction: () => deleteDocumentCell(),
+                    ))
+                .toList());
+      },
+    );
+  }
+
+  void deleteDocumentCell() {}
 
   @override
   void dispose() {
@@ -533,7 +623,7 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
     _arabicNameController.dispose();
     _taxNumberController.dispose();
     _addressController.dispose();
-    _IBANController.dispose();
+    _ibanController.dispose();
     super.dispose();
   }
 }

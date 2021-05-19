@@ -28,8 +28,10 @@ dependencies:
 #  dio: ^3.0.10
   toast:
   fluttertoast:
-  easy_localization: ^3.0.0
-  file_picker: ^3.0.1
+  easy_localization:
+  file_picker:
+  path:
+  path_provider:
 
 dev_dependencies:
   flutter_test:

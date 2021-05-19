@@ -4,4 +4,7 @@ import 'package:store_go/verification/model/entities/banks_info_response.dart';
 class MyAccountLocalData{
   static Data accountInformation;
   static List<Datum> banksList;
+
+  static int commercialDocumentIndex = 1;
+  static int bankDocumentIndex = 1;
 }
