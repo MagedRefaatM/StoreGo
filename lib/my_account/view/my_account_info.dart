@@ -1,11 +1,15 @@
+import 'package:store_go/my_account/model/service/update_account_service.dart';
 import 'package:store_go/verification/model/entities/account_info_response.dart';
 import 'package:store_go/my_account/model/data/my_account_local_data.dart';
 import 'package:store_go/my_account/presenter/my_account_presenter.dart';
 import 'package:store_go/my_account/view/document_cell.dart';
+import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
+
+import 'package:toast/toast.dart';
 
 class MyAccountInfo extends StatefulWidget {
   @override
@@ -19,6 +23,7 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
       .firstWhere((element) =>
           element.id == int.parse(MyAccountLocalData.accountInformation.bankId))
       .name;
+  var selectedBankId;
 
   final _accountOwnerNameController = TextEditingController();
   final _phoneNumberController = TextEditingController();
@@ -28,6 +33,9 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
   final _taxNumberController = TextEditingController();
   final _addressController = TextEditingController();
   final _ibanController = TextEditingController();
+
+  final _keyLoader = new GlobalKey<State>();
+  final _updateAccount = UpdateAccountService();
   final _presenter = MyAccountPresenter();
 
   final licenceTypes = ["Commercial Record", "Freelance"];
@@ -44,6 +52,13 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
   String _bdFilePath;
 
   Document documentCell;
+  MyAccountLocalData localData;
+
+  @override
+  void initState() {
+    localData = MyAccountLocalData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -331,8 +346,13 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                             value: currentSelectedBank,
                             isDense: true,
                             isExpanded: true,
-                            onChanged: (newValue) =>
-                                setState(() => currentSelectedBank = newValue),
+                            onChanged: (newValue) => setState(() {
+                              currentSelectedBank = newValue;
+                              selectedBankId = MyAccountLocalData.banksList
+                                  .firstWhere((element) =>
+                                      element.name == currentSelectedBank)
+                                  .id;
+                            }),
                             items: banks.map((bank) {
                               return DropdownMenuItem<String>(
                                 value: bank.name,
@@ -397,7 +417,7 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                         textStyle: MaterialStateProperty.all(
                             TextStyle(color: Colors.white)),
                       ),
-                      onPressed: () {},
+                      onPressed: updateAccountInfo,
                       child: Padding(
                         padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                         child: Text('حفظ',
@@ -614,6 +634,66 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                 .toList());
       },
     );
+  }
+
+  void updateAccountInfo() {
+    List<Document> finalCommercialDocuments;
+    List<Document> finalBankDocuments;
+
+    finalCommercialDocuments.addAll(apiCommercialDocuments);
+    finalCommercialDocuments.addAll(newCommercialDocuments);
+
+    finalBankDocuments.addAll(apiBankDocuments);
+    finalBankDocuments.addAll(newBankDocuments);
+
+    LoadingDialog.showLoadingDialog(context, _keyLoader);
+    _updateAccount
+        .updateAccountInformation(
+            localData.accountInfoUpdateLink,
+            localData.userLoggedInApplicationId,
+            localData.userLoggedInApplicationSecret,
+            'all',
+            _presenter.getTextFieldText(_ibanController,
+                MyAccountLocalData.accountInformation.ibanNumber),
+            _presenter.getTextFieldText(_accountOwnerNameController,
+                MyAccountLocalData.accountInformation.beneficiaryName),
+            currentSelectedLicence,
+            _presenter.getTextFieldText(
+                _expireDateController,
+                MyAccountLocalData
+                    .accountInformation.commercialRegistryExpiryDate),
+            _presenter.getTextFieldText(_englishNameController,
+                MyAccountLocalData.accountInformation.businessNameEn),
+            _presenter.getTextFieldText(_arabicNameController,
+                MyAccountLocalData.accountInformation.businessNameAr),
+            _presenter.getTextFieldText(_addressController,
+                MyAccountLocalData.accountInformation.businessAddress),
+            int.parse(_presenter.getTextFieldText(_phoneNumberController,
+                MyAccountLocalData.accountInformation.businessMobile)),
+            selectedBankId,
+            finalCommercialDocuments,
+            finalBankDocuments)
+        .then((value) => _presenter.checkConnectionState(
+            MyAccountLocalData.networkConnectionState,
+            () => updateSuccess(),
+            () => connectionTimeout()));
+  }
+
+  void updateSuccess() {
+    Navigator.of(context).pop();
+    MyAccountLocalData.stateMessage = 'تم الحفظ';
+    showToast();
+  }
+
+  void connectionTimeout() {
+    Navigator.of(context).pop();
+    MyAccountLocalData.stateMessage = 'برجاء التأكد من الاتصال بالإنترنت';
+    showToast();
+  }
+
+  void showToast() {
+    Toast.show(MyAccountLocalData.stateMessage, context,
+        duration: 3, gravity: Toast.BOTTOM);
   }
 
   @override

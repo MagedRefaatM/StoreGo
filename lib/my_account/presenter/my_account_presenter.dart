@@ -2,8 +2,8 @@ import 'package:store_go/my_account/model/data/my_account_local_data.dart';
 import 'package:flutter/material.dart';
 
 class MyAccountPresenter {
-  // documentType 0 => commercial
-  // documentType 1 => bank
+  // documentType 0 => commercial document
+  // documentType 1 => bank document
 
   Color documentCellColorHandler(int documentType, int cellIndex) {
     if (documentType == 0) {
@@ -38,5 +38,31 @@ class MyAccountPresenter {
       MyAccountLocalData.commercialDocumentIndex -= 1;
     else
       MyAccountLocalData.bankDocumentIndex -= 1;
+  }
+
+  String getTextFieldText(TextEditingController controller, String labelText) {
+    if (controller.text.isEmpty)
+      return labelText;
+    else if (labelText == null)
+      return '';
+    else
+      return controller.text;
+  }
+
+  String getPhoneNumber(String controllerText, String labelText) {
+    if (controllerText == null)
+      return labelText;
+    else if (labelText == null)
+      return '';
+    else
+      return controllerText;
+  }
+
+  void checkConnectionState(bool connectionState, Function successUpdate,
+      Function connectionTimeOut) {
+    if (connectionState == false)
+      connectionTimeOut();
+    else
+      successUpdate();
   }
 }
