@@ -23,12 +23,26 @@ class UpdateAccountService {
       List<Document> bankDocuments) async {
     UpdateAccountResponse updateResponse;
 
+    print(<String, dynamic>{
+      'application-id': applicationId,
+      'application-secret': applicationSecret,
+      'type': type,
+      'iban_number': ibanNumber,
+      'beneficiary_name': beneficiaryName,
+      'license_type': licenseType,
+      'commercial_registry_expiry_date': expireDate,
+      'business_name_en': englishName,
+      'business_name_ar': arabicName,
+      'business_address': address,
+      'business_mobile': mobileNumber.toString(),
+      'bank_id': bankId.toString(),
+      'business_documents': businessDocuments.toString(),
+      'bank_documents': bankDocuments.toString()
+    });
+
     try {
       final response = await post(
         Uri.parse(updateAccountLink),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
         body: <String, dynamic>{
           'application-id': applicationId,
           'application-secret': applicationSecret,
@@ -42,23 +56,26 @@ class UpdateAccountService {
           'business_address': address,
           'business_mobile': mobileNumber.toString(),
           'bank_id': bankId.toString(),
-          'business_documents': businessDocuments,
-          'bank_documents': bankDocuments
+          'business_documents': businessDocuments.toString(),
+          'bank_documents': bankDocuments.toString()
         },
       ).timeout(Duration(seconds: 5));
 
       if (response.statusCode == 200) {
-        print('Success');
         MyAccountLocalData.networkConnectionState = true;
+        MyAccountLocalData.dataSuccessState = true;
         updateResponse = updateAccountResponseFromJson(response.body);
         return updateResponse;
       } else {
-        print('Error with sCode: ${response.statusCode} and body: ${response.body}');
+        print(
+            'Error with sCode: ${response.statusCode} and body: ${response.body}');
         MyAccountLocalData.networkConnectionState = true;
+        MyAccountLocalData.dataSuccessState = false;
         return null;
       }
     } on TimeoutException catch (_) {
       MyAccountLocalData.networkConnectionState = false;
+      MyAccountLocalData.dataSuccessState = false;
     }
   }
 }

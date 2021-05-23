@@ -1,3 +1,4 @@
+import 'package:store_go/verification/model/entities/account_info_response.dart';
 import 'package:store_go/my_account/model/data/my_account_local_data.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,14 @@ class MyAccountPresenter {
       else
         return Colors.white;
     }
+  }
+
+  void checkUploadDocumentsMax(
+      int uploadListLength, Function upload, Function onMaxReach) {
+    if (uploadListLength != 5)
+      upload();
+    else
+      onMaxReach();
   }
 
   int getCorrectDocumentIndex(int documentType) {
@@ -58,11 +67,31 @@ class MyAccountPresenter {
       return controllerText;
   }
 
-  void checkConnectionState(bool connectionState, Function successUpdate,
+  List<Document> getDocumentsList(
+      List<Document> apiList, List<Document> newList) {
+    if (apiList.length == 0 && newList.length == 0)
+      return [];
+    else if (apiList.length != 0 && newList.length == 0)
+      return apiList;
+    else if (newList.length != 0 && apiList.length == 0)
+      return newList;
+    else {
+      apiList.addAll(newList);
+      return apiList;
+    }
+  }
+
+  void checkConnectionState(
+      bool connectionState,
+      bool dataState,
+      Function successUpdate,
+      Function onDataError,
       Function connectionTimeOut) {
-    if (connectionState == false)
-      connectionTimeOut();
-    else
+    if (connectionState == true && dataState == true)
       successUpdate();
+    else if (connectionState == true && dataState == false)
+      onDataError();
+    else
+      connectionTimeOut();
   }
 }

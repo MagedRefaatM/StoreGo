@@ -15,6 +15,7 @@ class MyAccountLocalData {
   static int bankDocumentIndex = 1;
 
   static bool networkConnectionState;
+  static bool dataSuccessState;
 
   static String stateMessage;
 

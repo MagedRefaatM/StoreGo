@@ -36,8 +36,6 @@ class UpdateDisplaySettings {
       'whatsapp_number': whatsappNumber
     };
 
-    print(args);
-
     try {
       final response = await put(Uri.parse(updateStoreLink),
               headers: <String, String>{

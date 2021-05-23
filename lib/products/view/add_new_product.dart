@@ -697,7 +697,6 @@ class _AddProductState extends State<AddProduct> {
   }
 
   void removeImageFromList() {
-    print(imageListFileName);
     productOtherImagesNames.removeAt(currentIndex);
     LoadingDialog.showLoadingDialog(context, _keyLoader);
     _deleteSelectedImage

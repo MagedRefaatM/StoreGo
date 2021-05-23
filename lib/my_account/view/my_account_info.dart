@@ -1,5 +1,5 @@
-import 'package:store_go/my_account/model/service/update_account_service.dart';
 import 'package:store_go/verification/model/entities/account_info_response.dart';
+import 'package:store_go/my_account/model/service/update_account_service.dart';
 import 'package:store_go/my_account/model/data/my_account_local_data.dart';
 import 'package:store_go/my_account/presenter/my_account_presenter.dart';
 import 'package:store_go/my_account/view/document_cell.dart';
@@ -7,9 +7,8 @@ import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
-
 import 'package:toast/toast.dart';
+import 'dart:io';
 
 class MyAccountInfo extends StatefulWidget {
   @override
@@ -57,6 +56,9 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
   @override
   void initState() {
     localData = MyAccountLocalData();
+    selectedBankId = MyAccountLocalData.banksList
+        .firstWhere((element) => element.name == currentSelectedBank)
+        .id;
     super.initState();
   }
 
@@ -525,8 +527,11 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
             borderRadius: BorderRadius.circular(5),
           ),
         ),
-        onTap: () =>
-            openFileExplorer(workingOnVariable, workingOnList, documentType),
+        onTap: () => _presenter.checkUploadDocumentsMax(
+            workingOnList.length,
+            () => openFileExplorer(
+                workingOnVariable, workingOnList, documentType),
+            () => onMaximumDocumentsReach()),
       ),
     );
   }
@@ -573,6 +578,11 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                 .toList());
       },
     );
+  }
+
+  void onMaximumDocumentsReach() {
+    MyAccountLocalData.stateMessage = 'تم الوصول للحد الأقصى للوثائق المطلوبة';
+    showToast();
   }
 
   void openFileExplorer(
@@ -637,15 +647,6 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
   }
 
   void updateAccountInfo() {
-    List<Document> finalCommercialDocuments;
-    List<Document> finalBankDocuments;
-
-    finalCommercialDocuments.addAll(apiCommercialDocuments);
-    finalCommercialDocuments.addAll(newCommercialDocuments);
-
-    finalBankDocuments.addAll(apiBankDocuments);
-    finalBankDocuments.addAll(newBankDocuments);
-
     LoadingDialog.showLoadingDialog(context, _keyLoader);
     _updateAccount
         .updateAccountInformation(
@@ -671,17 +672,27 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
             int.parse(_presenter.getTextFieldText(_phoneNumberController,
                 MyAccountLocalData.accountInformation.businessMobile)),
             selectedBankId,
-            finalCommercialDocuments,
-            finalBankDocuments)
+            _presenter.getDocumentsList(
+                apiCommercialDocuments, newCommercialDocuments),
+            _presenter.getDocumentsList(apiBankDocuments, newBankDocuments))
         .then((value) => _presenter.checkConnectionState(
             MyAccountLocalData.networkConnectionState,
+            MyAccountLocalData.dataSuccessState,
             () => updateSuccess(),
+            () => dataError(),
             () => connectionTimeout()));
   }
 
   void updateSuccess() {
     Navigator.of(context).pop();
     MyAccountLocalData.stateMessage = 'تم الحفظ';
+    showToast();
+  }
+
+  void dataError() {
+    Navigator.of(context).pop();
+    MyAccountLocalData.stateMessage =
+        'حدث خطأ ما برجاء التأكد من البيانات المدخلة';
     showToast();
   }
 
