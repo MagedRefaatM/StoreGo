@@ -43,7 +43,6 @@ class DocumentCell extends StatelessWidget {
           ),
         ),
         decoration: BoxDecoration(
-          // color: documentContainerColor,
           color: documentContainerColor,
           borderRadius: BorderRadius.circular(10),
         ),

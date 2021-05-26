@@ -1,10 +1,8 @@
-import 'dart:io';
-
-import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:store_go/verification/model/entities/account_info_response.dart';
 import 'package:store_go/my_account/model/data/my_account_local_data.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class MyAccountPresenter {
   // documentType 0 => commercial document

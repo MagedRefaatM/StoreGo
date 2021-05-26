@@ -1,4 +1,3 @@
-import 'package:mime/mime.dart';
 import 'package:store_go/verification/model/entities/account_info_response.dart';
 import 'package:store_go/my_account/model/service/update_account_service.dart';
 import 'package:store_go/my_account/model/service/upload_file_service.dart';
@@ -10,6 +9,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
+import 'package:mime/mime.dart';
 import 'dart:io';
 
 class MyAccountInfo extends StatefulWidget {
