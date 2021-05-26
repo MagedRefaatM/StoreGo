@@ -22,8 +22,7 @@ class DeleteSelectedImage {
 
     try {
       http.Response response = await http.Response.fromStream(
-              await request.send().timeout(Duration(seconds: 5)))
-          .timeout(Duration(seconds: 5));
+              await request.send().timeout(Duration(seconds: 30)));
 
       if (response.statusCode == 200) {
         ProductsLocalData.networkConnectionState = true;

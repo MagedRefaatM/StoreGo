@@ -36,8 +36,7 @@ class UploadSelectedImage {
 
     try {
       http.Response response = await http.Response.fromStream(
-              await request.send().timeout(Duration(seconds: 10)))
-          .timeout(Duration(seconds: 10));
+              await request.send().timeout(Duration(seconds: 30)));
 
       if (response.statusCode == 200) {
         DisplaySettingsLocalData.networkConnectionState = true;
