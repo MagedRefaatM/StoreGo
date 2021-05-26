@@ -17,19 +17,16 @@ dependencies:
   splashscreen:
   flutter_launcher_icons:
   intl:
-#  intl_translation: ^0.17.10+1
   http:
   http_parser:
   bloc:
   flutter_bloc:
   flutter_switch:
   image_picker:
-  infinite_scroll_pagination:
-#  dio: ^3.0.10
   toast:
-  fluttertoast:
   easy_localization:
   file_picker:
+  dio:
   path:
   path_provider:
   mime:

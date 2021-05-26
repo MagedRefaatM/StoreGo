@@ -45,22 +45,18 @@ class MyAccountPresenter {
   }
 
   // fileType application => it's a pdf
-  Widget previewingFileHandler(
-      String fileType, String filePath, BuildContext context) {
+  Widget previewingFileHandler(String fileType, String filePath) {
     if (fileType == 'application')
       return PDFView(
-        filePath: filePath,
-        autoSpacing: true,
-        enableSwipe: true,
-        pageSnap: true,
-        nightMode: false
-      );
+          filePath: filePath,
+          autoSpacing: true,
+          enableSwipe: true,
+          pageSnap: true,
+          nightMode: false);
     else
       return Image(
         image: FileImage(File(filePath)),
         fit: BoxFit.cover,
-        height: MediaQuery.of(context).size.height,
-        width: 100,
       );
   }
 

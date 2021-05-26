@@ -37,7 +37,7 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
 
   final _keyLoader = new GlobalKey<State>();
   final _updateAccount = UpdateAccountService();
-  final _uploadFile = UploadFileService();
+  final _uploadFile = UploadSelectedFile();
   final _presenter = MyAccountPresenter();
 
   final licenceTypes = ["Commercial Record", "Freelance"];
@@ -593,16 +593,13 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
     FilePickerResult result = await FilePicker.platform.pickFiles(
         type: FileType.custom, allowedExtensions: ['jpg', 'pdf', 'png']);
     File file = File(result.files.single.path);
-    // uploadFile(file.path, fillingPathVariable, list, documentType);
-
-    fillingPathVariable = file.path;
-    prepareNewDocumentList(list, fillingPathVariable, documentType);
+    uploadFile(file, fillingPathVariable, list, documentType);
   }
 
-  void uploadFile(String path, String targetVariable, List<Document> list,
+  void uploadFile(File file, String targetVariable, List<Document> list,
       int documentType) {
     LoadingDialog.showLoadingDialog(context, _keyLoader);
-    _uploadFile.uploadFile(localData.uploadFileLink, path).then(
+    _uploadFile.uploadFile(localData.uploadFileLink, file).then(
         (uploadResponse) => _presenter.checkConnectionState(
             MyAccountLocalData.networkConnectionState,
             MyAccountLocalData.dataSuccessState,
@@ -646,9 +643,7 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                       deleteFunction: () => setState(
                           () => newCommercialDocuments.removeAt(index)),
                       filePreviewWidget: _presenter.previewingFileHandler(
-                          fileTypeGetter(document.fullUrl),
-                          document.fullUrl,
-                          context),
+                          fileTypeGetter(document.fullUrl), document.fullUrl),
                     ))
                 .toList());
       },
@@ -671,9 +666,7 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                       deleteFunction: () =>
                           setState(() => newBankDocuments.removeAt(index)),
                       filePreviewWidget: _presenter.previewingFileHandler(
-                          fileTypeGetter(document.fullUrl),
-                          document.fullUrl,
-                          context),
+                          fileTypeGetter(document.fullUrl), document.fullUrl),
                     ))
                 .toList());
       },
