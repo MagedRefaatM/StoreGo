@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
 
 class DocumentCell extends StatelessWidget {
   final Color documentContainerColor;
   final Function deleteFunction;
   final String documentUrl;
+  final Widget filePreviewWidget;
 
   DocumentCell(
-      {this.documentContainerColor, this.documentUrl, this.deleteFunction});
+      {this.documentContainerColor,
+      this.documentUrl,
+      this.deleteFunction,
+      this.filePreviewWidget});
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +36,9 @@ class DocumentCell extends StatelessWidget {
               ),
               Container(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Image(
-                    image: FileImage(File(documentUrl)),
-                    fit: BoxFit.cover,
-                    height: MediaQuery.of(context).size.height,
-                    width: 100,
-                  ))
+                  height: MediaQuery.of(context).size.height,
+                  width: 100,
+                  child: filePreviewWidget)
             ],
           ),
         ),

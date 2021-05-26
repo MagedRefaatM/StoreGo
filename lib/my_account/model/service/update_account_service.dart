@@ -24,6 +24,23 @@ class UpdateAccountService {
       List<Document> bankDocuments) async {
     UpdateAccountResponse updateResponse;
 
+    print(jsonEncode(<String, dynamic>{
+      'application_id': applicationId,
+      'application_secret': applicationSecret,
+      'type': type,
+      'iban_number': ibanNumber,
+      'beneficiary_name': beneficiaryName,
+      'license_type': licenseType,
+      'commercial_registry_expiry_date': expireDate,
+      'business_name_en': englishName,
+      'business_name_ar': arabicName,
+      'business_address': address,
+      'business_mobile': mobileNumber.toString(),
+      'bank_id': bankId.toString(),
+      'business_documents': businessDocuments,
+      'bank_documents': bankDocuments
+    }));
+
     try {
       final response = await post(
         Uri.parse(updateAccountLink),

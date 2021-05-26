@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:store_go/verification/model/entities/account_info_response.dart';
 import 'package:store_go/my_account/model/data/my_account_local_data.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +44,26 @@ class MyAccountPresenter {
       MyAccountLocalData.commercialDocumentIndex += 1;
     else
       MyAccountLocalData.bankDocumentIndex += 1;
+  }
+
+  // fileType application => it's a pdf
+  Widget previewingFileHandler(
+      String fileType, String filePath, BuildContext context) {
+    if (fileType == 'application')
+      return PDFView(
+        filePath: filePath,
+        autoSpacing: true,
+        enableSwipe: true,
+        pageSnap: true,
+        nightMode: false
+      );
+    else
+      return Image(
+        image: FileImage(File(filePath)),
+        fit: BoxFit.cover,
+        height: MediaQuery.of(context).size.height,
+        width: 100,
+      );
   }
 
   void decreaseDocumentIndex(int documentType) {

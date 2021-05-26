@@ -5,6 +5,7 @@ import 'package:store_go/login/model/data/login_local_data.dart';
 class MyAccountLocalData {
   String accountInfoUpdateLink =
       'https://sandbox-bills.surepay.sa/api/v1/account/information';
+  String uploadFileLink = 'https://sandbox-bills.surepay.sa/api/upload';
   String userLoggedInApplicationSecret;
   String userLoggedInApplicationId;
 

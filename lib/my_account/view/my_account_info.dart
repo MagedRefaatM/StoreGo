@@ -1,5 +1,7 @@
+import 'package:mime/mime.dart';
 import 'package:store_go/verification/model/entities/account_info_response.dart';
 import 'package:store_go/my_account/model/service/update_account_service.dart';
+import 'package:store_go/my_account/model/service/upload_file_service.dart';
 import 'package:store_go/my_account/model/data/my_account_local_data.dart';
 import 'package:store_go/my_account/presenter/my_account_presenter.dart';
 import 'package:store_go/my_account/view/document_cell.dart';
@@ -35,6 +37,7 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
 
   final _keyLoader = new GlobalKey<State>();
   final _updateAccount = UpdateAccountService();
+  final _uploadFile = UploadFileService();
   final _presenter = MyAccountPresenter();
 
   final licenceTypes = ["Commercial Record", "Freelance"];
@@ -587,10 +590,33 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
 
   void openFileExplorer(
       String fillingPathVariable, List<Document> list, int documentType) async {
-    FilePickerResult result = await FilePicker.platform.pickFiles();
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+        type: FileType.custom, allowedExtensions: ['jpg', 'pdf', 'png']);
     File file = File(result.files.single.path);
+    // uploadFile(file.path, fillingPathVariable, list, documentType);
+
     fillingPathVariable = file.path;
     prepareNewDocumentList(list, fillingPathVariable, documentType);
+  }
+
+  void uploadFile(String path, String targetVariable, List<Document> list,
+      int documentType) {
+    LoadingDialog.showLoadingDialog(context, _keyLoader);
+    _uploadFile.uploadFile(localData.uploadFileLink, path).then(
+        (uploadResponse) => _presenter.checkConnectionState(
+            MyAccountLocalData.networkConnectionState,
+            MyAccountLocalData.dataSuccessState,
+            () => successUpload(
+                targetVariable, uploadResponse.data, list, documentType),
+            () => dataError(),
+            () => connectionTimeout()));
+  }
+
+  void successUpload(String targetVariable, String newPath, List<Document> list,
+      int documentType) {
+    Navigator.of(context).pop();
+    targetVariable = newPath;
+    prepareNewDocumentList(list, targetVariable, documentType);
   }
 
   void prepareNewDocumentList(
@@ -619,6 +645,10 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                       documentUrl: document.fullUrl,
                       deleteFunction: () => setState(
                           () => newCommercialDocuments.removeAt(index)),
+                      filePreviewWidget: _presenter.previewingFileHandler(
+                          fileTypeGetter(document.fullUrl),
+                          document.fullUrl,
+                          context),
                     ))
                 .toList());
       },
@@ -640,10 +670,20 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                       documentUrl: document.fullUrl,
                       deleteFunction: () =>
                           setState(() => newBankDocuments.removeAt(index)),
+                      filePreviewWidget: _presenter.previewingFileHandler(
+                          fileTypeGetter(document.fullUrl),
+                          document.fullUrl,
+                          context),
                     ))
                 .toList());
       },
     );
+  }
+
+  String fileTypeGetter(String filePath) {
+    String mimeStr = lookupMimeType(filePath);
+    var fileType = mimeStr.split('/');
+    return fileType[0].toString();
   }
 
   void updateAccountInfo() {
