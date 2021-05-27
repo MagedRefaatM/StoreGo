@@ -143,30 +143,32 @@ class _MyInfoState extends State<MyInfo> {
                     Expanded(
                       flex: 1,
                       child: Padding(
-                        padding: EdgeInsets.only(top: 10.0),
+                        padding: EdgeInsets.only(top: 8.0),
                         child: Container(
-                          padding: EdgeInsets.only(top: 15.0, bottom: 11.0),
-                          child: Text(
-                            '+966',
-                            maxLines: 1,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'ArabicUiDisplay',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18.0),
+                          height: 60,
+                          child: Center(
+                            child: Text(
+                              '+966',
+                              maxLines: 1,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'ArabicUiDisplay',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18.0),
+                            ),
                           ),
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.grey[400]),
                               color: Colors.grey[100],
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0))),
+                              BorderRadius.all(Radius.circular(5.0))),
                         ),
                       ),
                     ),
-                    SizedBox(width: 10.0),
+                    SizedBox(width: 5.0),
                     Expanded(
-                        flex: 3,
+                        flex: 4,
                         child: drawProfileSectionsTextField(
                             TextInputAction.next,
                             TextInputType.number,

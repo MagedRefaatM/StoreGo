@@ -1,8 +1,7 @@
 import 'package:store_go/verification/model/entities/account_info_response.dart';
 import 'package:store_go/my_account/model/data/my_account_local_data.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
 
 class MyAccountPresenter {
   // documentType 0 => commercial document
@@ -45,17 +44,12 @@ class MyAccountPresenter {
   }
 
   // fileType application => it's a pdf
-  Widget previewingFileHandler(String fileType, String filePath) {
+  Widget previewingFileHandler(String fileType, String fileLink) {
     if (fileType == 'application')
-      return PDFView(
-          filePath: filePath,
-          autoSpacing: true,
-          enableSwipe: true,
-          pageSnap: true,
-          nightMode: false);
+      return SfPdfViewer.network(fileLink);
     else
       return Image(
-        image: FileImage(File(filePath)),
+        image: NetworkImage(fileLink),
         fit: BoxFit.cover,
       );
   }

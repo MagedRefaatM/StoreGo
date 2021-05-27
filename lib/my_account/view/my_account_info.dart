@@ -43,15 +43,10 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
   final licenceTypes = ["Commercial Record", "Freelance"];
   final banks = MyAccountLocalData.banksList;
 
-  List<Document> apiCommercialDocuments =
+  List<Document> commercialDocuments =
       MyAccountLocalData.accountInformation.businessDocuments ?? [];
-  List<Document> apiBankDocuments =
+  List<Document> bankDocuments =
       MyAccountLocalData.accountInformation.bankDocuments ?? [];
-  List<Document> newCommercialDocuments = [];
-  List<Document> newBankDocuments = [];
-
-  String _cdtFilePath;
-  String _bdFilePath;
 
   Document documentCell;
   MyAccountLocalData localData;
@@ -228,25 +223,28 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: Container(
-                        height: 60,
-                        child: Center(
-                          child: Text(
-                            '+966',
-                            maxLines: 1,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'ArabicUiDisplay',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18.0),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 10.0, bottom: 1.5),
+                        child: Container(
+                          height: 60,
+                          child: Center(
+                            child: Text(
+                              '+966',
+                              maxLines: 1,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'ArabicUiDisplay',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18.0),
+                            ),
                           ),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey[400]),
+                              color: Colors.grey[100],
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0))),
                         ),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey[400]),
-                            color: Colors.grey[100],
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.0))),
                       ),
                     ),
                     SizedBox(width: 5.0),
@@ -277,11 +275,9 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                       fontSize: 16.0),
                 ),
                 SizedBox(height: 15.0),
-                inflateUploadDocumentsButton(
-                    _cdtFilePath, newCommercialDocuments, 0),
+                inflateUploadDocumentsButton(commercialDocuments, 0),
                 SizedBox(height: 10.0),
-                inflateApiCommercialDocumentsList(),
-                inflateNewCommercialDocumentList(),
+                inflateCommercialDocumentsList(),
                 SizedBox(height: 50.0),
                 Container(
                     child: Divider(
@@ -405,10 +401,9 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                       fontSize: 16.0),
                 ),
                 SizedBox(height: 15.0),
-                inflateUploadDocumentsButton(_bdFilePath, newBankDocuments, 1),
+                inflateUploadDocumentsButton(bankDocuments, 1),
                 SizedBox(height: 10.0),
-                inflateApiBanksDocumentsList(),
-                inflateNewBankDocumentList(),
+                inflateBanksDocumentsList(),
                 SizedBox(height: 60.0),
                 ConstrainedBox(
                   constraints: BoxConstraints(minWidth: double.infinity),
@@ -493,7 +488,7 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
     );
   }
 
-  Widget inflateUploadDocumentsButton(String workingOnVariable,
+  Widget inflateUploadDocumentsButton(
       List<Document> workingOnList, int documentType) {
     return Padding(
       padding: EdgeInsets.only(left: 10.0),
@@ -532,14 +527,13 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
         ),
         onTap: () => _presenter.checkUploadDocumentsMax(
             workingOnList.length,
-            () => openFileExplorer(
-                workingOnVariable, workingOnList, documentType),
+            () => openFileExplorer(workingOnList, documentType),
             () => onMaximumDocumentsReach()),
       ),
     );
   }
 
-  Widget inflateApiCommercialDocumentsList() {
+  Widget inflateCommercialDocumentsList() {
     return ListView.builder(
       shrinkWrap: true,
       itemCount: 1,
@@ -548,20 +542,21 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
         return Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: apiCommercialDocuments
+            children: commercialDocuments
                 .map((document) => DocumentCell(
                       documentContainerColor:
                           _presenter.documentCellColorHandler(0, document.id),
-                      documentUrl: _cdtFilePath,
-                      deleteFunction: () => setState(
-                          () => apiCommercialDocuments.removeAt(index)),
+                      deleteFunction: () =>
+                          setState(() => commercialDocuments.remove(document)),
+                      filePreviewWidget: _presenter.previewingFileHandler(
+                          fileTypeGetter(document.fullUrl), document.fullUrl),
                     ))
                 .toList());
       },
     );
   }
 
-  Widget inflateApiBanksDocumentsList() {
+  Widget inflateBanksDocumentsList() {
     return ListView.builder(
       shrinkWrap: true,
       itemCount: 1,
@@ -570,13 +565,14 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
         return Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: apiBankDocuments
+            children: bankDocuments
                 .map((document) => DocumentCell(
                       documentContainerColor:
                           _presenter.documentCellColorHandler(1, document.id),
-                      documentUrl: _bdFilePath,
                       deleteFunction: () =>
-                          setState(() => apiBankDocuments.removeAt(index)),
+                          setState(() => bankDocuments.remove(document)),
+                      filePreviewWidget: _presenter.previewingFileHandler(
+                          fileTypeGetter(document.fullUrl), document.fullUrl),
                     ))
                 .toList());
       },
@@ -588,89 +584,36 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
     showToast();
   }
 
-  void openFileExplorer(
-      String fillingPathVariable, List<Document> list, int documentType) async {
+  void openFileExplorer(List<Document> list, int documentType) async {
     FilePickerResult result = await FilePicker.platform.pickFiles(
         type: FileType.custom, allowedExtensions: ['jpg', 'pdf', 'png']);
     File file = File(result.files.single.path);
-    uploadFile(file, fillingPathVariable, list, documentType);
+    uploadFile(file, list, documentType);
   }
 
-  void uploadFile(File file, String targetVariable, List<Document> list,
-      int documentType) {
+  void uploadFile(File file, List<Document> list, int documentType) {
     LoadingDialog.showLoadingDialog(context, _keyLoader);
     _uploadFile.uploadFile(localData.uploadFileLink, file).then(
         (uploadResponse) => _presenter.checkConnectionState(
             MyAccountLocalData.networkConnectionState,
             MyAccountLocalData.dataSuccessState,
-            () => successUpload(
-                targetVariable, uploadResponse.data, list, documentType),
+            () =>
+                prepareNewDocumentList(list, uploadResponse.data, documentType),
             () => dataError(),
             () => connectionTimeout()));
   }
 
-  void successUpload(String targetVariable, String newPath, List<Document> list,
-      int documentType) {
-    Navigator.of(context).pop();
-    targetVariable = newPath;
-    prepareNewDocumentList(list, targetVariable, documentType);
-  }
-
   void prepareNewDocumentList(
       List<Document> workingOnList, String path, int documentType) {
+    Navigator.of(context).pop();
     documentCell = Document();
-    documentCell.fullUrl = path;
+    documentCell.filePath = path;
+    documentCell.fullUrl = '${MyAccountLocalData.sureBiiDomain}$path';
     documentCell.id = _presenter.getCorrectDocumentIndex(documentType);
     setState(() {
       _presenter.increaseDocumentIndex(documentType);
       workingOnList.add(documentCell);
     });
-  }
-
-  Widget inflateNewCommercialDocumentList() {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: 1,
-      physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: newCommercialDocuments
-                .map((document) => DocumentCell(
-                      documentContainerColor:
-                          _presenter.documentCellColorHandler(0, document.id),
-                      documentUrl: document.fullUrl,
-                      deleteFunction: () => setState(
-                          () => newCommercialDocuments.removeAt(index)),
-                      filePreviewWidget: _presenter.previewingFileHandler(
-                          fileTypeGetter(document.fullUrl), document.fullUrl),
-                    ))
-                .toList());
-      },
-    );
-  }
-
-  Widget inflateNewBankDocumentList() {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: 1,
-      physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: newBankDocuments
-                .map((document) => DocumentCell(
-                      documentContainerColor:
-                          _presenter.documentCellColorHandler(1, document.id),
-                      documentUrl: document.fullUrl,
-                      deleteFunction: () =>
-                          setState(() => newBankDocuments.removeAt(index)),
-                      filePreviewWidget: _presenter.previewingFileHandler(
-                          fileTypeGetter(document.fullUrl), document.fullUrl),
-                    ))
-                .toList());
-      },
-    );
   }
 
   String fileTypeGetter(String filePath) {
@@ -705,9 +648,8 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
             int.parse(_presenter.getTextFieldText(_phoneNumberController,
                 MyAccountLocalData.accountInformation.businessMobile)),
             selectedBankId,
-            _presenter.getDocumentsList(
-                apiCommercialDocuments, newCommercialDocuments),
-            _presenter.getDocumentsList(apiBankDocuments, newBankDocuments))
+            commercialDocuments,
+            bankDocuments)
         .then((value) => _presenter.checkConnectionState(
             MyAccountLocalData.networkConnectionState,
             MyAccountLocalData.dataSuccessState,

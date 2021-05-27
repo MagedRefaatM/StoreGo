@@ -30,7 +30,7 @@ dependencies:
   path:
   path_provider:
   mime:
-  flutter_pdfview:
+  syncfusion_flutter_pdfviewer:
 
 dev_dependencies:
   flutter_test:

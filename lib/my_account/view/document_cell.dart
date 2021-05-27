@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 class DocumentCell extends StatelessWidget {
   final Color documentContainerColor;
   final Function deleteFunction;
-  final String documentUrl;
   final Widget filePreviewWidget;
 
   DocumentCell(
       {this.documentContainerColor,
-      this.documentUrl,
       this.deleteFunction,
       this.filePreviewWidget});
 

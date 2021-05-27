@@ -129,10 +129,12 @@ class Data {
 
 class Document {
   Document({
+    this.filePath,
     this.fullUrl,
     this.id,
   });
 
+  String filePath;
   String fullUrl;
   int id;
 
@@ -143,6 +145,7 @@ class Document {
 
   Map<String, dynamic> toJson() => {
         "full_url": fullUrl,
+        "file": filePath,
         "id": id,
       };
 }
