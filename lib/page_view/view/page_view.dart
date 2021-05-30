@@ -6,12 +6,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'new_invoice.dart';
 
-class PageViewPages extends StatefulWidget {
+class PageViewController extends StatefulWidget {
   @override
-  _PageViewPagesState createState() => _PageViewPagesState();
+  _PageViewControllerState createState() => _PageViewControllerState();
 }
 
-class _PageViewPagesState extends State<PageViewPages> {
+class _PageViewControllerState extends State<PageViewController> {
   PageViewPresenter _presenter = PageViewPresenter();
 
   PageController _controller;

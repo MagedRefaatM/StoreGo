@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 
 class DocumentCell extends StatelessWidget {
-  final Color documentContainerColor;
   final Function deleteFunction;
   final Widget filePreviewWidget;
 
-  DocumentCell(
-      {this.documentContainerColor,
-      this.deleteFunction,
-      this.filePreviewWidget});
+  DocumentCell({this.deleteFunction, this.filePreviewWidget});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +37,7 @@ class DocumentCell extends StatelessWidget {
           ),
         ),
         decoration: BoxDecoration(
-          color: documentContainerColor,
+          color: Colors.green[50],
           borderRadius: BorderRadius.circular(10),
         ),
       ),

@@ -1,5 +1,4 @@
 import 'package:store_go/verification/model/entities/account_info_response.dart';
-import 'package:store_go/my_account/model/data/my_account_local_data.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:flutter/material.dart';
 
@@ -7,40 +6,12 @@ class MyAccountPresenter {
   // documentType 0 => commercial document
   // documentType 1 => bank document
 
-  Color documentCellColorHandler(int documentType, int cellIndex) {
-    if (documentType == 0) {
-      if (cellIndex % 2 != 0)
-        return Colors.green[50];
-      else
-        return Colors.white;
-    } else {
-      if (cellIndex % 2 != 0)
-        return Colors.green[50];
-      else
-        return Colors.white;
-    }
-  }
-
   void checkUploadDocumentsMax(
       int uploadListLength, Function upload, Function onMaxReach) {
     if (uploadListLength != 5)
       upload();
     else
       onMaxReach();
-  }
-
-  int getCorrectDocumentIndex(int documentType) {
-    if (documentType == 0)
-      return MyAccountLocalData.commercialDocumentIndex;
-    else
-      return MyAccountLocalData.bankDocumentIndex;
-  }
-
-  void increaseDocumentIndex(int documentType) {
-    if (documentType == 0)
-      MyAccountLocalData.commercialDocumentIndex += 1;
-    else
-      MyAccountLocalData.bankDocumentIndex += 1;
   }
 
   // fileType application => it's a pdf
@@ -52,13 +23,6 @@ class MyAccountPresenter {
         image: NetworkImage(fileLink),
         fit: BoxFit.cover,
       );
-  }
-
-  void decreaseDocumentIndex(int documentType) {
-    if (documentType == 0)
-      MyAccountLocalData.commercialDocumentIndex -= 1;
-    else
-      MyAccountLocalData.bankDocumentIndex -= 1;
   }
 
   String getTextFieldText(TextEditingController controller, String labelText) {

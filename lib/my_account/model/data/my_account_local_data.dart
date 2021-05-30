@@ -12,9 +12,6 @@ class MyAccountLocalData {
   static Data accountInformation;
   static List<Datum> banksList;
 
-  static int commercialDocumentIndex = 1;
-  static int bankDocumentIndex = 1;
-
   static bool networkConnectionState;
   static bool dataSuccessState;
 

@@ -544,8 +544,6 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: commercialDocuments
                 .map((document) => DocumentCell(
-                      documentContainerColor:
-                          _presenter.documentCellColorHandler(0, document.id),
                       deleteFunction: () =>
                           setState(() => commercialDocuments.remove(document)),
                       filePreviewWidget: _presenter.previewingFileHandler(
@@ -567,8 +565,6 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: bankDocuments
                 .map((document) => DocumentCell(
-                      documentContainerColor:
-                          _presenter.documentCellColorHandler(1, document.id),
                       deleteFunction: () =>
                           setState(() => bankDocuments.remove(document)),
                       filePreviewWidget: _presenter.previewingFileHandler(
@@ -609,11 +605,8 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
     documentCell = Document();
     documentCell.filePath = path;
     documentCell.fullUrl = '${MyAccountLocalData.sureBiiDomain}$path';
-    documentCell.id = _presenter.getCorrectDocumentIndex(documentType);
-    setState(() {
-      _presenter.increaseDocumentIndex(documentType);
-      workingOnList.add(documentCell);
-    });
+    documentCell.id = null;
+    setState(() => workingOnList.add(documentCell));
   }
 
   String fileTypeGetter(String filePath) {
