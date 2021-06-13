@@ -12,6 +12,7 @@ import 'package:store_go/login/model/data/login_local_data.dart';
 import 'package:store_go/dialogs/profile_image_dialog.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:store_go/dialogs/image_dialog.dart';
+import 'package:store_go/text_field_drawer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -228,38 +229,17 @@ class _MyInfoState extends State<MyInfo> {
       TextEditingController controller) {
     return Container(
       padding: const EdgeInsets.only(top: 10),
-      child: TextField(
+      child: TextFieldDrawer(
         textAlign: TextAlign.center,
-        textInputAction: inputAction,
-        keyboardType: inputType,
+        inputAction: inputAction,
+        inputType: inputType,
         obscureText: obscureTextState,
         controller: controller,
         maxLines: 1,
-        decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              borderSide: BorderSide(color: Colors.grey[300], width: 2),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(5.0),
-              ),
-            ),
-            hintStyle: TextStyle(
-              fontSize: 17.0,
-              fontFamily: 'ArabicUiDisplay',
-              fontWeight: FontWeight.w300,
-              color: Colors.grey[800],
-            ),
-            labelStyle: TextStyle(
-              fontSize: 17.0,
-              fontFamily: 'ArabicUiDisplay',
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
-            ),
-            hintText: hintString,
-            labelText: labelString,
-            fillColor: Colors.white),
+        borderRadius: 5.0,
+        hintFontSize: 17.0,
+        hintText: hintString,
+        labelText: labelString,
       ),
     );
   }

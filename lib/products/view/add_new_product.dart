@@ -12,6 +12,7 @@ import 'package:store_go/dialogs/delete_photo_dialog.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:store_go/dialogs/image_dialog.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:store_go/text_field_drawer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
@@ -158,26 +159,15 @@ class _AddProductState extends State<AddProduct> {
                       ],
                     ),
                     SizedBox(height: 20.0),
-                    TextField(
+                    TextFieldDrawer(
                       textAlign: TextAlign.center,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.name,
+                      inputAction: TextInputAction.next,
+                      inputType: TextInputType.name,
                       controller: _productNameController,
                       maxLines: 1,
-                      decoration: new InputDecoration(
-                          border: new OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(8.0),
-                            ),
-                          ),
-                          hintStyle: new TextStyle(
-                            fontSize: 15.0,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontWeight: FontWeight.w300,
-                            color: Colors.grey[700],
-                          ),
-                          hintText: "اسم المنتج",
-                          fillColor: Colors.white),
+                      borderRadius: 8.0,
+                      hintFontSize: 15.0,
+                      hintText: "اسم المنتج",
                     ),
                     SizedBox(height: 8.0),
                     Container(
@@ -224,48 +214,26 @@ class _AddProductState extends State<AddProduct> {
                       ),
                     ),
                     SizedBox(height: 8.0),
-                    TextField(
+                    TextFieldDrawer(
                       textAlign: TextAlign.center,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.number,
+                      inputAction: TextInputAction.next,
+                      inputType: TextInputType.number,
                       controller: _productPriceController,
                       maxLines: 1,
-                      decoration: new InputDecoration(
-                          border: new OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(8.0),
-                            ),
-                          ),
-                          hintStyle: new TextStyle(
-                            fontSize: 15.0,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontWeight: FontWeight.w300,
-                            color: Colors.grey[700],
-                          ),
-                          hintText: "السعر",
-                          fillColor: Colors.white),
+                      borderRadius: 8.0,
+                      hintFontSize: 15.0,
+                      hintText: "السعر",
                     ),
                     SizedBox(height: 8.0),
-                    TextField(
+                    TextFieldDrawer(
                       textAlign: TextAlign.center,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.multiline,
+                      inputAction: TextInputAction.next,
+                      inputType: TextInputType.multiline,
                       controller: _productDescriptionController,
                       maxLines: 4,
-                      decoration: new InputDecoration(
-                          border: new OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(8.0),
-                            ),
-                          ),
-                          hintStyle: new TextStyle(
-                            fontSize: 15.0,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontWeight: FontWeight.w300,
-                            color: Colors.grey[700],
-                          ),
-                          hintText: "الوصف",
-                          fillColor: Colors.white),
+                      borderRadius: 8.0,
+                      hintFontSize: 15.0,
+                      hintText: "الوصف",
                     ),
                     SizedBox(height: 8.0),
                     Row(
@@ -274,27 +242,16 @@ class _AddProductState extends State<AddProduct> {
                       children: [
                         Expanded(
                           child: Container(
-                            child: TextField(
-                              controller: _productQuantityController,
-                              textInputAction: TextInputAction.done,
+                            child: TextFieldDrawer(
                               textAlign: TextAlign.center,
+                              inputAction: TextInputAction.done,
+                              inputType: TextInputType.number,
+                              controller: _productQuantityController,
                               enabled: isTextFieldEnabled,
-                              keyboardType: TextInputType.number,
                               maxLines: 1,
-                              decoration: new InputDecoration(
-                                  border: new OutlineInputBorder(
-                                    borderRadius: const BorderRadius.all(
-                                      const Radius.circular(8.0),
-                                    ),
-                                  ),
-                                  hintStyle: new TextStyle(
-                                    fontSize: 15.0,
-                                    fontFamily: 'ArabicUiDisplay',
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.grey[700],
-                                  ),
-                                  hintText: "الكمية",
-                                  fillColor: Colors.white),
+                              borderRadius: 8.0,
+                              hintFontSize: 15.0,
+                              hintText: "الكمية",
                             ),
                           ),
                           flex: 3,

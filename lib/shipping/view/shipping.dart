@@ -7,6 +7,7 @@ import 'package:store_go/dialogs/exit_edit_product_dialog.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter/material.dart';
+import 'package:store_go/text_field_drawer.dart';
 import 'package:toast/toast.dart';
 
 class Shipping extends StatefulWidget {
@@ -208,68 +209,34 @@ class _ShippingState extends State<Shipping> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  flex: 2,
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.number,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
-                          ),
-                        ),
-                        hintStyle: TextStyle(
-                          fontSize: 17.0,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[800],
-                        ),
-                        labelStyle: TextStyle(
-                          fontSize: 17.0,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                        hintText: "السعر",
-                        labelText: ShippingLocalData
-                            .shippingModel.shippingAreas[index].price,
-                        fillColor: Colors.white),
-                  ),
-                ),
+                    flex: 2,
+                    child: TextFieldDrawer(
+                      textAlign: TextAlign.center,
+                      inputAction: TextInputAction.done,
+                      inputType: TextInputType.number,
+                      maxLines: 1,
+                      borderRadius: 5.0,
+                      hintFontSize: 17.0,
+                      hintText: "السعر",
+                      labelFontSize: 17.0,
+                      labelText: ShippingLocalData
+                          .shippingModel.shippingAreas[index].price,
+                    )),
                 SizedBox(width: 10.0),
                 Expanded(
-                  flex: 4,
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.name,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
-                          ),
-                        ),
-                        hintStyle: TextStyle(
-                          fontSize: 17.0,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[800],
-                        ),
-                        labelStyle: TextStyle(
-                          fontSize: 17.0,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                        hintText: "اسم المنطقة",
-                        labelText: ShippingLocalData
-                            .shippingModel.shippingAreas[index].name,
-                        fillColor: Colors.white),
-                  ),
-                ),
+                    flex: 4,
+                    child: TextFieldDrawer(
+                      textAlign: TextAlign.center,
+                      inputAction: TextInputAction.done,
+                      inputType: TextInputType.name,
+                      maxLines: 1,
+                      borderRadius: 5.0,
+                      hintFontSize: 17.0,
+                      hintText: "اسم المنطقة",
+                      labelFontSize: 17.0,
+                      labelText: ShippingLocalData
+                          .shippingModel.shippingAreas[index].name,
+                    )),
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
@@ -313,56 +280,32 @@ class _ShippingState extends State<Shipping> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  flex: 2,
-                  child: TextField(
-                    textAlign: TextAlign.left,
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.number,
-                    maxLines: 1,
-                    onChanged: (String price) => priceTextHandler(price),
-                    onSubmitted: (String price) => priceTextHandler(price),
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
-                          ),
-                        ),
-                        hintStyle: TextStyle(
-                          fontSize: 17.0,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[800],
-                        ),
-                        hintText: "السعر",
-                        fillColor: Colors.white),
-                  ),
-                ),
+                    flex: 2,
+                    child: TextFieldDrawer(
+                      textAlign: TextAlign.left,
+                      inputAction: TextInputAction.done,
+                      inputType: TextInputType.number,
+                      maxLines: 1,
+                      borderRadius: 5.0,
+                      hintFontSize: 17.0,
+                      hintText: "السعر",
+                      onChange: (String value) => priceTextHandler(value),
+                      onSubmitted: (String value) => priceTextHandler(value),
+                    )),
                 SizedBox(width: 10.0),
                 Expanded(
-                  flex: 4,
-                  child: TextField(
-                    textAlign: TextAlign.left,
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.name,
-                    maxLines: 1,
-                    onChanged: (String area) => areaTextHandler(area),
-                    onSubmitted: (String area) => areaTextHandler(area),
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
-                          ),
-                        ),
-                        hintStyle: TextStyle(
-                          fontSize: 17.0,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[800],
-                        ),
-                        hintText: "اسم المنطقة",
-                        fillColor: Colors.white),
-                  ),
-                ),
+                    flex: 4,
+                    child: TextFieldDrawer(
+                      textAlign: TextAlign.left,
+                      inputAction: TextInputAction.done,
+                      inputType: TextInputType.name,
+                      maxLines: 1,
+                      borderRadius: 5.0,
+                      hintFontSize: 17.0,
+                      hintText: "اسم المنطقة",
+                      onChange: (String value) => areaTextHandler(value),
+                      onSubmitted: (String value) => areaTextHandler(value),
+                    )),
                 Expanded(
                   flex: 1,
                   child: GestureDetector(

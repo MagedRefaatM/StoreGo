@@ -2,6 +2,7 @@ import 'package:store_go/login/model/service/login_api_service.dart';
 import 'package:store_go/login/model/data/login_local_data.dart';
 import 'package:store_go/login/presenter/login_presenter.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
+import 'package:store_go/text_field_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -65,62 +66,34 @@ class _LoginState extends State<Login> {
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 0),
-                    child: TextField(
-                      controller: _emailController,
-                      focusNode: _emailFocus,
-                      textInputAction: TextInputAction.next,
-                      autofocus: true,
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.emailAddress,
-                      maxLines: 1,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
-                          hintStyle: TextStyle(
-                            fontSize: 22.0,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontWeight: FontWeight.w300,
-                            color: Colors.grey[700],
-                          ),
-                          hintText: "بريدك الالكتورني",
-                          fillColor: Colors.white),
-                    ),
+                    child: TextFieldDrawer(
+                        textAlign: TextAlign.center,
+                        controller: _emailController,
+                        focusNode: _emailFocus,
+                        inputAction: TextInputAction.next,
+                        hintFontSize: 22.0,
+                        borderRadius: 10.0,
+                        autoFocus: true,
+                        inputType: TextInputType.emailAddress,
+                        maxLines: 1,
+                        hintText: "بريدك الالكتورني"),
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 0),
-                    child: TextField(
+                    child: TextFieldDrawer(
                       controller: _passwordController,
                       focusNode: _passwordFocus,
-                      textInputAction: TextInputAction.done,
-                      enableSuggestions: false,
-                      autocorrect: false,
-                      obscureText: true,
-                      onSubmitted: (String string) {
-                        LoginLocalData.userEmail =
-                            _emailController.text.trim().toString();
-                        LoginLocalData.userPassword = string;
-                        onLoginClick();
-                      },
+                      inputAction: TextInputAction.done,
+                      inputType: TextInputType.visiblePassword,
                       textAlign: TextAlign.center,
-                      keyboardType: TextInputType.visiblePassword,
                       maxLines: 1,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
-                          hintStyle: TextStyle(
-                            fontSize: 22.0,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontWeight: FontWeight.w300,
-                            color: Colors.grey[700],
-                          ),
-                          hintText: "كلمة المرور",
-                          fillColor: Colors.white),
+                      borderRadius: 10.0,
+                      hintFontSize: 22.0,
+                      hintText: "كلمة المرور",
+                      enableSuggestions: false,
+                      autoCorrect: false,
+                      obscureText: true,
+                      onSubmitted: (String string) => onSubmitClicked(string),
                     ),
                   ),
                   Padding(
@@ -225,6 +198,12 @@ class _LoginState extends State<Login> {
   }
 
   void _onFocusChange() => setState(() => message = '');
+
+  void onSubmitClicked(String textFieldValue) {
+    LoginLocalData.userEmail = _emailController.text.trim().toString();
+    LoginLocalData.userPassword = textFieldValue;
+    onLoginClick();
+  }
 
   void onLoginClick() {
     setState(() {

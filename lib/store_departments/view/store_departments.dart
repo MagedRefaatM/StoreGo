@@ -5,6 +5,7 @@ import 'package:store_go/store_departments/model/data/category_local_data.dart';
 import 'package:store_go/dialogs/exit_edit_product_dialog.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:store_go/text_field_drawer.dart';
 import 'package:toast/toast.dart';
 
 class StoreDepartments extends StatefulWidget {
@@ -160,69 +161,33 @@ class _StoreDepartmentsState extends State<StoreDepartments> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  flex: 2,
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.number,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
-                          ),
-                        ),
-                        hintStyle: TextStyle(
-                          fontSize: 17.0,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[800],
-                        ),
-                        labelStyle: TextStyle(
-                          fontSize: 17.0,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
+                    flex: 2,
+                    child: TextFieldDrawer(
+                        textAlign: TextAlign.center,
+                        inputAction: TextInputAction.done,
+                        inputType: TextInputType.number,
+                        maxLines: 1,
+                        borderRadius: 5.0,
+                        hintFontSize: 17.0,
                         hintText: "الترتيب",
+                        labelFontSize: 17.0,
                         labelText: ManagerCategoryLocalData
                             .managerCategories[index].order
-                            .toString(),
-                        fillColor: Colors.white),
-                  ),
-                ),
+                            .toString())),
                 SizedBox(width: 10.0),
                 Expanded(
-                  flex: 4,
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.name,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
-                          ),
-                        ),
-                        hintStyle: TextStyle(
-                          fontSize: 17.0,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[800],
-                        ),
-                        labelStyle: TextStyle(
-                          fontSize: 17.0,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
+                    flex: 4,
+                    child: TextFieldDrawer(
+                        textAlign: TextAlign.center,
+                        inputAction: TextInputAction.done,
+                        inputType: TextInputType.name,
+                        maxLines: 1,
+                        borderRadius: 5.0,
+                        hintFontSize: 17.0,
                         hintText: "اسم القسم",
+                        labelFontSize: 17.0,
                         labelText: ManagerCategoryLocalData
-                            .managerCategories[index].name,
-                        fillColor: Colors.white),
-                  ),
-                ),
+                            .managerCategories[index].name)),
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
@@ -258,56 +223,31 @@ class _StoreDepartmentsState extends State<StoreDepartments> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  flex: 2,
-                  child: TextField(
-                    textAlign: TextAlign.left,
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.number,
-                    maxLines: 1,
-                    onChanged: (String price) => priceTextHandler(price),
-                    onSubmitted: (String price) => priceTextHandler(price),
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
-                          ),
-                        ),
-                        hintStyle: TextStyle(
-                          fontSize: 17.0,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[800],
-                        ),
+                    flex: 2,
+                    child: TextFieldDrawer(
+                        textAlign: TextAlign.left,
+                        inputAction: TextInputAction.done,
+                        inputType: TextInputType.number,
+                        maxLines: 1,
+                        borderRadius: 5.0,
+                        hintFontSize: 17.0,
                         hintText: "الترتيب",
-                        fillColor: Colors.white),
-                  ),
-                ),
+                        onChange: (String value) => rankTextHandler(value),
+                        onSubmitted: (String value) => rankTextHandler(value))),
                 SizedBox(width: 10.0),
                 Expanded(
-                  flex: 4,
-                  child: TextField(
-                    textAlign: TextAlign.left,
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.name,
-                    maxLines: 1,
-                    onChanged: (String area) => areaTextHandler(area),
-                    onSubmitted: (String area) => areaTextHandler(area),
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
-                          ),
-                        ),
-                        hintStyle: TextStyle(
-                          fontSize: 17.0,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[800],
-                        ),
+                    flex: 4,
+                    child: TextFieldDrawer(
+                        textAlign: TextAlign.left,
+                        inputAction: TextInputAction.done,
+                        inputType: TextInputType.name,
+                        maxLines: 1,
+                        borderRadius: 5.0,
+                        hintFontSize: 17.0,
                         hintText: "اسم القسم",
-                        fillColor: Colors.white),
-                  ),
-                ),
+                        onChange: (String value) => categoryTextHandler(value),
+                        onSubmitted: (String value) =>
+                            categoryTextHandler(value))),
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
@@ -332,13 +272,13 @@ class _StoreDepartmentsState extends State<StoreDepartments> {
     );
   }
 
-  priceTextHandler(String rank) {
+  rankTextHandler(String rank) {
     singleCategoryItem.order = int.parse(rank);
     _presenter.fillAdditionalAreasList(singleCategoryItem,
         () => finalAdditionalList.add(singleCategoryItem), finalAdditionalList);
   }
 
-  areaTextHandler(String deptName) {
+  categoryTextHandler(String deptName) {
     singleCategoryItem.name = deptName;
     _presenter.fillAdditionalAreasList(singleCategoryItem,
         () => finalAdditionalList.add(singleCategoryItem), finalAdditionalList);

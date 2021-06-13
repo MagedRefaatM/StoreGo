@@ -5,6 +5,7 @@ import 'package:store_go/taxes/presenter/taxes_presenter.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter/material.dart';
+import 'package:store_go/text_field_drawer.dart';
 import 'package:toast/toast.dart';
 
 class Taxes extends StatefulWidget {
@@ -26,8 +27,8 @@ class _TaxesState extends State<Taxes> {
   @override
   void initState() {
     localData = TaxesLocalData();
-    isStateToggleChecked = _presenter
-        .getTaxesState(int.parse(TaxesLocalData.taxesModel.taxesEnableState.toString()));
+    isStateToggleChecked = _presenter.getTaxesState(
+        int.parse(TaxesLocalData.taxesModel.taxesEnableState.toString()));
     super.initState();
   }
 
@@ -143,63 +144,34 @@ class _TaxesState extends State<Taxes> {
                             ),
                             SizedBox(width: 10.0),
                             Expanded(
-                              flex: 3,
-                              child: TextField(
-                                textAlign: TextAlign.center,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.number,
-                                controller: _storeTaxesAmountController,
-                                maxLines: 1,
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0),
-                                      ),
-                                    ),
-                                    hintStyle: TextStyle(
-                                      fontSize: 17.0,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.grey[800],
-                                    ),
-                                    labelStyle: TextStyle(
-                                      fontSize: 17.0,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
-                                    ),
+                                flex: 3,
+                                child: TextFieldDrawer(
+                                    textAlign: TextAlign.center,
+                                    inputAction: TextInputAction.next,
+                                    inputType: TextInputType.number,
+                                    controller: _storeTaxesAmountController,
+                                    maxLines: 1,
+                                    borderRadius: 5.0,
+                                    hintFontSize: 17.0,
                                     hintText: "نسبة الضرائب",
+                                    labelFontSize: 17.0,
                                     labelText: TaxesLocalData.taxesModel.taxFare
-                                        .toString(),
-                                    fillColor: Colors.white),
-                              ),
-                            ),
+                                        .toString())),
                           ],
                         ),
                         SizedBox(height: 10.0),
-                        TextField(
-                          textAlign: TextAlign.center,
-                          textInputAction: TextInputAction.done,
-                          keyboardType: TextInputType.number,
-                          controller: _storeTaxNumberController,
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5.0),
-                                ),
-                              ),
-                              hintStyle: TextStyle(
-                                fontSize: 17.0,
-                                fontFamily: 'ArabicUiDisplay',
-                                fontWeight: FontWeight.w300,
-                                color: Colors.grey[800],
-                              ),
-                              hintText: "الرقم الضريبى",
-                              labelText: TaxesLocalData.taxesModel.taxNumber
-                                  .toString(),
-                              fillColor: Colors.white),
-                        )
+                        TextFieldDrawer(
+                            textAlign: TextAlign.center,
+                            inputAction: TextInputAction.done,
+                            inputType: TextInputType.number,
+                            controller: _storeTaxNumberController,
+                            maxLines: 1,
+                            borderRadius: 5.0,
+                            hintFontSize: 17.0,
+                            hintText: "الرقم الضريبى",
+                            labelFontSize: 17.0,
+                            labelText:
+                                TaxesLocalData.taxesModel.taxNumber.toString())
                       ],
                     ),
                   ),

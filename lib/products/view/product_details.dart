@@ -286,7 +286,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           fontWeight: FontWeight.w600,
                           fontSize: 13.0,
                         ),
-                        maxLines: 2,
+                        maxLines: 3,
                       )
                     ],
                   ),
@@ -324,51 +324,23 @@ class _ProductDetailsState extends State<ProductDetails> {
                               flex: 2,
                             ),
                             Expanded(
-                              child: Text('الرصيد',
-                                  style: TextStyle(
-                                    color: Colors.grey[800],
-                                    fontFamily: 'ArabicUiDisplay',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13.0,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1),
+                              child: drawStockSectionsText(
+                                  'الرصيد', Colors.grey[800], 13.0),
                               flex: 1,
                             ),
                             Expanded(
-                              child: Text('الكمية',
-                                  style: TextStyle(
-                                    color: Colors.grey[800],
-                                    fontFamily: 'ArabicUiDisplay',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13.0,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1),
+                              child: drawStockSectionsText(
+                                  'الكمية', Colors.grey[800], 13.0),
                               flex: 1,
                             ),
                             Expanded(
-                              child: Text('المصدر',
-                                  style: TextStyle(
-                                    color: Colors.grey[800],
-                                    fontFamily: 'ArabicUiDisplay',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13.0,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1),
+                              child: drawStockSectionsText(
+                                  'المصدر', Colors.grey[800], 13.0),
                               flex: 2,
                             ),
                             Expanded(
-                              child: Text('نوع العملية',
-                                  style: TextStyle(
-                                    color: Colors.grey[800],
-                                    fontFamily: 'ArabicUiDisplay',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13.0,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1),
+                              child: drawStockSectionsText(
+                                  'نوع العملية', Colors.grey[800], 13.0),
                               flex: 1,
                             )
                           ],
@@ -389,53 +361,33 @@ class _ProductDetailsState extends State<ProductDetails> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Expanded(
-                              child:
-                                  Text('${_stockTransfer[index].operationDate}',
-                                      style: TextStyle(
-                                        color: Colors.grey[700],
-                                        fontFamily: 'ArabicUiDisplay',
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 12.0,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1),
+                              child: drawStockSectionsText(
+                                  _stockTransfer[index]
+                                      .operationDate
+                                      .toString(),
+                                  Colors.grey[700],
+                                  12.0),
                               flex: 2,
                             ),
                             Expanded(
-                              child: Text('${_stockTransfer[index].balance}',
-                                  style: TextStyle(
-                                    color: Colors.grey[700],
-                                    fontFamily: 'ArabicUiDisplay',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.0,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1),
+                              child: drawStockSectionsText(
+                                  _stockTransfer[index].balance.toString(),
+                                  Colors.grey[700],
+                                  12.0),
                               flex: 1,
                             ),
                             Expanded(
-                              child: Text(
-                                  '${_stockTransfer[index].quantity.toString()}',
-                                  style: TextStyle(
-                                    color: Colors.grey[700],
-                                    fontFamily: 'ArabicUiDisplay',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.0,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1),
+                              child: drawStockSectionsText(
+                                  _stockTransfer[index].quantity.toString(),
+                                  Colors.grey[700],
+                                  12.0),
                               flex: 1,
                             ),
                             Expanded(
-                              child: Text('${_stockTransfer[index].source}',
-                                  style: TextStyle(
-                                    color: Colors.grey[700],
-                                    fontFamily: 'ArabicUiDisplay',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.0,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1),
+                              child: drawStockSectionsText(
+                                  _stockTransfer[index].source.toString(),
+                                  Colors.grey[700],
+                                  12.0),
                               flex: 2,
                             ),
                             Expanded(
@@ -463,6 +415,19 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
       ),
     );
+  }
+
+  Widget drawStockSectionsText(
+      String sectionText, Color textColor, double fontSize) {
+    return Text(sectionText,
+        style: TextStyle(
+          color: Colors.grey[800],
+          fontFamily: 'ArabicUiDisplay',
+          fontWeight: FontWeight.w600,
+          fontSize: 13.0,
+        ),
+        textAlign: TextAlign.center,
+        maxLines: 1);
   }
 
   void onEditProductPressed() {

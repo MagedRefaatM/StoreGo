@@ -14,6 +14,8 @@ import 'package:store_go/dialogs/image_dialog.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:store_go/products/view/image_item.dart';
+import 'package:store_go/text_field_drawer.dart';
 import 'package:toast/toast.dart';
 import 'dart:io';
 
@@ -122,34 +124,17 @@ class _EditProductState extends State<EditProduct> {
                       ],
                     ),
                     SizedBox(height: 20.0),
-                    TextField(
+                    TextFieldDrawer(
                       textAlign: TextAlign.center,
-                      textAlignVertical: TextAlignVertical.center,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.name,
-                      textCapitalization: TextCapitalization.words,
+                      inputAction: TextInputAction.next,
+                      inputType: TextInputType.name,
                       controller: _productNameController,
                       maxLines: 1,
-                      decoration: new InputDecoration(
-                          border: new OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(8.0),
-                            ),
-                          ),
-                          hintStyle: new TextStyle(
-                            fontSize: 15.0,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontWeight: FontWeight.w300,
-                            color: Colors.grey[700],
-                          ),
-                          labelText: ProductsLocalData.productDetails.name,
-                          labelStyle: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w600),
-                          hintText: "اسم المنتج",
-                          fillColor: Colors.white),
+                      borderRadius: 8.0,
+                      hintFontSize: 15.0,
+                      hintText: "اسم المنتج",
+                      labelFontSize: 18.0,
+                      labelText: ProductsLocalData.productDetails.name,
                     ),
                     SizedBox(height: 8.0),
                     Container(
@@ -199,64 +184,32 @@ class _EditProductState extends State<EditProduct> {
                       ),
                     ),
                     SizedBox(height: 8.0),
-                    TextField(
+                    TextFieldDrawer(
                       textAlign: TextAlign.center,
-                      textAlignVertical: TextAlignVertical.center,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.number,
+                      inputAction: TextInputAction.next,
+                      inputType: TextInputType.number,
                       controller: _productPriceController,
                       maxLines: 1,
-                      decoration: new InputDecoration(
-                          border: new OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(8.0),
-                            ),
-                          ),
-                          hintStyle: new TextStyle(
-                            fontSize: 15.0,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontWeight: FontWeight.w300,
-                            color: Colors.grey[700],
-                          ),
-                          hintText: "السعر",
-                          labelText:
-                              ProductsLocalData.productDetails.price.toString(),
-                          labelStyle: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w600),
-                          fillColor: Colors.white),
+                      borderRadius: 8.0,
+                      hintFontSize: 15.0,
+                      hintText: "السعر",
+                      labelFontSize: 18.0,
+                      labelText:
+                          ProductsLocalData.productDetails.price.toString(),
                     ),
                     SizedBox(height: 8.0),
-                    TextField(
+                    TextFieldDrawer(
                       textAlign: TextAlign.center,
-                      textAlignVertical: TextAlignVertical.center,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.multiline,
+                      inputAction: TextInputAction.next,
+                      inputType: TextInputType.multiline,
                       controller: _productDescriptionController,
                       maxLines: 4,
-                      decoration: new InputDecoration(
-                          border: new OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(8.0),
-                            ),
-                          ),
-                          hintStyle: new TextStyle(
-                            fontSize: 15.0,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontWeight: FontWeight.w300,
-                            color: Colors.grey[700],
-                          ),
-                          hintText: "الوصف",
-                          labelText: _presenter.getProductDescription(
-                              ProductsLocalData.productDetails.description),
-                          labelStyle: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w600),
-                          fillColor: Colors.white),
+                      borderRadius: 8.0,
+                      hintFontSize: 15.0,
+                      hintText: "الوصف",
+                      labelFontSize: 18.0,
+                      labelText: _presenter.getProductDescription(
+                          ProductsLocalData.productDetails.description),
                     ),
                     SizedBox(height: 8.0),
                     Row(
@@ -265,38 +218,21 @@ class _EditProductState extends State<EditProduct> {
                       children: [
                         Expanded(
                           child: Container(
-                            child: TextField(
-                              controller: _productQuantityController,
-                              textInputAction: TextInputAction.done,
+                            child: TextFieldDrawer(
                               textAlign: TextAlign.center,
-                              textAlignVertical: TextAlignVertical.center,
-                              enabled: isTextFieldEnabled,
-                              keyboardType: TextInputType.number,
+                              inputAction: TextInputAction.done,
+                              inputType: TextInputType.number,
+                              controller: _productQuantityController,
                               maxLines: 1,
-                              decoration: new InputDecoration(
-                                  border: new OutlineInputBorder(
-                                    borderRadius: const BorderRadius.all(
-                                      const Radius.circular(8.0),
-                                    ),
-                                  ),
-                                  hintStyle: new TextStyle(
-                                    fontSize: 15.0,
-                                    fontFamily: 'ArabicUiDisplay',
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.grey[700],
-                                  ),
-                                  hintText: "الكمية",
-                                  labelText: _presenter
-                                      .displayQuantityTextFieldLabel(
-                                          ProductsLocalData
-                                              .productDetails.quantity)
-                                      .toString(),
-                                  labelStyle: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.w600),
-                                  fillColor: Colors.white),
+                              enabled: isTextFieldEnabled,
+                              borderRadius: 8.0,
+                              hintFontSize: 15.0,
+                              hintText: "الكمية",
+                              labelFontSize: 18.0,
+                              labelText: _presenter
+                                  .displayQuantityTextFieldLabel(
+                                      ProductsLocalData.productDetails.quantity)
+                                  .toString(),
                             ),
                           ),
                           flex: 3,
@@ -487,71 +423,11 @@ class _EditProductState extends State<EditProduct> {
         children: List.generate(ProductsLocalData.productOtherImagesList.length,
             (index) {
           ProductsLocalData.otherImagesIndex = index;
-          return Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Container(
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(right: 5.0, top: 5.0),
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                            child: Container(
-                              padding: EdgeInsets.all(2.0),
-                              child: Icon(Icons.remove, color: Colors.white),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle, color: Colors.red),
-                            ),
-                            onTap: () {
-                              ProductsLocalData.currentImageListIndex = index;
-                              ProductsLocalData.imageListFileName =
-                                  ProductsLocalData
-                                      .productOtherImagesList[index].name
-                                      .toString();
-                              DeleteProductImageDialog
-                                  .showDeleteProductImageDialog(
-                                      context, _keyLoader3, removeImageFromList,
-                                      () {
-                                Navigator.of(context).pop();
-                              });
-                            },
-                          ),
-                          SizedBox(width: 5.0),
-                          GestureDetector(
-                            child: Container(
-                              padding: EdgeInsets.all(2.0),
-                              child: Icon(Icons.edit, color: Colors.white),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle, color: Colors.black),
-                            ),
-                            onTap: () {
-                              ProductsLocalData.additionalImageId =
-                                  ProductsLocalData
-                                      .productOtherImagesList[index].id;
-                              ProductsLocalData.singleOtherImage =
-                                  ProductsLocalData
-                                      .productOtherImagesList[index];
-                              getImage();
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.0),
-                image: DecorationImage(
-                    image: NetworkImage(
-                        ProductsLocalData.productOtherImagesList[index].path),
-                    fit: BoxFit.cover),
-              ),
-            ),
+          return ImageItemDrawer(
+            currentImageLink:
+                ProductsLocalData.productOtherImagesList[index].path,
+            onAddImageClicked: () => onEditImageClicked(index),
+            onRemoveImageClicked: () => onRemoveImageClicked(index),
           );
         }),
       ),
@@ -592,6 +468,24 @@ class _EditProductState extends State<EditProduct> {
         getImage();
       },
     );
+  }
+
+  void onRemoveImageClicked(int index) {
+    ProductsLocalData.currentImageListIndex = index;
+    ProductsLocalData.imageListFileName =
+        ProductsLocalData.productOtherImagesList[index].name.toString();
+    DeleteProductImageDialog.showDeleteProductImageDialog(
+        context, _keyLoader3, removeImageFromList, () {
+      Navigator.of(context).pop();
+    });
+  }
+
+  void onEditImageClicked(int index) {
+    ProductsLocalData.additionalImageId =
+        ProductsLocalData.productOtherImagesList[index].id;
+    ProductsLocalData.singleOtherImage =
+        ProductsLocalData.productOtherImagesList[index];
+    getImage();
   }
 
   // Update & Display image part

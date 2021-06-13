@@ -5,6 +5,7 @@ import 'package:store_go/settings/model/data/settings_local_data.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter/material.dart';
+import 'package:store_go/text_field_drawer.dart';
 import 'package:toast/toast.dart';
 
 class StoreSettings extends StatefulWidget {
@@ -192,41 +193,19 @@ class _StoreSettingsState extends State<StoreSettings> {
       int maxLines,
       TextEditingController controller) {
     return Container(
-      padding: EdgeInsets.only(top: 10),
-      child: TextField(
-        textAlign: TextAlign.center,
-        textInputAction: inputAction,
-        keyboardType: inputType,
-        controller: controller,
-        maxLines: maxLines,
-        decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              borderSide: BorderSide(color: Colors.grey[300], width: 2),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(5.0),
-              ),
-            ),
-            hintStyle: TextStyle(
-              fontSize: 17.0,
-              fontFamily: 'ArabicUiDisplay',
-              fontWeight: FontWeight.w300,
-              color: Colors.grey[800],
-            ),
-            labelStyle: TextStyle(
-              fontSize: 17.0,
-              fontFamily: 'ArabicUiDisplay',
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
-            ),
+        padding: EdgeInsets.only(top: 10),
+        child: TextFieldDrawer(
+            textAlign: TextAlign.center,
+            inputType: inputType,
+            inputAction: inputAction,
+            controller: controller,
+            maxLines: maxLines,
+            borderRadius: 5.0,
+            hintFontSize: 17.0,
             hintText: hintString,
+            labelFontSize: 17.0,
             labelText: labelString,
-            floatingLabelBehavior: FloatingLabelBehavior.auto,
-            fillColor: Colors.white),
-      ),
-    );
+            floatingLabelBehavior: FloatingLabelBehavior.auto));
   }
 
   updateStoreSettings() {

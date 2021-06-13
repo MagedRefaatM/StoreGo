@@ -5,6 +5,7 @@ import 'package:store_go/my_account/model/data/my_account_local_data.dart';
 import 'package:store_go/my_account/presenter/my_account_presenter.dart';
 import 'package:store_go/my_account/view/document_cell.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
+import 'package:store_go/text_field_drawer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -458,32 +459,16 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
       TextInputAction action) {
     return Padding(
       padding: EdgeInsets.only(left: 10.0),
-      child: TextField(
+      child: TextFieldDrawer(
         textAlign: TextAlign.center,
-        textInputAction: action,
-        keyboardType: type,
+        inputAction: action,
+        inputType: type,
         controller: controller,
         maxLines: 1,
-        decoration: new InputDecoration(
-            border: new OutlineInputBorder(
-              borderRadius: const BorderRadius.all(
-                const Radius.circular(5.0),
-              ),
-            ),
-            hintStyle: new TextStyle(
-              fontSize: 15.0,
-              fontFamily: 'ArabicUiDisplay',
-              fontWeight: FontWeight.w300,
-              color: Colors.grey[700],
-            ),
-            labelStyle: TextStyle(
-                color: Colors.black,
-                fontFamily: 'ArabicUiDisplay',
-                fontSize: 17.0,
-                fontWeight: FontWeight.w600),
-            hintText: hintText,
-            labelText: labelText,
-            fillColor: Colors.white),
+        borderRadius: 5.0,
+        hintFontSize: 15.0,
+        hintText: hintText,
+        labelText: labelText,
       ),
     );
   }

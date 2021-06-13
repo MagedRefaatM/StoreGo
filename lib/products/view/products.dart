@@ -6,6 +6,7 @@ import 'package:store_go/products/model/entities/single_product.dart';
 import 'package:store_go/products/presenter/products_presenter.dart';
 import 'package:store_go/store/model/data/store_local_data.dart';
 import 'package:store_go/products/view/product_details.dart';
+import 'package:store_go/products/view/product_item.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -271,138 +272,22 @@ class _ProductsState extends State<Products> {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       children: List.generate(ProductsLocalData.products.length, (index) {
-        return Padding(
-            padding: EdgeInsets.only(left: 15.0, right: 15.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: GestureDetector(
-                    onTap: () {
-                      ProductsLocalData.singleProduct =
-                          ProductsLocalData.products[index];
-                      getProductDetails();
-                    },
-                    child: Container(
-                      child: Stack(
-                        children: [
-                          Align(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
-                                child: Container(
-                                  padding: EdgeInsets.only(
-                                      left: 8.0, right: 8.0, bottom: 3.0),
-                                  child: Text(
-                                    _presenter.getProductStatus(
-                                        ProductsLocalData
-                                            .products[index].status),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'ArabicUiDisplay',
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: _presenter.getProductStatusColor(
-                                        ProductsLocalData
-                                            .products[index].status),
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                ),
-                              )),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 3.0),
-                            child: Opacity(
-                              opacity: _presenter.getQuantityVisibilityStatus(
-                                  ProductsLocalData.products[index].quantity),
-                              child: Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Container(
-                                    padding: EdgeInsets.all(6.0),
-                                    child: Text(
-                                      ProductsLocalData.products[index].quantity
-                                          .toString(),
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'ArabicUiDisplay',
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.deepOrangeAccent),
-                                  )),
-                            ),
-                          ),
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              ProductsLocalData.products[index].imageLink),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 2.0),
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        ProductsLocalData.products[index].name,
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.grey[500],
-                            fontFamily: 'ArabicUiDisplay',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18.0),
-                      ),
-                      SizedBox(height: 2.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 7.0),
-                            child: Text(
-                              'ريال',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.deepPurpleAccent,
-                                  fontFamily: 'ArabicUiDisplay',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 17.0),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 8.0,
-                          ),
-                          Text(
-                            ProductsLocalData.products[index].price.toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.deepPurpleAccent,
-                                fontFamily: 'ArabicUiDisplay',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 17.0),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ));
+        return ProductItem(
+          imageLink: ProductsLocalData.products[index].imageLink,
+          name: ProductsLocalData.products[index].name,
+          opacityValue: _presenter.getQuantityVisibilityStatus(
+              ProductsLocalData.products[index].quantity),
+          price: ProductsLocalData.products[index].price.toString(),
+          quantity: ProductsLocalData.products[index].quantity.toString(),
+          status: _presenter
+              .getProductStatus(ProductsLocalData.products[index].status),
+          statusColor: _presenter
+              .getProductStatusColor(ProductsLocalData.products[index].status),
+          productClickHandler: () {
+            ProductsLocalData.singleProduct = ProductsLocalData.products[index];
+            getProductDetails();
+          },
+        );
       }),
     );
   }

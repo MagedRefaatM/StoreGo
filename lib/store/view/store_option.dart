@@ -2,12 +2,12 @@ import 'package:store_go/store/model/data/store_local_data.dart';
 import 'package:flutter/material.dart';
 
 class StoreOption extends StatelessWidget {
-  String optionName;
-  IconData optionIcon;
-  int optionId;
-  double optionOpacityVisibility;
-  double optionMoneyAccountAmount;
-  Function optionClickHandler;
+  final String optionName;
+  final IconData optionIcon;
+  final int optionId;
+  final double optionOpacityVisibility;
+  final double optionMoneyAccountAmount;
+  final Function optionClickHandler;
 
   StoreOption(
       {this.optionName,
