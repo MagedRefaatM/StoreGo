@@ -354,16 +354,14 @@ class _EditProductState extends State<EditProduct> {
                               const BoxConstraints(minWidth: double.infinity),
                           child: ElevatedButton(
                               style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        side: BorderSide(
-                                            color: Colors.deepPurpleAccent))),
-                                backgroundColor: MaterialStateProperty.all(
-                                    Colors.deepPurpleAccent),
-                                textStyle: MaterialStateProperty.all(
-                                    TextStyle(color: Colors.white)),
-                              ),
+                                  shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          side: BorderSide(
+                                              color: Colors.deepPurpleAccent))),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.deepPurpleAccent)),
                               onPressed: () => _presenter.validateProductUpdate(
                                   mainImageStatus,
                                   showToast,
@@ -373,6 +371,7 @@ class _EditProductState extends State<EditProduct> {
                                     EdgeInsets.only(top: 12.0, bottom: 12.0),
                                 child: TextDrawer(
                                     text: 'تعديل',
+                                    color: Colors.white,
                                     fontSize: 17.0,
                                     fontWeight: FontWeight.w900),
                               )),

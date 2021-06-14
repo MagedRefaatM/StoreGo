@@ -114,19 +114,19 @@ class _StoreDepartmentsState extends State<StoreDepartments> {
                   constraints: BoxConstraints(minWidth: double.infinity),
                   child: ElevatedButton(
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            side: BorderSide(color: Colors.deepPurpleAccent))),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.deepPurpleAccent),
-                        textStyle: MaterialStateProperty.all(
-                            TextStyle(color: Colors.white)),
-                      ),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                  side: BorderSide(
+                                      color: Colors.deepPurpleAccent))),
+                          backgroundColor: MaterialStateProperty.all(
+                              Colors.deepPurpleAccent)),
                       onPressed: updateStoreCategories,
                       child: Padding(
                           padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                           child: TextDrawer(
                             text: 'حفظ',
+                            color: Colors.white,
                             fontSize: 18.0,
                             fontWeight: FontWeight.w700,
                           ))),

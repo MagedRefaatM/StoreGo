@@ -79,22 +79,21 @@ class _VerificationState extends State<Verification> {
                           padding: EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 0),
                           child: ElevatedButton(
                               style: ButtonStyle(
-                                padding: MaterialStateProperty.all(
-                                    EdgeInsets.all(20.0)),
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(7),
-                                        side: BorderSide(
-                                            color: Colors.deepPurpleAccent))),
-                                backgroundColor: MaterialStateProperty.all(
-                                    Colors.deepPurpleAccent),
-                                textStyle: MaterialStateProperty.all(
-                                    TextStyle(color: Colors.white)),
-                              ),
+                                  padding: MaterialStateProperty.all(
+                                      EdgeInsets.all(20.0)),
+                                  shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                          side: BorderSide(
+                                              color: Colors.deepPurpleAccent))),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.deepPurpleAccent)),
                               onPressed: getAccountInfo,
                               child: TextDrawer(
                                   text: 'التحقق من حسابى',
                                   fontSize: 19.0,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.w800))),
                       Center(
                         child: RichText(

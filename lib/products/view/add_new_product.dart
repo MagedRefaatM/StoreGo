@@ -398,35 +398,25 @@ class _AddProductState extends State<AddProduct> {
                                     minWidth: double.infinity),
                                 child: ElevatedButton(
                                     style: ButtonStyle(
-                                      shape: MaterialStateProperty.all(
-                                          RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              side: BorderSide(
-                                                  color: Colors
-                                                      .deepPurpleAccent))),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.deepPurpleAccent),
-                                      textStyle: MaterialStateProperty.all(
-                                          TextStyle(color: Colors.white)),
-                                    ),
-                                    onPressed: () =>
-                                        _presenter.validateProductAddition(
-                                            mainImageStatus,
-                                            _productNameController.text
-                                                .toString(),
-                                            _productPriceController.text
-                                                .toString(),
-                                            showToast,
-                                            onSaveProductClicked),
+                                        shape: MaterialStateProperty.all(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                side: BorderSide(
+                                                    color: Colors
+                                                        .deepPurpleAccent))),
+                                        backgroundColor: MaterialStateProperty.all(
+                                            Colors.deepPurpleAccent)),
+                                    onPressed: () => _presenter.validateProductAddition(
+                                        mainImageStatus,
+                                        _productNameController.text.toString(),
+                                        _productPriceController.text.toString(),
+                                        showToast,
+                                        onSaveProductClicked),
                                     child: Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 12.0, bottom: 12.0),
-                                        child: TextDrawer(
-                                            text: 'إضافة منتج',
-                                            fontSize: 17.0,
-                                            fontWeight: FontWeight.w900))),
+                                        padding:
+                                            EdgeInsets.only(top: 12.0, bottom: 12.0),
+                                        child: TextDrawer(text: 'إضافة منتج', color: Colors.white, fontSize: 17.0, fontWeight: FontWeight.w900))),
                               )),
                         ],
                       )),

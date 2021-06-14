@@ -49,12 +49,11 @@ class NewInvoice extends StatelessWidget {
                                     side: BorderSide(
                                         color: Colors.deepPurpleAccent))),
                             backgroundColor: MaterialStateProperty.all(
-                                Colors.deepPurpleAccent),
-                            textStyle: MaterialStateProperty.all(
-                                TextStyle(color: Colors.white))),
+                                Colors.deepPurpleAccent)),
                         onPressed: () {},
                         child: TextDrawer(
                             text: 'إنشاء فاتورة',
+                            color: Colors.white,
                             fontWeight: FontWeight.w800,
                             fontSize: 19.0))),
               ]),
