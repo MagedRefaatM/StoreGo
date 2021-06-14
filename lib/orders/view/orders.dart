@@ -2,7 +2,7 @@ import 'package:store_go/orders/model/data/orders_local_data.dart';
 import 'package:store_go/orders/presenter/orders_presenter.dart';
 import 'package:store_go/orders/model/service/get_orders.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
-import 'package:store_go/widgets/text_drawer.dart';
+import 'package:store_go/drawers//text_drawer.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'orders_card.dart';

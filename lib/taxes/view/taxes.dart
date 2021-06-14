@@ -2,9 +2,10 @@ import 'package:store_go/settings/model/data/settings_local_data.dart';
 import 'package:store_go/taxes/model/service/update_store_taxes.dart';
 import 'package:store_go/taxes/model/data/taxes_local_data.dart';
 import 'package:store_go/taxes/presenter/taxes_presenter.dart';
-import 'package:store_go/widgets/text_field_drawer.dart';
+import 'package:store_go/drawers//text_field_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:store_go/drawers//text_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
@@ -48,51 +49,41 @@ class _TaxesState extends State<Taxes> {
               children: [
                 SizedBox(height: 15.0),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(width: 37),
-                    Text('الضرائب',
-                        maxLines: 1,
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontSize: 21.0,
-                            color: Colors.black)),
-                    GestureDetector(
-                        child: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.grey[500],
-                          size: 40.0,
-                        ),
-                        onTap: () => Navigator.pop(context))
-                  ],
-                ),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(width: 37),
+                      TextDrawer(
+                          text: 'الضرائب',
+                          maxLines: 1,
+                          textAlign: TextAlign.end,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 21.0,
+                          color: Colors.black),
+                      GestureDetector(
+                          child: Icon(Icons.arrow_forward_ios_outlined,
+                              color: Colors.grey[500], size: 40.0),
+                          onTap: () => Navigator.pop(context))
+                    ]),
                 SizedBox(height: 50.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      '(${_presenter.getCurrentTaxesState(isStateToggleChecked)})',
-                      maxLines: 1,
-                      style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'ArabicUiDisplay',
-                          color: Colors.grey[900]),
-                      textAlign: TextAlign.end,
-                    ),
+                    TextDrawer(
+                        text:
+                            '(${_presenter.getCurrentTaxesState(isStateToggleChecked)})',
+                        maxLines: 1,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey[900],
+                        textAlign: TextAlign.end),
                     SizedBox(width: 10.0),
-                    Text(
-                      'تفعيل الضرائب',
-                      style: TextStyle(
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'ArabicUiDisplay',
-                          color: Colors.grey[900]),
-                      textAlign: TextAlign.end,
-                    ),
+                    TextDrawer(
+                        text: 'تفعيل الضرائب',
+                        fontSize: 17.0,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey[900],
+                        textAlign: TextAlign.end),
                     SizedBox(width: 5.0),
                     FlutterSwitch(
                       value: isStateToggleChecked,
@@ -121,27 +112,24 @@ class _TaxesState extends State<Taxes> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
-                              flex: 1,
-                              child: Container(
-                                padding:
-                                    EdgeInsets.only(top: 17.0, bottom: 17.0),
-                                child: Text(
-                                  '%',
-                                  maxLines: 1,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                flex: 1,
+                                child: Container(
+                                  padding:
+                                      EdgeInsets.only(top: 17.0, bottom: 17.0),
+                                  child: TextDrawer(
+                                      text: '%',
+                                      maxLines: 1,
+                                      textAlign: TextAlign.center,
                                       color: Colors.black,
-                                      fontFamily: 'ArabicUiDisplay',
                                       fontWeight: FontWeight.w600,
                                       fontSize: 18.0),
-                                ),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[400]),
-                                    color: Colors.grey[100],
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0))),
-                              ),
-                            ),
+                                  decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Colors.grey[400]),
+                                      color: Colors.grey[100],
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0))),
+                                )),
                             SizedBox(width: 10.0),
                             Expanded(
                                 flex: 3,
@@ -191,14 +179,11 @@ class _TaxesState extends State<Taxes> {
                       ),
                       onPressed: updateStoreTaxes,
                       child: Padding(
-                        padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                        child: Text('حفظ',
-                            style: TextStyle(
+                          padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                          child: TextDrawer(
+                              text: 'حفظ',
                               fontSize: 18.0,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w700,
-                            )),
-                      )),
+                              fontWeight: FontWeight.w700))),
                 )
               ],
             ),

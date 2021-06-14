@@ -1,9 +1,9 @@
 import 'package:store_go/login/model/service/login_api_service.dart';
 import 'package:store_go/login/model/data/login_local_data.dart';
 import 'package:store_go/login/presenter/login_presenter.dart';
-import 'package:store_go/widgets/text_field_drawer.dart';
+import 'package:store_go/drawers//text_field_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
-import 'package:store_go/widgets/text_drawer.dart';
+import 'package:store_go/drawers//text_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

@@ -1,6 +1,6 @@
 import 'package:store_go/page_view/presenter/page_view_presenter.dart';
 import 'package:store_go/settings/view/settings.dart';
-import 'package:store_go/widgets/text_drawer.dart';
+import 'package:store_go/drawers//text_drawer.dart';
 import 'package:store_go/orders/view/orders.dart';
 import 'package:store_go/store/view/store.dart';
 import 'package:flutter/rendering.dart';

@@ -26,7 +26,7 @@ import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:store_go/shipping/view/shipping.dart';
 import 'package:store_go/my_info/view/my_info.dart';
 import 'package:store_go/dialogs/exit_dialog.dart';
-import 'package:store_go/widgets/text_drawer.dart';
+import 'package:store_go/drawers/text_drawer.dart';
 import 'package:store_go/taxes/view/taxes.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';

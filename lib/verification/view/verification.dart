@@ -8,6 +8,8 @@ import 'package:store_go/verification/model/service/logout_service.dart';
 import 'package:store_go/verification/model/service/banks_service.dart';
 import 'package:store_go/my_account/view/my_account_info.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
+import 'package:store_go/drawers//text_drawer.dart';
+import 'package:store_go/dialogs/exit_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -37,153 +39,88 @@ class _VerificationState extends State<Verification> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _onBackPress,
+      onWillPop: () => ExitDialog.showExitDialog(context, postLogoutRequest),
       child: Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(height: 15.0),
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      'التحقق من الحساب',
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 15.0),
+              Expanded(
+                  flex: 1,
+                  child: TextDrawer(
+                      text: 'التحقق من الحساب',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontSize: 26.0,
-                          color: Colors.black),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                        margin: EdgeInsets.all(9.0),
-                        child: Text(
-                          "للبدء بإستقبال المدفوعات لابد من تفعيل حسابكم من خلال توفير نسخة من السجل التجارى أو وثيقة العمل الحر والهوية الشخصية و أن تكون كافة الوثائق سارية المفعول وتوفير رقم حساب بنكى بإسم مطابق لأسم منشأته فى السجلات والوثائق وقت تقديم الطلب",
+                      fontWeight: FontWeight.w600,
+                      fontSize: 26.0,
+                      color: Colors.black)),
+              Expanded(
+                  flex: 2,
+                  child: Container(
+                      margin: EdgeInsets.all(9.0),
+                      child: TextDrawer(
+                          text:
+                              "للبدء بإستقبال المدفوعات لابد من تفعيل حسابكم من خلال توفير نسخة من السجل التجارى أو وثيقة العمل الحر والهوية الشخصية و أن تكون كافة الوثائق سارية المفعول وتوفير رقم حساب بنكى بإسم مطابق لأسم منشأته فى السجلات والوثائق وقت تقديم الطلب",
                           textWidthBasis: TextWidthBasis.parent,
                           maxLines: 6,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontSize: 21.5),
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 21.5,
+                          textAlign: TextAlign.center))),
+              Expanded(
+                  flex: 3,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 0),
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all(
+                                    EdgeInsets.all(20.0)),
+                                shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(7),
+                                        side: BorderSide(
+                                            color: Colors.deepPurpleAccent))),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Colors.deepPurpleAccent),
+                                textStyle: MaterialStateProperty.all(
+                                    TextStyle(color: Colors.white)),
+                              ),
+                              onPressed: getAccountInfo,
+                              child: TextDrawer(
+                                  text: 'التحقق من حسابى',
+                                  fontSize: 19.0,
+                                  fontWeight: FontWeight.w800))),
+                      Center(
+                        child: RichText(
+                          text: TextSpan(
+                              text: 'تخطي',
+                              style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontFamily: 'ArabicUiDisplay',
+                                  fontSize: 21.0,
+                                  fontWeight: FontWeight.w600),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => Navigator.pushNamed(
+                                    context, '/page_view_controller')),
+                        ),
+                      ),
+                      TextDrawer(
+                          text: message,
                           textAlign: TextAlign.center,
-                        )),
-                  ),
-                  Expanded(
-                      flex: 3,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 0),
-                            child: ElevatedButton(
-                                style: ButtonStyle(
-                                  padding: MaterialStateProperty.all(
-                                      EdgeInsets.all(20.0)),
-                                  shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(7),
-                                          side: BorderSide(
-                                              color: Colors.deepPurpleAccent))),
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Colors.deepPurpleAccent),
-                                  textStyle: MaterialStateProperty.all(
-                                      TextStyle(color: Colors.white)),
-                                ),
-                                onPressed: getAccountInfo,
-                                child: Text('التحقق من حسابى',
-                                    style: TextStyle(
-                                        fontSize: 19.0,
-                                        fontFamily: 'ArabicUiDisplay',
-                                        fontWeight: FontWeight.w800))),
-                          ),
-                          Center(
-                            child: RichText(
-                              text: TextSpan(
-                                  text: 'تخطي',
-                                  style: TextStyle(
-                                      color: Colors.grey[700],
-                                      fontFamily: 'ArabicUiDisplay',
-                                      fontSize: 21.0,
-                                      fontWeight: FontWeight.w600),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () => Navigator.pushNamed(
-                                        context, '/page_view_controller')),
-                            ),
-                          ),
-                          Text(
-                            message,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20.0,
-                            ),
-                          )
-                        ],
-                      )),
-                ],
-              ))),
-    );
-  }
-
-  Future<bool> _onBackPress() {
-    setState(() => message = '');
-    return showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            backgroundColor: Colors.deepPurpleAccent,
-            title: Text(
-              'تسجيل الخروج',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'ArabicUiDisplay',
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.w800),
-            ),
-            content: Text(
-              'هل تريد تسجيل الخروج من التطبيق؟',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'ArabicUiDisplay',
-                  fontSize: 19.0,
-                  fontWeight: FontWeight.w600),
-            ),
-            actions: <Widget>[
-              new GestureDetector(
-                onTap: () => Navigator.of(context).pop(false),
-                child: Text(
-                  "لا",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'ArabicUiDisplay',
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
-              SizedBox(height: 16),
-              new GestureDetector(
-                onTap: postLogoutRequest,
-                child: Text(
-                  "نعم",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'ArabicUiDisplay',
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
+                          color: Colors.red,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20.0)
+                    ],
+                  )),
             ],
-          ),
-        ) ??
-        false;
+          ))),
+    );
   }
 
   void getAccountInfo() {

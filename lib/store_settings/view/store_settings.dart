@@ -2,9 +2,10 @@ import 'package:store_go/store_settings/model/data/store_settings_local_data.dar
 import 'package:store_go/store_settings/model/service/update_store_settings.dart';
 import 'package:store_go/store_settings/presenter/store_settings_presenter.dart';
 import 'package:store_go/settings/model/data/settings_local_data.dart';
-import 'package:store_go/widgets/text_field_drawer.dart';
+import 'package:store_go/drawers//text_field_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:store_go/drawers//text_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
@@ -56,14 +57,13 @@ class _StoreSettingsState extends State<StoreSettings> {
                   children: [
                     SizedBox(height: 15.0),
                     SizedBox(width: 37),
-                    Text('إعدادات المتجر',
+                    TextDrawer(
+                        text: 'إعدادات المتجر',
                         maxLines: 1,
                         textAlign: TextAlign.end,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontSize: 21.0,
-                            color: Colors.black)),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 21.0,
+                        color: Colors.black),
                     SizedBox(width: 5.0),
                     GestureDetector(
                         child: Icon(
@@ -78,26 +78,21 @@ class _StoreSettingsState extends State<StoreSettings> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      '(${_presenter.getCurrentStoreState(isStateToggleChecked)})',
-                      maxLines: 1,
-                      style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'ArabicUiDisplay',
-                          color: Colors.grey[900]),
-                      textAlign: TextAlign.end,
-                    ),
+                    TextDrawer(
+                        text:
+                            '(${_presenter.getCurrentStoreState(isStateToggleChecked)})',
+                        maxLines: 1,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey[900],
+                        textAlign: TextAlign.end),
                     SizedBox(width: 5.0),
-                    Text(
-                      'تفعيل المتجر',
-                      style: TextStyle(
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'ArabicUiDisplay',
-                          color: Colors.grey[900]),
-                      textAlign: TextAlign.end,
-                    ),
+                    TextDrawer(
+                        text: 'تفعيل المتجر',
+                        fontSize: 17.0,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey[900],
+                        textAlign: TextAlign.end),
                     SizedBox(width: 5.0),
                     FlutterSwitch(
                       value: isStateToggleChecked,
@@ -154,28 +149,27 @@ class _StoreSettingsState extends State<StoreSettings> {
                     _storeEmailController),
                 SizedBox(height: 15.0),
                 ConstrainedBox(
-                  constraints: BoxConstraints(minWidth: double.infinity),
-                  child: ElevatedButton(
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            side: BorderSide(color: Colors.deepPurpleAccent))),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.deepPurpleAccent),
-                        textStyle: MaterialStateProperty.all(
-                            TextStyle(color: Colors.white)),
-                      ),
-                      onPressed: updateStoreSettings,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                        child: Text('حفظ',
-                            style: TextStyle(
+                    constraints: BoxConstraints(minWidth: double.infinity),
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                  side: BorderSide(
+                                      color: Colors.deepPurpleAccent))),
+                          backgroundColor: MaterialStateProperty.all(
+                              Colors.deepPurpleAccent),
+                          textStyle: MaterialStateProperty.all(
+                              TextStyle(color: Colors.white)),
+                        ),
+                        onPressed: updateStoreSettings,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                          child: TextDrawer(
+                              text: 'حفظ',
                               fontSize: 18.0,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w700,
-                            )),
-                      )),
-                ),
+                              fontWeight: FontWeight.w700),
+                        ))),
                 SizedBox(height: 20.0)
               ],
             ),

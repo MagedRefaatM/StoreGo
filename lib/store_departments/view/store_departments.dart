@@ -3,8 +3,9 @@ import 'package:store_go/store_departments/presenter/store_departments_presenter
 import 'package:store_go/settings/model/entities/manager_category_response.dart';
 import 'package:store_go/store_departments/model/data/category_local_data.dart';
 import 'package:store_go/dialogs/exit_edit_product_dialog.dart';
-import 'package:store_go/widgets/text_field_drawer.dart';
+import 'package:store_go/drawers//text_field_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
+import 'package:store_go/drawers//text_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
@@ -56,41 +57,34 @@ class _StoreDepartmentsState extends State<StoreDepartments> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      child: TextButton(
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(13.0),
-                                  side: BorderSide(
-                                      color: Colors.deepPurpleAccent,
-                                      width: 1.5))),
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                          padding:
-                              MaterialStateProperty.all(EdgeInsets.all(13.0)),
-                        ),
-                        onPressed: () => setState(() => additionalCategoriesList
-                            .length = additionalCategoriesList.length + 1),
-                        child: Text(
-                          'إضافة منطقة',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.deepPurpleAccent,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                    Text(
-                      'أقسام المتجر',
-                      maxLines: 1,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontSize: 24.0,
-                          color: Colors.black),
-                    ),
+                        child: TextButton(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(13.0),
+                                      side: BorderSide(
+                                          color: Colors.deepPurpleAccent,
+                                          width: 1.5))),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.white),
+                              padding: MaterialStateProperty.all(
+                                  EdgeInsets.all(13.0)),
+                            ),
+                            onPressed: () => setState(() =>
+                                additionalCategoriesList.length =
+                                    additionalCategoriesList.length + 1),
+                            child: TextDrawer(
+                                text: 'إضافة منطقة',
+                                textAlign: TextAlign.center,
+                                fontSize: 18.0,
+                                color: Colors.deepPurpleAccent,
+                                fontWeight: FontWeight.w500))),
+                    TextDrawer(
+                        text: 'أقسام المتجر',
+                        maxLines: 1,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 24.0,
+                        color: Colors.black),
                     SizedBox(width: 5.0),
                     GestureDetector(
                         child: Icon(
@@ -130,14 +124,12 @@ class _StoreDepartmentsState extends State<StoreDepartments> {
                       ),
                       onPressed: updateStoreCategories,
                       child: Padding(
-                        padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                        child: Text('حفظ',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w700,
-                            )),
-                      )),
+                          padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                          child: TextDrawer(
+                            text: 'حفظ',
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w700,
+                          ))),
                 ),
                 SizedBox(height: 20.0)
               ],

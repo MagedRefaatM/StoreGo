@@ -5,6 +5,7 @@ import 'package:store_go/store/presenter/store_presenter.dart';
 import 'package:store_go/store/view/store_option.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:store_go/products/view/products.dart';
+import 'package:store_go/drawers//text_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -50,217 +51,177 @@ class _StoreState extends State<Store> {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(height: 15.0),
-              Text(
-                'المتجر',
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'ArabicUiDisplay',
-                    fontSize: 26.0,
-                    color: Colors.black),
-              ),
+              TextDrawer(
+                  text: 'المتجر',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 26.0,
+                  color: Colors.black),
               SizedBox(height: 20.0),
               Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 80.5,
-                    backgroundColor: Colors.grey[300],
-                    child: CircleAvatar(
-                      radius: 80,
-                      backgroundImage:
-                          NetworkImage(localData.userLoggedInImageLink),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 13.0),
-                    child: Text(
-                      '${localData.userLoggedInName} Store',
-                      maxLines: 1,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'ArabicUiDisplay',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 25.0,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 80.5,
+                      backgroundColor: Colors.grey[300],
+                      child: CircleAvatar(
+                        radius: 80,
+                        backgroundImage:
+                            NetworkImage(localData.userLoggedInImageLink),
                       ),
                     ),
-                  ),
-                ],
-              ),
+                    Padding(
+                        padding: const EdgeInsets.only(top: 13.0),
+                        child: TextDrawer(
+                            text: '${localData.userLoggedInName} Store',
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 25.0)),
+                  ]),
               SizedBox(height: 15.0),
               TextButton(
-                onPressed: () {},
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(color: Colors.grey[200]))),
-                  backgroundColor: MaterialStateProperty.all(Colors.grey[200]),
-                  textStyle:
-                      MaterialStateProperty.all(TextStyle(color: Colors.white)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0, top: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      RichText(
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                            text:
-                                'https://${localData.userLoggedInName}.storego.io',
-                            style: TextStyle(
-                                color: Colors.deepPurpleAccent,
-                                fontSize: 18.0,
-                                fontFamily: 'ArabicUiDisplay',
-                                fontWeight: FontWeight.w500),
-                            //TODO: make onTap opens the link in external browser
-                            recognizer: TapGestureRecognizer()
-                              // ..onTap = () => launch('https://faisals4.storego.io')
-                              ..onTap = () {}),
-                      ),
-                      SizedBox(width: 6.0),
-                      Text(
-                        'رابط متجرك',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 22.0,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontWeight: FontWeight.w400),
-                        maxLines: 1,
-                      )
-                    ],
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(color: Colors.grey[200]))),
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.grey[200]),
+                    textStyle: MaterialStateProperty.all(
+                        TextStyle(color: Colors.white)),
                   ),
-                ),
-              ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0, top: 8.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          RichText(
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                                text:
+                                    'https://${localData.userLoggedInName}.storego.io',
+                                style: TextStyle(
+                                    color: Colors.deepPurpleAccent,
+                                    fontSize: 18.0,
+                                    fontFamily: 'ArabicUiDisplay',
+                                    fontWeight: FontWeight.w500),
+                                //TODO: make onTap opens the link in external browser
+                                recognizer: TapGestureRecognizer()
+                                  // ..onTap = () => launch('https://faisals4.storego.io')
+                                  ..onTap = () {}),
+                          ),
+                          SizedBox(width: 6.0),
+                          TextDrawer(
+                              text: 'رابط متجرك',
+                              color: Colors.black,
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w400,
+                              maxLines: 1)
+                        ]),
+                  )),
               SizedBox(height: 15.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      child: Padding(
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    child: Padding(
                         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              //TODO: take the data from the constructor
-                              '31',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 20.0,
-                                  fontFamily: 'ArabicUiDisplay',
-                                  color: Colors.black),
-                            ),
-                            Text(
-                              'منتج',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 20.0,
-                                  fontFamily: 'ArabicUiDisplay',
-                                  color: Colors.black),
-                            )
+                            TextDrawer(
+                                //TODO: take the data from the constructor
+                                text: '31',
+                                textAlign: TextAlign.center,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20.0,
+                                color: Colors.black),
+                            TextDrawer(
+                                text: 'منتج',
+                                textAlign: TextAlign.center,
+                                fontWeight: FontWeight.w300,
+                                fontSize: 20.0,
+                                color: Colors.black)
                           ],
-                        ),
+                        )),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey[400],
                       ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey[400],
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  SizedBox(width: 35.0),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      child: Padding(
+                ),
+                SizedBox(width: 35.0),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    child: Padding(
                         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              //TODO: take the data from the constructor
-                              '390',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 20.0,
-                                  fontFamily: 'ArabicUiDisplay',
-                                  color: Colors.black),
-                            ),
-                            Text(
-                              'طلب مكتمل',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 20.0,
-                                  fontFamily: 'ArabicUiDisplay',
-                                  color: Colors.black),
-                            )
+                            TextDrawer(
+                                //TODO: take the data from the constructor
+                                text: '390',
+                                textAlign: TextAlign.center,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20.0,
+                                color: Colors.black),
+                            TextDrawer(
+                                text: 'طلب مكتمل',
+                                textAlign: TextAlign.center,
+                                fontWeight: FontWeight.w300,
+                                fontSize: 20.0,
+                                color: Colors.black)
                           ],
-                        ),
+                        )),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey[400],
                       ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey[400],
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  SizedBox(width: 35.0),
-                  Expanded(
+                ),
+                SizedBox(width: 35.0),
+                Expanded(
                     flex: 1,
                     child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              //TODO: take the data from the constructor
-                              '430',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 20.0,
-                                  fontFamily: 'ArabicUiDisplay',
-                                  color: Colors.black),
-                            ),
-                            Text(
-                              'طلب',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 20.0,
-                                  fontFamily: 'ArabicUiDisplay',
-                                  color: Colors.black),
-                            )
-                          ],
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey[400],
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+                        child: Padding(
+                            padding:
+                                const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                TextDrawer(
+                                    //TODO: take the data from the constructor
+                                    text: '430',
+                                    textAlign: TextAlign.center,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20.0,
+                                    color: Colors.black),
+                                TextDrawer(
+                                    text: 'طلب',
+                                    textAlign: TextAlign.center,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 20.0,
+                                    color: Colors.black)
+                              ],
+                            )),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey[400]),
+                          borderRadius: BorderRadius.circular(10),
+                        )))
+              ]),
               SizedBox(height: 15.0),
               Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -8,7 +8,7 @@ import 'package:store_go/store/model/data/store_local_data.dart';
 import 'package:store_go/products/view/product_details.dart';
 import 'package:store_go/products/view/product_item.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
-import 'package:store_go/widgets/text_drawer.dart';
+import 'package:store_go/drawers//text_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
