@@ -1,3 +1,4 @@
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:flutter/material.dart';
 
 class ExitAddProductDialog {
@@ -7,39 +8,30 @@ class ExitAddProductDialog {
           context: context,
           builder: (context) => new AlertDialog(
             backgroundColor: Colors.deepPurpleAccent,
-            content: Text(
-              'تنبيه:سيتم تجاهل إضافة المنتج الحالى، هل تود المتابعة؟',
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'ArabicUiDisplay',
-                  fontSize: 19.0,
-                  fontWeight: FontWeight.w600),
-            ),
+            content: TextDrawer(
+                text: 'تنبيه:سيتم تجاهل إضافة المنتج الحالى، هل تود المتابعة؟',
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontSize: 19.0),
             actions: <Widget>[
               new GestureDetector(
                 onTap: () => Navigator.of(context).pop(false),
-                child: Text(
-                  "إلغاء",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'ArabicUiDisplay',
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w500),
-                ),
+                child: TextDrawer(
+                    text: "إلغاء",
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16.0),
               ),
               SizedBox(height: 16),
               new GestureDetector(
                 onTap: exitFunction,
-                child: Text(
-                  "متابعة",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'ArabicUiDisplay',
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w500),
-                ),
+                child: TextDrawer(
+                    text: "متابعة",
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16.0),
               ),
             ],
           ),

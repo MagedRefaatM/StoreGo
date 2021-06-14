@@ -1,3 +1,4 @@
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {
@@ -33,30 +34,26 @@ class ProductItem extends StatelessWidget {
               child: GestureDetector(
                 onTap: productClickHandler,
                 child: Container(
-                  child: Stack(
-                    children: [
-                      Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-                            child: Container(
-                              padding: EdgeInsets.only(
-                                  left: 8.0, right: 8.0, bottom: 3.0),
-                              child: Text(
-                                status,
+                  child: Stack(children: [
+                    Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                left: 8.0, right: 8.0, bottom: 3.0),
+                            child: TextDrawer(
+                                text: status,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'ArabicUiDisplay',
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              decoration: BoxDecoration(
-                                color: statusColor,
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400),
+                            decoration: BoxDecoration(
+                              color: statusColor,
+                              borderRadius: BorderRadius.circular(15.0),
                             ),
-                          )),
-                      Padding(
+                          ),
+                        )),
+                    Padding(
                         padding: const EdgeInsets.only(
                             left: 8.0, top: 8.0, bottom: 3.0),
                         child: Opacity(
@@ -65,22 +62,17 @@ class ProductItem extends StatelessWidget {
                               alignment: Alignment.bottomLeft,
                               child: Container(
                                 padding: EdgeInsets.all(6.0),
-                                child: Text(
-                                  quantity.toString(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      fontWeight: FontWeight.w400),
-                                ),
+                                child: TextDrawer(
+                                    text: quantity.toString(),
+                                    textAlign: TextAlign.center,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400),
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.deepOrangeAccent),
                               )),
-                        ),
-                      ),
-                    ],
-                  ),
+                        )),
+                  ]),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
                     image: DecorationImage(
@@ -95,51 +87,37 @@ class ProductItem extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    name,
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextDrawer(
+                        text: name,
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
                         color: Colors.grey[500],
-                        fontFamily: 'ArabicUiDisplay',
                         fontWeight: FontWeight.w500,
                         fontSize: 18.0),
-                  ),
-                  SizedBox(height: 2.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 7.0),
-                        child: Text(
-                          'ريال',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
+                    SizedBox(height: 2.0),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                              padding: const EdgeInsets.only(bottom: 7.0),
+                              child: TextDrawer(
+                                  text: 'ريال',
+                                  textAlign: TextAlign.center,
+                                  color: Colors.deepPurpleAccent,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 17.0)),
+                          SizedBox(width: 8.0),
+                          TextDrawer(
+                              text: price.toString(),
+                              textAlign: TextAlign.center,
                               color: Colors.deepPurpleAccent,
-                              fontFamily: 'ArabicUiDisplay',
                               fontWeight: FontWeight.w500,
-                              fontSize: 17.0),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 8.0,
-                      ),
-                      Text(
-                        price.toString(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.deepPurpleAccent,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 17.0),
-                      )
-                    ],
-                  )
-                ],
-              ),
+                              fontSize: 17.0)
+                        ])
+                  ]),
             )
           ],
         ));

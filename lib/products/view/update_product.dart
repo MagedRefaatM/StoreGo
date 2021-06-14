@@ -8,14 +8,15 @@ import 'package:store_go/products/model/data/products_local_data.dart';
 import 'package:store_go/products/presenter/products_presenter.dart';
 import 'package:store_go/dialogs/exit_edit_product_dialog.dart';
 import 'package:store_go/dialogs/delete_photo_dialog.dart';
+import 'package:store_go/widgets/text_field_drawer.dart';
+import 'package:store_go/products/view/image_item.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:store_go/dialogs/image_dialog.dart';
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:store_go/products/view/image_item.dart';
-import 'package:store_go/text_field_drawer.dart';
 import 'package:toast/toast.dart';
 import 'dart:io';
 
@@ -99,43 +100,36 @@ class _EditProductState extends State<EditProduct> {
                   children: [
                     SizedBox(height: 15.0),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(width: 40.0),
-                        Text('تعديل',
-                            maxLines: 1,
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'ArabicUiDisplay',
-                                fontSize: 21.0,
-                                color: Colors.black)),
-                        GestureDetector(
-                          child: Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            color: Colors.grey[500],
-                            size: 40.0,
-                          ),
-                          onTap: () =>
-                              ExitEditProductDialog.showExitEditProductDialog(
-                                  context, onBackPressed),
-                        )
-                      ],
-                    ),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(width: 40.0),
+                          TextDrawer(
+                              text: 'تعديل',
+                              maxLines: 1,
+                              textAlign: TextAlign.end,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 21.0,
+                              color: Colors.black),
+                          GestureDetector(
+                              child: Icon(Icons.arrow_forward_ios_outlined,
+                                  color: Colors.grey[500], size: 40.0),
+                              onTap: () => ExitEditProductDialog
+                                  .showExitEditProductDialog(
+                                      context, onBackPressed))
+                        ]),
                     SizedBox(height: 20.0),
                     TextFieldDrawer(
-                      textAlign: TextAlign.center,
-                      inputAction: TextInputAction.next,
-                      inputType: TextInputType.name,
-                      controller: _productNameController,
-                      maxLines: 1,
-                      borderRadius: 8.0,
-                      hintFontSize: 15.0,
-                      hintText: "اسم المنتج",
-                      labelFontSize: 18.0,
-                      labelText: ProductsLocalData.productDetails.name,
-                    ),
+                        textAlign: TextAlign.center,
+                        inputAction: TextInputAction.next,
+                        inputType: TextInputType.name,
+                        controller: _productNameController,
+                        maxLines: 1,
+                        borderRadius: 8.0,
+                        hintFontSize: 15.0,
+                        hintText: "اسم المنتج",
+                        labelFontSize: 18.0,
+                        labelText: ProductsLocalData.productDetails.name),
                     SizedBox(height: 8.0),
                     Container(
                       child: FormField<String>(
@@ -149,10 +143,9 @@ class _EditProductState extends State<EditProduct> {
                               child: DropdownButtonHideUnderline(
                                 child: Center(
                                   child: DropdownButton<String>(
-                                    hint: Text(
-                                      "قسم المنتج",
-                                      textAlign: TextAlign.center,
-                                    ),
+                                    hint: TextDrawer(
+                                        text: "قسم المنتج",
+                                        textAlign: TextAlign.center),
                                     isDense: true,
                                     isExpanded: false,
                                     value: dropdownValue,
@@ -169,10 +162,9 @@ class _EditProductState extends State<EditProduct> {
                                           ProductsLocalData.categoryId =
                                               value.id;
                                         },
-                                        child: Text(
-                                          value.name,
-                                          textAlign: TextAlign.center,
-                                        ),
+                                        child: TextDrawer(
+                                            text: value.name,
+                                            textAlign: TextAlign.center),
                                       );
                                     }).toList(),
                                   ),
@@ -185,58 +177,54 @@ class _EditProductState extends State<EditProduct> {
                     ),
                     SizedBox(height: 8.0),
                     TextFieldDrawer(
-                      textAlign: TextAlign.center,
-                      inputAction: TextInputAction.next,
-                      inputType: TextInputType.number,
-                      controller: _productPriceController,
-                      maxLines: 1,
-                      borderRadius: 8.0,
-                      hintFontSize: 15.0,
-                      hintText: "السعر",
-                      labelFontSize: 18.0,
-                      labelText:
-                          ProductsLocalData.productDetails.price.toString(),
-                    ),
+                        textAlign: TextAlign.center,
+                        inputAction: TextInputAction.next,
+                        inputType: TextInputType.number,
+                        controller: _productPriceController,
+                        maxLines: 1,
+                        borderRadius: 8.0,
+                        hintFontSize: 15.0,
+                        hintText: "السعر",
+                        labelFontSize: 18.0,
+                        labelText:
+                            ProductsLocalData.productDetails.price.toString()),
                     SizedBox(height: 8.0),
                     TextFieldDrawer(
-                      textAlign: TextAlign.center,
-                      inputAction: TextInputAction.next,
-                      inputType: TextInputType.multiline,
-                      controller: _productDescriptionController,
-                      maxLines: 4,
-                      borderRadius: 8.0,
-                      hintFontSize: 15.0,
-                      hintText: "الوصف",
-                      labelFontSize: 18.0,
-                      labelText: _presenter.getProductDescription(
-                          ProductsLocalData.productDetails.description),
-                    ),
+                        textAlign: TextAlign.center,
+                        inputAction: TextInputAction.next,
+                        inputType: TextInputType.multiline,
+                        controller: _productDescriptionController,
+                        maxLines: 4,
+                        borderRadius: 8.0,
+                        hintFontSize: 15.0,
+                        hintText: "الوصف",
+                        labelFontSize: 18.0,
+                        labelText: _presenter.getProductDescription(
+                            ProductsLocalData.productDetails.description)),
                     SizedBox(height: 8.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: Container(
-                            child: TextFieldDrawer(
-                              textAlign: TextAlign.center,
-                              inputAction: TextInputAction.done,
-                              inputType: TextInputType.number,
-                              controller: _productQuantityController,
-                              maxLines: 1,
-                              enabled: isTextFieldEnabled,
-                              borderRadius: 8.0,
-                              hintFontSize: 15.0,
-                              hintText: "الكمية",
-                              labelFontSize: 18.0,
-                              labelText: _presenter
-                                  .displayQuantityTextFieldLabel(
-                                      ProductsLocalData.productDetails.quantity)
-                                  .toString(),
-                            ),
-                          ),
-                          flex: 3,
-                        ),
+                            child: Container(
+                                child: TextFieldDrawer(
+                                    textAlign: TextAlign.center,
+                                    inputAction: TextInputAction.done,
+                                    inputType: TextInputType.number,
+                                    controller: _productQuantityController,
+                                    maxLines: 1,
+                                    enabled: isTextFieldEnabled,
+                                    borderRadius: 8.0,
+                                    hintFontSize: 15.0,
+                                    hintText: "الكمية",
+                                    labelFontSize: 18.0,
+                                    labelText: _presenter
+                                        .displayQuantityTextFieldLabel(
+                                            ProductsLocalData
+                                                .productDetails.quantity)
+                                        .toString())),
+                            flex: 3),
                         SizedBox(width: 20.0),
                         Expanded(
                           flex: 1,
@@ -260,36 +248,26 @@ class _EditProductState extends State<EditProduct> {
                     Row(
                       children: [
                         Expanded(
-                          child: Row(
-                            children: [
+                            child: Row(children: [
                               Expanded(
-                                flex: 3,
-                                child: Text(
-                                  '(${_presenter.getCurrentProductStatus(isStateToggleChecked)})',
-                                  style: TextStyle(
+                                  flex: 3,
+                                  child: TextDrawer(
+                                      text:
+                                          '(${_presenter.getCurrentProductStatus(isStateToggleChecked)})',
                                       fontSize: 12.0,
                                       fontWeight: FontWeight.w600,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      color: Colors.grey[900]),
-                                  textAlign: TextAlign.end,
-                                ),
-                              ),
+                                      color: Colors.grey[900],
+                                      textAlign: TextAlign.end)),
                               Expanded(
-                                flex: 1,
-                                child: Text(
-                                  'حالة العرض',
-                                  style: TextStyle(
+                                  flex: 1,
+                                  child: TextDrawer(
+                                      text: 'حالة العرض',
                                       fontSize: 12.0,
                                       fontWeight: FontWeight.w600,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      color: Colors.grey[900]),
-                                  textAlign: TextAlign.end,
-                                ),
-                              )
-                            ],
-                          ),
-                          flex: 3,
-                        ),
+                                      color: Colors.grey[900],
+                                      textAlign: TextAlign.end))
+                            ]),
+                            flex: 3),
                         SizedBox(width: 20.0),
                         Expanded(
                           flex: 1,
@@ -307,12 +285,11 @@ class _EditProductState extends State<EditProduct> {
                       ],
                     ),
                     SizedBox(height: 8.0),
-                    Text('صورة المنتج الرئيسية',
-                        style: TextStyle(
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'ArabicUiDisplay',
-                            color: Colors.grey[900])),
+                    TextDrawer(
+                        text: 'صورة المنتج الرئيسية',
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey[900]),
                     SizedBox(height: 8.0),
                     ConstrainedBox(
                         child: Container(
@@ -355,55 +332,51 @@ class _EditProductState extends State<EditProduct> {
                         constraints:
                             BoxConstraints(maxHeight: 140.0, maxWidth: 140.0)),
                     SizedBox(height: 8.0),
-                    Text('صور المنتج الإضافية (إختيارى)',
-                        style: TextStyle(
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'ArabicUiDisplay',
-                            color: Colors.grey[900])),
+                    TextDrawer(
+                        text: 'صور المنتج الإضافية (إختيارى)',
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey[900]),
                     SizedBox(height: 8.0),
                     ConstrainedBox(
-                      child: _presenter.getCurrentDisplayedWidget(
-                          ProductsLocalData.productOtherImagesList.length,
-                          inflateAdditionalImagesList(),
-                          inflateAddImageTexts()),
-                      constraints: BoxConstraints(
-                          minWidth: double.infinity, maxHeight: 270.0),
-                    ),
+                        child: _presenter.getCurrentDisplayedWidget(
+                            ProductsLocalData.productOtherImagesList.length,
+                            inflateAdditionalImagesList(),
+                            inflateAddImageTexts()),
+                        constraints: BoxConstraints(
+                            minWidth: double.infinity, maxHeight: 270.0)),
                     SizedBox(height: 8.0),
                     Padding(
-                      padding:
-                          EdgeInsets.only(left: 10.0, right: 10.0, bottom: 5.0),
-                      child: ConstrainedBox(
-                        constraints:
-                            const BoxConstraints(minWidth: double.infinity),
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      side: BorderSide(
-                                          color: Colors.deepPurpleAccent))),
-                              backgroundColor: MaterialStateProperty.all(
-                                  Colors.deepPurpleAccent),
-                              textStyle: MaterialStateProperty.all(
-                                  TextStyle(color: Colors.white)),
-                            ),
-                            onPressed: () => _presenter.validateProductUpdate(
-                                mainImageStatus,
-                                showToast,
-                                onUpdateProductClicked),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 12.0, bottom: 12.0),
-                              child: Text('تعديل',
-                                  style: TextStyle(
+                        padding: EdgeInsets.only(
+                            left: 10.0, right: 10.0, bottom: 5.0),
+                        child: ConstrainedBox(
+                          constraints:
+                              const BoxConstraints(minWidth: double.infinity),
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        side: BorderSide(
+                                            color: Colors.deepPurpleAccent))),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Colors.deepPurpleAccent),
+                                textStyle: MaterialStateProperty.all(
+                                    TextStyle(color: Colors.white)),
+                              ),
+                              onPressed: () => _presenter.validateProductUpdate(
+                                  mainImageStatus,
+                                  showToast,
+                                  onUpdateProductClicked),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(top: 12.0, bottom: 12.0),
+                                child: TextDrawer(
+                                    text: 'تعديل',
                                     fontSize: 17.0,
-                                    fontFamily: 'ArabicUiDisplay',
-                                    fontWeight: FontWeight.w900,
-                                  )),
-                            )),
-                      ),
-                    ),
+                                    fontWeight: FontWeight.w900),
+                              )),
+                        )),
                   ],
                 ),
               ),
@@ -442,26 +415,24 @@ class _EditProductState extends State<EditProduct> {
   Widget inflateAddImageTexts() {
     return GestureDetector(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text('إضغط هنا لإضافة صور إضافية للمنتج',
-              style: TextStyle(
-                  color: Colors.grey[500],
-                  fontSize: 18.0,
-                  fontFamily: 'ArabicUiDisplay',
-                  fontWeight: FontWeight.w600)),
-          SizedBox(height: 5.0),
-          Text('يرجى العلم أنه ستتم إضافة صورة للمنتج رئيسية أولا إن لم توجد',
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              style: TextStyle(
-                  color: Colors.grey[500],
-                  fontSize: 12.0,
-                  fontFamily: 'ArabicUiDisplay',
-                  fontWeight: FontWeight.w800)),
-        ],
-      ),
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextDrawer(
+                text: 'إضغط هنا لإضافة صور إضافية للمنتج',
+                color: Colors.grey[500],
+                fontSize: 18.0,
+                fontWeight: FontWeight.w600),
+            SizedBox(height: 5.0),
+            TextDrawer(
+                text:
+                    'يرجى العلم أنه ستتم إضافة صورة للمنتج رئيسية أولا إن لم توجد',
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                color: Colors.grey[500],
+                fontSize: 12.0,
+                fontWeight: FontWeight.w800),
+          ]),
       onTap: () {
         ProductsLocalData.singleOtherImage = null;
         ProductsLocalData.additionalImageId = 0;

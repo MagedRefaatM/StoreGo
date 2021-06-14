@@ -1,3 +1,4 @@
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:flutter/material.dart';
 
 class ExitDialog {
@@ -7,45 +8,33 @@ class ExitDialog {
           context: context,
           builder: (context) => new AlertDialog(
             backgroundColor: Colors.deepPurpleAccent,
-            title: Text(
-              'تسجيل الخروج',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'ArabicUiDisplay',
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.w800),
-            ),
-            content: Text(
-              'هل تريد تسجيل الخروج من التطبيق؟',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'ArabicUiDisplay',
-                  fontSize: 19.0,
-                  fontWeight: FontWeight.w600),
-            ),
+            title: TextDrawer(
+                text: 'تسجيل الخروج',
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+                fontSize: 22.0),
+            content: TextDrawer(
+                text: 'هل تريد تسجيل الخروج من التطبيق؟',
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontSize: 19.0),
             actions: <Widget>[
               new GestureDetector(
                 onTap: () => Navigator.of(context).pop(false),
-                child: Text(
-                  "لا",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'ArabicUiDisplay',
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w500),
-                ),
+                child: TextDrawer(
+                    text: "لا",
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16.0),
               ),
               SizedBox(height: 16),
               new GestureDetector(
                 onTap: exitFunction,
-                child: Text(
-                  "نعم",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'ArabicUiDisplay',
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w500),
-                ),
+                child: TextDrawer(
+                    text: "نعم",
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16.0),
               ),
             ],
           ),

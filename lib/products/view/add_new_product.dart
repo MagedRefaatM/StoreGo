@@ -9,10 +9,11 @@ import 'package:store_go/products/model/data/products_local_data.dart';
 import 'package:store_go/products/presenter/products_presenter.dart';
 import 'package:store_go/dialogs/exit_add_product-dialog.dart';
 import 'package:store_go/dialogs/delete_photo_dialog.dart';
+import 'package:store_go/widgets/text_field_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:store_go/dialogs/image_dialog.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:store_go/text_field_drawer.dart';
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
@@ -115,349 +116,322 @@ class _AddProductState extends State<AddProduct> {
         Navigator.pop(context, false);
       }),
       child: Container(
-        height: MediaQuery.of(context).size.height,
-        color: Colors.white,
-        child: SafeArea(
-          maintainBottomViewPadding: true,
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    SizedBox(height: 15.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(width: 40.0),
-                        Text('إضافة منتج',
-                            maxLines: 1,
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'ArabicUiDisplay',
-                                fontSize: 21.0,
-                                color: Colors.black)),
-                        GestureDetector(
-                          child: Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            color: Colors.grey[500],
-                            size: 40.0,
-                          ),
-                          onTap: () =>
-                              ExitAddProductDialog.showExitAddProductDialog(
-                                  context, () {
-                            Navigator.pop(context);
-                            Navigator.pop(context, false);
-                          }),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 20.0),
-                    TextFieldDrawer(
-                      textAlign: TextAlign.center,
-                      inputAction: TextInputAction.next,
-                      inputType: TextInputType.name,
-                      controller: _productNameController,
-                      maxLines: 1,
-                      borderRadius: 8.0,
-                      hintFontSize: 15.0,
-                      hintText: "اسم المنتج",
-                    ),
-                    SizedBox(height: 8.0),
-                    Container(
-                      child: FormField<String>(
-                        builder: (FormFieldState<String> state) {
-                          return InputDecorator(
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.0))),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 25.0),
-                              child: DropdownButtonHideUnderline(
-                                child: Center(
-                                  child: DropdownButton<String>(
-                                    hint: Text(
-                                      "قسم المنتج",
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    isDense: true,
-                                    isExpanded: false,
-                                    value: dropdownValue,
-                                    onChanged: (newValue) {
-                                      setState(() {
-                                        dropdownValue = newValue;
-                                      });
-                                    },
-                                    items: _categoriesList
-                                        .map((SingleCategory value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value.name,
-                                        onTap: () => categoryId = value.id,
-                                        child: Text(
-                                          value.name,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 8.0),
-                    TextFieldDrawer(
-                      textAlign: TextAlign.center,
-                      inputAction: TextInputAction.next,
-                      inputType: TextInputType.number,
-                      controller: _productPriceController,
-                      maxLines: 1,
-                      borderRadius: 8.0,
-                      hintFontSize: 15.0,
-                      hintText: "السعر",
-                    ),
-                    SizedBox(height: 8.0),
-                    TextFieldDrawer(
-                      textAlign: TextAlign.center,
-                      inputAction: TextInputAction.next,
-                      inputType: TextInputType.multiline,
-                      controller: _productDescriptionController,
-                      maxLines: 4,
-                      borderRadius: 8.0,
-                      hintFontSize: 15.0,
-                      hintText: "الوصف",
-                    ),
-                    SizedBox(height: 8.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            child: TextFieldDrawer(
+          height: MediaQuery.of(context).size.height,
+          color: Colors.white,
+          child: SafeArea(
+            maintainBottomViewPadding: true,
+            child: Scaffold(
+                resizeToAvoidBottomInset: false,
+                body: SingleChildScrollView(
+                  child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          SizedBox(height: 15.0),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(width: 40.0),
+                                TextDrawer(
+                                    text: 'إضافة منتج',
+                                    maxLines: 1,
+                                    textAlign: TextAlign.end,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 21.0),
+                                GestureDetector(
+                                    child: Icon(
+                                        Icons.arrow_forward_ios_outlined,
+                                        color: Colors.grey[500],
+                                        size: 40.0),
+                                    onTap: () => ExitAddProductDialog
+                                            .showExitAddProductDialog(context,
+                                                () {
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, false);
+                                        }))
+                              ]),
+                          SizedBox(height: 20.0),
+                          TextFieldDrawer(
                               textAlign: TextAlign.center,
-                              inputAction: TextInputAction.done,
-                              inputType: TextInputType.number,
-                              controller: _productQuantityController,
-                              enabled: isTextFieldEnabled,
+                              inputAction: TextInputAction.next,
+                              inputType: TextInputType.name,
+                              controller: _productNameController,
                               maxLines: 1,
                               borderRadius: 8.0,
                               hintFontSize: 15.0,
-                              hintText: "الكمية",
-                            ),
-                          ),
-                          flex: 3,
-                        ),
-                        SizedBox(width: 20.0),
-                        Expanded(
-                          flex: 1,
-                          child: FlutterSwitch(
-                            value: isQuantityToggleChecked,
-                            activeColor: Colors.grey[300],
-                            inactiveColor: Colors.deepPurpleAccent,
-                            onToggle: (val) {
-                              setState(() {
-                                isQuantityToggleChecked = val;
-                                isTextFieldEnabled = _presenter
-                                    .editTextFieldStatus(isTextFieldEnabled);
-                                _productQuantityController.clear();
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8.0),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 3,
-                                child: Text(
-                                  '(${_presenter.getCurrentProductStatus(isStateToggleChecked)})',
-                                  style: TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      color: Colors.grey[900]),
-                                  textAlign: TextAlign.end,
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Text(
-                                  'حالة العرض',
-                                  style: TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      color: Colors.grey[900]),
-                                  textAlign: TextAlign.end,
-                                ),
-                              )
-                            ],
-                          ),
-                          flex: 3,
-                        ),
-                        SizedBox(width: 20.0),
-                        Expanded(
-                          flex: 1,
-                          child: FlutterSwitch(
-                            value: isStateToggleChecked,
-                            activeColor: Colors.grey[300],
-                            inactiveColor: Colors.deepPurpleAccent,
-                            onToggle: (val) {
-                              setState(() {
-                                isStateToggleChecked = val;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8.0),
-                    Text('صورة المنتج الرئيسية',
-                        style: TextStyle(
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'ArabicUiDisplay',
-                            color: Colors.grey[900])),
-                    SizedBox(height: 8.0),
-                    ConstrainedBox(
-                        child: Container(
-                          child: Stack(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(right: 5.0, top: 5.0),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Opacity(
-                                        child: GestureDetector(
-                                          child: Container(
-                                            padding: EdgeInsets.all(5.0),
-                                            child: Icon(Icons.remove,
-                                                color: Colors.white),
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.red),
-                                          ),
-                                          onTap: () => DeleteProductImageDialog
-                                              .showDeleteProductImageDialog(
-                                                  context,
-                                                  _keyLoader3,
-                                                  removeMainImage, () {
-                                            Navigator.of(
-                                                    _keyLoader3.currentContext,
-                                                    rootNavigator: true)
-                                                .pop();
-                                          }),
-                                        ),
-                                        opacity: _presenter
-                                            .getMainImageDeleteButtonOpacity(
-                                                mainImageStatus),
-                                      ),
-                                      SizedBox(width: 5.0),
-                                      GestureDetector(
-                                        child: Container(
-                                          padding: EdgeInsets.all(5.0),
-                                          child: Icon(Icons.edit,
-                                              color: Colors.white),
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.black),
-                                        ),
-                                        onTap: () {
-                                          mainImageStatus = false;
-                                          getImage();
+                              hintText: "اسم المنتج"),
+                          SizedBox(height: 8.0),
+                          Container(child: FormField<String>(
+                              builder: (FormFieldState<String> state) {
+                            return InputDecorator(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0))),
+                                child: Padding(
+                                    padding: const EdgeInsets.only(left: 25.0),
+                                    child: DropdownButtonHideUnderline(
+                                      child: Center(
+                                          child: DropdownButton<String>(
+                                        hint: TextDrawer(
+                                            text: "قسم المنتج",
+                                            textAlign: TextAlign.center),
+                                        isDense: true,
+                                        isExpanded: false,
+                                        value: dropdownValue,
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            dropdownValue = newValue;
+                                          });
                                         },
+                                        items: _categoriesList
+                                            .map((SingleCategory value) {
+                                          return DropdownMenuItem<String>(
+                                              value: value.name,
+                                              onTap: () =>
+                                                  categoryId = value.id,
+                                              child: TextDrawer(
+                                                  text: value.name,
+                                                  textAlign: TextAlign.center));
+                                        }).toList(),
+                                      )),
+                                    )));
+                          })),
+                          SizedBox(height: 8.0),
+                          TextFieldDrawer(
+                              textAlign: TextAlign.center,
+                              inputAction: TextInputAction.next,
+                              inputType: TextInputType.number,
+                              controller: _productPriceController,
+                              maxLines: 1,
+                              borderRadius: 8.0,
+                              hintFontSize: 15.0,
+                              hintText: "السعر"),
+                          SizedBox(height: 8.0),
+                          TextFieldDrawer(
+                              textAlign: TextAlign.center,
+                              inputAction: TextInputAction.next,
+                              inputType: TextInputType.multiline,
+                              controller: _productDescriptionController,
+                              maxLines: 4,
+                              borderRadius: 8.0,
+                              hintFontSize: 15.0,
+                              hintText: "الوصف"),
+                          SizedBox(height: 8.0),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                    child: Container(
+                                      child: TextFieldDrawer(
+                                        textAlign: TextAlign.center,
+                                        inputAction: TextInputAction.done,
+                                        inputType: TextInputType.number,
+                                        controller: _productQuantityController,
+                                        enabled: isTextFieldEnabled,
+                                        maxLines: 1,
+                                        borderRadius: 8.0,
+                                        hintFontSize: 15.0,
+                                        hintText: "الكمية",
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            image: DecorationImage(
-                                image: _presenter.loadingImageTypeHandler(
-                                    mainImageStatus,
-                                    'images/no_image.jpg',
-                                    mainProductImage),
-                                fit: BoxFit.cover),
-                          ),
-                        ),
-                        constraints:
-                            BoxConstraints(maxHeight: 140.0, maxWidth: 140.0)),
-                    SizedBox(height: 8.0),
-                    Text('صور المنتج الإضافية (إختيارى)',
-                        style: TextStyle(
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'ArabicUiDisplay',
-                            color: Colors.grey[900])),
-                    SizedBox(height: 8.0),
-                    ConstrainedBox(
-                      child: inflateAdditionalImagesList(),
-                      constraints: BoxConstraints(
-                          minWidth: double.infinity, maxHeight: 270.0),
-                    ),
-                    SizedBox(height: 8.0),
-                    Padding(
-                      padding:
-                          EdgeInsets.only(left: 10.0, right: 10.0, bottom: 5.0),
-                      child: ConstrainedBox(
-                        constraints:
-                            const BoxConstraints(minWidth: double.infinity),
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      side: BorderSide(
-                                          color: Colors.deepPurpleAccent))),
-                              backgroundColor: MaterialStateProperty.all(
-                                  Colors.deepPurpleAccent),
-                              textStyle: MaterialStateProperty.all(
-                                  TextStyle(color: Colors.white)),
-                            ),
-                            onPressed: () => _presenter.validateProductAddition(
-                                mainImageStatus,
-                                _productNameController.text.toString(),
-                                _productPriceController.text.toString(),
-                                showToast,
-                                onSaveProductClicked),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 12.0, bottom: 12.0),
-                              child: Text('إضافة منتج',
-                                  style: TextStyle(
-                                    fontSize: 17.0,
-                                    fontFamily: 'ArabicUiDisplay',
-                                    fontWeight: FontWeight.w900,
-                                  )),
-                            )),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+                                    ),
+                                    flex: 3),
+                                SizedBox(width: 20.0),
+                                Expanded(
+                                    flex: 1,
+                                    child: FlutterSwitch(
+                                      value: isQuantityToggleChecked,
+                                      activeColor: Colors.grey[300],
+                                      inactiveColor: Colors.deepPurpleAccent,
+                                      onToggle: (val) {
+                                        setState(() {
+                                          isQuantityToggleChecked = val;
+                                          isTextFieldEnabled =
+                                              _presenter.editTextFieldStatus(
+                                                  isTextFieldEnabled);
+                                          _productQuantityController.clear();
+                                        });
+                                      },
+                                    )),
+                              ]),
+                          SizedBox(height: 8.0),
+                          Row(children: [
+                            Expanded(
+                                child: Row(children: [
+                                  Expanded(
+                                      flex: 3,
+                                      child: TextDrawer(
+                                          text: _presenter
+                                              .getCurrentProductStatus(
+                                                  isStateToggleChecked)
+                                              .toString(),
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.grey[900],
+                                          textAlign: TextAlign.end)),
+                                  Expanded(
+                                      flex: 1,
+                                      child: TextDrawer(
+                                          text: 'حالة العرض',
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.grey[900],
+                                          textAlign: TextAlign.end))
+                                ]),
+                                flex: 3),
+                            SizedBox(width: 20.0),
+                            Expanded(
+                                flex: 1,
+                                child: FlutterSwitch(
+                                    value: isStateToggleChecked,
+                                    activeColor: Colors.grey[300],
+                                    inactiveColor: Colors.deepPurpleAccent,
+                                    onToggle: (val) {
+                                      setState(() {
+                                        isStateToggleChecked = val;
+                                      });
+                                    })),
+                          ]),
+                          SizedBox(height: 8.0),
+                          TextDrawer(
+                              text: 'صورة المنتج الرئيسية',
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey[900]),
+                          SizedBox(height: 8.0),
+                          ConstrainedBox(
+                              child: Container(
+                                  child: Stack(children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            right: 5.0, top: 5.0),
+                                        child: Align(
+                                            alignment: Alignment.topRight,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Opacity(
+                                                  child: GestureDetector(
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(5.0),
+                                                      child: Icon(Icons.remove,
+                                                          color: Colors.white),
+                                                      decoration: BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          color: Colors.red),
+                                                    ),
+                                                    onTap: () =>
+                                                        DeleteProductImageDialog
+                                                            .showDeleteProductImageDialog(
+                                                                context,
+                                                                _keyLoader3,
+                                                                removeMainImage,
+                                                                () {
+                                                      Navigator.of(
+                                                              _keyLoader3
+                                                                  .currentContext,
+                                                              rootNavigator:
+                                                                  true)
+                                                          .pop();
+                                                    }),
+                                                  ),
+                                                  opacity: _presenter
+                                                      .getMainImageDeleteButtonOpacity(
+                                                          mainImageStatus),
+                                                ),
+                                                SizedBox(width: 5.0),
+                                                GestureDetector(
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(5.0),
+                                                      child: Icon(Icons.edit,
+                                                          color: Colors.white),
+                                                      decoration: BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          color: Colors.black),
+                                                    ),
+                                                    onTap: () {
+                                                      mainImageStatus = false;
+                                                      getImage();
+                                                    }),
+                                              ],
+                                            )))
+                                  ]),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      image: DecorationImage(
+                                          image: _presenter
+                                              .loadingImageTypeHandler(
+                                                  mainImageStatus,
+                                                  'images/no_image.jpg',
+                                                  mainProductImage),
+                                          fit: BoxFit.cover))),
+                              constraints: BoxConstraints(
+                                  maxHeight: 140.0, maxWidth: 140.0)),
+                          SizedBox(height: 8.0),
+                          TextDrawer(
+                              text: 'صور المنتج الإضافية (إختيارى)',
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey[900]),
+                          SizedBox(height: 8.0),
+                          ConstrainedBox(
+                              child: inflateAdditionalImagesList(),
+                              constraints: BoxConstraints(
+                                  minWidth: double.infinity, maxHeight: 270.0)),
+                          SizedBox(height: 8.0),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  left: 10.0, right: 10.0, bottom: 5.0),
+                              child: ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                    minWidth: double.infinity),
+                                child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      shape: MaterialStateProperty.all(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              side: BorderSide(
+                                                  color: Colors
+                                                      .deepPurpleAccent))),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.deepPurpleAccent),
+                                      textStyle: MaterialStateProperty.all(
+                                          TextStyle(color: Colors.white)),
+                                    ),
+                                    onPressed: () =>
+                                        _presenter.validateProductAddition(
+                                            mainImageStatus,
+                                            _productNameController.text
+                                                .toString(),
+                                            _productPriceController.text
+                                                .toString(),
+                                            showToast,
+                                            onSaveProductClicked),
+                                    child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 12.0, bottom: 12.0),
+                                        child: TextDrawer(
+                                            text: 'إضافة منتج',
+                                            fontSize: 17.0,
+                                            fontWeight: FontWeight.w900))),
+                              )),
+                        ],
+                      )),
+                )),
+          )),
     );
   }
 

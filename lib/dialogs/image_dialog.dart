@@ -1,3 +1,4 @@
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,30 +13,25 @@ class ImageDialog {
               onWillPop: () async => false,
               child: SimpleDialog(
                   key: key,
-                  title:
-                      Text('تحميل صورة من الهاتف', textAlign: TextAlign.center),
+                  title: TextDrawer(
+                      text: 'تحميل صورة من الهاتف',
+                      textAlign: TextAlign.center,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20.0),
                   elevation: 3.0,
-                  titleTextStyle: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'ArabicUiDisplay',
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w700,
-                  ),
                   backgroundColor: Colors.deepPurpleAccent,
                   children: <Widget>[
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          'إختار مصدر تحميل الصورة',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17.0,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w500),
-                        ),
+                        TextDrawer(
+                            text: 'إختار مصدر تحميل الصورة',
+                            textAlign: TextAlign.center,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17.0),
                         SizedBox(height: 10.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -48,24 +44,22 @@ class ImageDialog {
                                 style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
                                         Colors.deepPurpleAccent)),
-                                label: Text('الكاميرا',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'ArabicUiDisplay',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 15.0))),
+                                label: TextDrawer(
+                                    text: 'الكاميرا',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15.0)),
                             ElevatedButton.icon(
                                 onPressed: getImageFromGallery,
                                 icon: Icon(Icons.image, color: Colors.white),
                                 style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
                                         Colors.deepPurpleAccent)),
-                                label: Text('المعرض',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'ArabicUiDisplay',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 15.0)))
+                                label: TextDrawer(
+                                    text: 'المعرض',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15.0)),
                           ],
                         )
                       ],

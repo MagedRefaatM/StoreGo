@@ -4,10 +4,11 @@ import 'package:store_go/shipping/model/data/shipping_local_data.dart';
 import 'package:store_go/settings/model/data/settings_local_data.dart';
 import 'package:store_go/shipping/presenter/shipping_presenter.dart';
 import 'package:store_go/dialogs/exit_edit_product_dialog.dart';
+import 'package:store_go/widgets/text_field_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:store_go/text_field_drawer.dart';
 import 'package:toast/toast.dart';
 
 class Shipping extends StatefulWidget {
@@ -57,83 +58,70 @@ class _ShippingState extends State<Shipping> {
               children: [
                 SizedBox(height: 15.0),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: TextButton(
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(13.0),
-                                  side: BorderSide(
-                                      color: Colors.deepPurpleAccent,
-                                      width: 1.5))),
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                          padding:
-                              MaterialStateProperty.all(EdgeInsets.all(13.0)),
-                        ),
-                        onPressed: () {
-                          _presenter.handleToggleOpacity(
-                              isStateToggleChecked,
-                              ShippingLocalData
-                                  .shippingModel.shippingAreas.length,
-                              additionalAreasList.length,
-                              () => onNoAreasAdded(),
-                              () => onToggleStateClosed(),
-                              () => setState(() => additionalAreasList.length =
-                                  additionalAreasList.length + 1));
-                        },
-                        child: Text(
-                          'إضافة منطقة',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.deepPurpleAccent,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                    Text(
-                      'الشحن',
-                      maxLines: 1,
-                      style: TextStyle(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                          child: TextButton(
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(13.0),
+                                        side: BorderSide(
+                                            color: Colors.deepPurpleAccent,
+                                            width: 1.5))),
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.white),
+                                padding: MaterialStateProperty.all(
+                                    EdgeInsets.all(13.0)),
+                              ),
+                              onPressed: () {
+                                _presenter.handleToggleOpacity(
+                                    isStateToggleChecked,
+                                    ShippingLocalData
+                                        .shippingModel.shippingAreas.length,
+                                    additionalAreasList.length,
+                                    () => onNoAreasAdded(),
+                                    () => onToggleStateClosed(),
+                                    () => setState(() =>
+                                        additionalAreasList.length =
+                                            additionalAreasList.length + 1));
+                              },
+                              child: TextDrawer(
+                                  text: 'إضافة منطقة',
+                                  textAlign: TextAlign.center,
+                                  fontSize: 18.0,
+                                  color: Colors.deepPurpleAccent,
+                                  fontWeight: FontWeight.w500))),
+                      TextDrawer(
+                          text: 'الشحن',
+                          maxLines: 1,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'ArabicUiDisplay',
                           fontSize: 24.0,
                           color: Colors.black),
-                    ),
-                    SizedBox(width: 5.0),
-                    GestureDetector(
-                        child: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.grey[500],
-                          size: 40.0,
-                        ),
-                        onTap: () => _presenter.handleScreenBackPress(
-                            ShippingLocalData.updateOccurred,
-                            () => Navigator.pop(context),
-                            () =>
-                                ExitEditProductDialog.showExitEditProductDialog(
-                                    context, () => restoreOccurredChanges())))
-                  ],
-                ),
+                      SizedBox(width: 5.0),
+                      GestureDetector(
+                          child: Icon(Icons.arrow_forward_ios_outlined,
+                              color: Colors.grey[500], size: 40.0),
+                          onTap: () => _presenter.handleScreenBackPress(
+                              ShippingLocalData.updateOccurred,
+                              () => Navigator.pop(context),
+                              () => ExitEditProductDialog
+                                  .showExitEditProductDialog(
+                                      context, () => restoreOccurredChanges())))
+                    ]),
                 SizedBox(height: 50.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      'تعيين أسعار الشحن',
-                      style: TextStyle(
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'ArabicUiDisplay',
-                          color: Colors.grey[900]),
-                      textAlign: TextAlign.end,
-                    ),
+                    TextDrawer(
+                        text: 'تعيين أسعار الشحن',
+                        fontSize: 17.0,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey[900],
+                        textAlign: TextAlign.end),
                     SizedBox(width: 10.0),
                     FlutterSwitch(
                       value: isStateToggleChecked,
@@ -180,12 +168,10 @@ class _ShippingState extends State<Shipping> {
                       onPressed: updateStoreShipping,
                       child: Padding(
                         padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                        child: Text('حفظ',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w700,
-                            )),
+                        child: TextDrawer(
+                            text: 'حفظ',
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w700),
                       )),
                 )
               ],
@@ -211,32 +197,30 @@ class _ShippingState extends State<Shipping> {
                 Expanded(
                     flex: 2,
                     child: TextFieldDrawer(
-                      textAlign: TextAlign.center,
-                      inputAction: TextInputAction.done,
-                      inputType: TextInputType.number,
-                      maxLines: 1,
-                      borderRadius: 5.0,
-                      hintFontSize: 17.0,
-                      hintText: "السعر",
-                      labelFontSize: 17.0,
-                      labelText: ShippingLocalData
-                          .shippingModel.shippingAreas[index].price,
-                    )),
+                        textAlign: TextAlign.center,
+                        inputAction: TextInputAction.done,
+                        inputType: TextInputType.number,
+                        maxLines: 1,
+                        borderRadius: 5.0,
+                        hintFontSize: 17.0,
+                        hintText: "السعر",
+                        labelFontSize: 17.0,
+                        labelText: ShippingLocalData
+                            .shippingModel.shippingAreas[index].price)),
                 SizedBox(width: 10.0),
                 Expanded(
                     flex: 4,
                     child: TextFieldDrawer(
-                      textAlign: TextAlign.center,
-                      inputAction: TextInputAction.done,
-                      inputType: TextInputType.name,
-                      maxLines: 1,
-                      borderRadius: 5.0,
-                      hintFontSize: 17.0,
-                      hintText: "اسم المنطقة",
-                      labelFontSize: 17.0,
-                      labelText: ShippingLocalData
-                          .shippingModel.shippingAreas[index].name,
-                    )),
+                        textAlign: TextAlign.center,
+                        inputAction: TextInputAction.done,
+                        inputType: TextInputType.name,
+                        maxLines: 1,
+                        borderRadius: 5.0,
+                        hintFontSize: 17.0,
+                        hintText: "اسم المنطقة",
+                        labelFontSize: 17.0,
+                        labelText: ShippingLocalData
+                            .shippingModel.shippingAreas[index].name)),
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
@@ -282,30 +266,29 @@ class _ShippingState extends State<Shipping> {
                 Expanded(
                     flex: 2,
                     child: TextFieldDrawer(
-                      textAlign: TextAlign.left,
-                      inputAction: TextInputAction.done,
-                      inputType: TextInputType.number,
-                      maxLines: 1,
-                      borderRadius: 5.0,
-                      hintFontSize: 17.0,
-                      hintText: "السعر",
-                      onChange: (String value) => priceTextHandler(value),
-                      onSubmitted: (String value) => priceTextHandler(value),
-                    )),
+                        textAlign: TextAlign.left,
+                        inputAction: TextInputAction.done,
+                        inputType: TextInputType.number,
+                        maxLines: 1,
+                        borderRadius: 5.0,
+                        hintFontSize: 17.0,
+                        hintText: "السعر",
+                        onChange: (String value) => priceTextHandler(value),
+                        onSubmitted: (String value) =>
+                            priceTextHandler(value))),
                 SizedBox(width: 10.0),
                 Expanded(
                     flex: 4,
                     child: TextFieldDrawer(
-                      textAlign: TextAlign.left,
-                      inputAction: TextInputAction.done,
-                      inputType: TextInputType.name,
-                      maxLines: 1,
-                      borderRadius: 5.0,
-                      hintFontSize: 17.0,
-                      hintText: "اسم المنطقة",
-                      onChange: (String value) => areaTextHandler(value),
-                      onSubmitted: (String value) => areaTextHandler(value),
-                    )),
+                        textAlign: TextAlign.left,
+                        inputAction: TextInputAction.done,
+                        inputType: TextInputType.name,
+                        maxLines: 1,
+                        borderRadius: 5.0,
+                        hintFontSize: 17.0,
+                        hintText: "اسم المنطقة",
+                        onChange: (String value) => areaTextHandler(value),
+                        onSubmitted: (String value) => areaTextHandler(value))),
                 Expanded(
                   flex: 1,
                   child: GestureDetector(

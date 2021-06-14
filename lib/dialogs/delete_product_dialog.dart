@@ -1,3 +1,4 @@
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:flutter/material.dart';
 
 class DeleteProductDialog {
@@ -28,39 +29,34 @@ class DeleteProductDialog {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          'هل حقا تود حذف هذا المنتج؟',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17.0,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w500),
-                        ),
+                        TextDrawer(
+                            text: 'هل حقا تود حذف هذا المنتج؟',
+                            textAlign: TextAlign.center,
+                            color: Colors.white,
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.w500),
                         SizedBox(height: 10.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             ElevatedButton(
-                              child: Text('إلغاء',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 15.0)),
+                              child: TextDrawer(
+                                  text: 'إلغاء',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15.0),
                               onPressed: cancelDelete,
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
                                       Colors.deepPurpleAccent)),
                             ),
                             ElevatedButton(
-                              child: Text('تأكيد',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 15.0)),
+                              child: TextDrawer(
+                                  text: 'تأكيد',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15.0),
                               onPressed: deleteProductFunction,
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(

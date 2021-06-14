@@ -1,8 +1,9 @@
 import 'package:store_go/login/model/service/login_api_service.dart';
 import 'package:store_go/login/model/data/login_local_data.dart';
 import 'package:store_go/login/presenter/login_presenter.dart';
+import 'package:store_go/widgets/text_field_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
-import 'package:store_go/text_field_drawer.dart';
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -52,144 +53,123 @@ class _LoginState extends State<Login> {
             Expanded(
               flex: 4,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'دخول المسجلين',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: 'ArabicUiDisplay',
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 0),
-                    child: TextFieldDrawer(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextDrawer(
+                        text: 'دخول المسجلين',
                         textAlign: TextAlign.center,
-                        controller: _emailController,
-                        focusNode: _emailFocus,
-                        inputAction: TextInputAction.next,
-                        hintFontSize: 22.0,
-                        borderRadius: 10.0,
-                        autoFocus: true,
-                        inputType: TextInputType.emailAddress,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18.0),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 0),
+                      child: TextFieldDrawer(
+                          textAlign: TextAlign.center,
+                          controller: _emailController,
+                          focusNode: _emailFocus,
+                          inputAction: TextInputAction.next,
+                          hintFontSize: 22.0,
+                          borderRadius: 10.0,
+                          autoFocus: true,
+                          inputType: TextInputType.emailAddress,
+                          maxLines: 1,
+                          hintText: "بريدك الالكتورني"),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 0),
+                      child: TextFieldDrawer(
+                        controller: _passwordController,
+                        focusNode: _passwordFocus,
+                        inputAction: TextInputAction.done,
+                        inputType: TextInputType.visiblePassword,
+                        textAlign: TextAlign.center,
                         maxLines: 1,
-                        hintText: "بريدك الالكتورني"),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 0),
-                    child: TextFieldDrawer(
-                      controller: _passwordController,
-                      focusNode: _passwordFocus,
-                      inputAction: TextInputAction.done,
-                      inputType: TextInputType.visiblePassword,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      borderRadius: 10.0,
-                      hintFontSize: 22.0,
-                      hintText: "كلمة المرور",
-                      enableSuggestions: false,
-                      autoCorrect: false,
-                      obscureText: true,
-                      onSubmitted: (String string) => onSubmitClicked(string),
+                        borderRadius: 10.0,
+                        hintFontSize: 22.0,
+                        hintText: "كلمة المرور",
+                        enableSuggestions: false,
+                        autoCorrect: false,
+                        obscureText: true,
+                        onSubmitted: (String string) => onSubmitClicked(string),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 0),
-                    child: ElevatedButton(
-                        onPressed: () {
-                          LoginLocalData.userEmail =
-                              _emailController.text.trim().toString();
-                          LoginLocalData.userPassword =
-                              _passwordController.text.toString();
-                          onLoginClick();
-                        },
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                Colors.deepPurpleAccent),
-                            padding:
-                                MaterialStateProperty.all(EdgeInsets.all(20.0)),
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    side: BorderSide(
-                                        color: Colors.deepPurpleAccent)))),
-                        child: Text('دخول',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17.0,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w900,
-                            ))),
-                  ),
-                  Text(
-                    message ?? '.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontFamily: 'ArabicUiDisplay',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20.0,
-                    ),
-                  )
-                ],
-              ),
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 0),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              LoginLocalData.userEmail =
+                                  _emailController.text.trim().toString();
+                              LoginLocalData.userPassword =
+                                  _passwordController.text.toString();
+                              onLoginClick();
+                            },
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    Colors.deepPurpleAccent),
+                                padding: MaterialStateProperty.all(
+                                    EdgeInsets.all(20.0)),
+                                shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        side: BorderSide(
+                                            color: Colors.deepPurpleAccent)))),
+                            child: TextDrawer(
+                                text: 'دخول',
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 17.0))),
+                    TextDrawer(
+                        text: message ?? '.',
+                        textAlign: TextAlign.center,
+                        color: Colors.red,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20.0)
+                  ]),
             ),
             Expanded(
               flex: 2,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'إبداء عملك التجاري',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 23.0,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextDrawer(
+                        text: 'إبداء عملك التجاري',
+                        textAlign: TextAlign.center,
+                        color: Colors.black,
                         letterSpacing: 1.0,
-                        fontFamily: 'ArabicUiDisplay',
                         fontWeight: FontWeight.w700,
-                        color: Colors.black),
-                  ),
-                  Text(
-                    'لا تخسر عميلك وسهل عملية الشراء والدفع',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 22.0,
+                        fontSize: 23.0),
+                    TextDrawer(
+                        text: 'لا تخسر عميلك وسهل عملية الشراء والدفع',
+                        textAlign: TextAlign.center,
+                        color: Colors.black,
                         letterSpacing: 1.0,
-                        fontFamily: 'ArabicUiDisplay',
                         fontWeight: FontWeight.w400,
-                        color: Colors.black),
-                  ),
-                  SizedBox(height: 8.0),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 0),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            side: BorderSide(
-                                color: Colors.deepPurpleAccent, width: 1.5))),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.white),
-                        padding:
-                            MaterialStateProperty.all(EdgeInsets.all(20.0)),
-                      ),
-                      onPressed: () {},
-                      child: Text(
-                        'سجل الان',
-                        style: TextStyle(
-                            color: Colors.deepPurpleAccent,
-                            fontSize: 19.0,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                        fontSize: 22.0),
+                    SizedBox(height: 8.0),
+                    Container(
+                        padding: EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 0),
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      side: BorderSide(
+                                          color: Colors.deepPurpleAccent,
+                                          width: 1.5))),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.white),
+                              padding: MaterialStateProperty.all(
+                                  EdgeInsets.all(20.0)),
+                            ),
+                            onPressed: () {},
+                            child: TextDrawer(
+                                text: 'سجل الان',
+                                color: Colors.deepPurpleAccent,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 19.0)))
+                  ]),
             ),
           ],
         ),

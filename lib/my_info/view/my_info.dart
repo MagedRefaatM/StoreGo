@@ -10,9 +10,10 @@ import 'package:store_go/my_info/presenter/my_info_presenter.dart';
 import 'package:store_go/dialogs/profile_image_delete_dialog.dart';
 import 'package:store_go/login/model/data/login_local_data.dart';
 import 'package:store_go/dialogs/profile_image_dialog.dart';
+import 'package:store_go/widgets/text_field_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:store_go/dialogs/image_dialog.dart';
-import 'package:store_go/text_field_drawer.dart';
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,170 +54,157 @@ class _MyInfoState extends State<MyInfo> {
     return Container(
       color: Colors.white,
       child: SafeArea(
-        maintainBottomViewPadding: true,
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          body: SingleChildScrollView(
-            padding: EdgeInsets.only(left: 15.0, right: 15.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 15.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          maintainBottomViewPadding: true,
+          child: Scaffold(
+            resizeToAvoidBottomInset: true,
+            body: SingleChildScrollView(
+                padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(width: 37),
-                    Text('معلوماتى',
-                        maxLines: 1,
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
+                    SizedBox(height: 15.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(width: 37),
+                        TextDrawer(
+                            text: 'معلوماتى',
+                            maxLines: 1,
+                            textAlign: TextAlign.end,
+                            color: Colors.black,
                             fontWeight: FontWeight.w700,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontSize: 21.0,
-                            color: Colors.black)),
-                    GestureDetector(
-                        child: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.grey[500],
-                          size: 40.0,
-                        ),
-                        onTap: () => Navigator.pop(context))
-                  ],
-                ),
-                SizedBox(height: 30.0),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      child: CircleAvatar(
-                        radius: 80.5,
-                        backgroundColor: Colors.grey[300],
-                        child: CircleAvatar(
-                          radius: 80,
-                          backgroundImage: NetworkImage(
-                              MyInfoLocalData.managerProfileInfo.image),
-                        ),
-                      ),
-                      onTap: () => ProfileImageDialog.showProfileImageDialog(
-                          context,
-                          _profileImageKey,
-                          () => getImage(),
-                          () => deleteImage(),
-                          () => Navigator.of(context).pop()),
+                            fontSize: 21.0),
+                        GestureDetector(
+                            child: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: Colors.grey[500],
+                              size: 40.0,
+                            ),
+                            onTap: () => Navigator.pop(context))
+                      ],
                     ),
-                    SizedBox(height: 5.0),
-                    Text(
-                      'الصورة الشخصية',
-                      maxLines: 1,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'ArabicUiDisplay',
-                        fontWeight: FontWeight.w300,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20.0),
-                drawProfileSectionsTextField(
-                    TextInputAction.next,
-                    TextInputType.name,
-                    'اسم جديد',
-                    MyInfoLocalData.managerProfileInfo.name,
-                    false,
-                    _userNameController),
-                SizedBox(height: 10.0),
-                drawProfileSectionsTextField(
-                    TextInputAction.next,
-                    TextInputType.emailAddress,
-                    'بريد إلكترونى جديد',
-                    MyInfoLocalData.managerProfileInfo.email,
-                    false,
-                    _userEmailController),
-                SizedBox(height: 10.0),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 8.0),
-                        child: Container(
-                          height: 60,
-                          child: Center(
-                            child: Text(
-                              '+966',
+                    SizedBox(height: 30.0),
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            child: CircleAvatar(
+                              radius: 80.5,
+                              backgroundColor: Colors.grey[300],
+                              child: CircleAvatar(
+                                radius: 80,
+                                backgroundImage: NetworkImage(
+                                    MyInfoLocalData.managerProfileInfo.image),
+                              ),
+                            ),
+                            onTap: () =>
+                                ProfileImageDialog.showProfileImageDialog(
+                                    context,
+                                    _profileImageKey,
+                                    () => getImage(),
+                                    () => deleteImage(),
+                                    () => Navigator.of(context).pop()),
+                          ),
+                          SizedBox(height: 5.0),
+                          TextDrawer(
+                              text: 'الصورة الشخصية',
                               maxLines: 1,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'ArabicUiDisplay',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18.0),
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey[400]),
-                              color: Colors.grey[100],
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(5.0))),
-                        ),
-                      ),
+                              color: Colors.black,
+                              fontWeight: FontWeight.w300,
+                              fontSize: 16.0),
+                        ]),
+                    SizedBox(height: 20.0),
+                    drawProfileSectionsTextField(
+                        TextInputAction.next,
+                        TextInputType.name,
+                        'اسم جديد',
+                        MyInfoLocalData.managerProfileInfo.name,
+                        false,
+                        _userNameController),
+                    SizedBox(height: 10.0),
+                    drawProfileSectionsTextField(
+                        TextInputAction.next,
+                        TextInputType.emailAddress,
+                        'بريد إلكترونى جديد',
+                        MyInfoLocalData.managerProfileInfo.email,
+                        false,
+                        _userEmailController),
+                    SizedBox(height: 10.0),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: Padding(
+                                padding: EdgeInsets.only(top: 8.0),
+                                child: Container(
+                                  height: 60,
+                                  child: Center(
+                                      child: TextDrawer(
+                                          text: '+966',
+                                          maxLines: 1,
+                                          textAlign: TextAlign.center,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18.0)),
+                                  decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Colors.grey[400]),
+                                      color: Colors.grey[100],
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0))),
+                                ))),
+                        SizedBox(width: 5.0),
+                        Expanded(
+                            flex: 4,
+                            child: drawProfileSectionsTextField(
+                                TextInputAction.next,
+                                TextInputType.number,
+                                'رقم جوال جديد',
+                                MyInfoLocalData.managerProfileInfo.mobile,
+                                false,
+                                _userPhoneNumberController)),
+                      ],
                     ),
-                    SizedBox(width: 5.0),
-                    Expanded(
-                        flex: 4,
-                        child: drawProfileSectionsTextField(
-                            TextInputAction.next,
-                            TextInputType.number,
-                            'رقم جوال جديد',
-                            MyInfoLocalData.managerProfileInfo.mobile,
-                            false,
-                            _userPhoneNumberController)),
+                    SizedBox(height: 10.0),
+                    drawProfileSectionsTextField(
+                        TextInputAction.done,
+                        TextInputType.name,
+                        "كلمة مرور جديدة",
+                        'أدخل كلمة مرور جديدة لتغيير كلمة المرور',
+                        true,
+                        _userPasswordController),
+                    SizedBox(height: 15.0),
+                    ConstrainedBox(
+                        constraints: BoxConstraints(minWidth: double.infinity),
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      side: BorderSide(
+                                          color: Colors.deepPurpleAccent))),
+                              backgroundColor: MaterialStateProperty.all(
+                                  Colors.deepPurpleAccent),
+                              textStyle: MaterialStateProperty.all(
+                                  TextStyle(color: Colors.white)),
+                            ),
+                            onPressed: () => updateManagerProfile(),
+                            child: Padding(
+                                padding:
+                                    EdgeInsets.only(top: 15.0, bottom: 15.0),
+                                child: TextDrawer(
+                                    text: 'حفظ',
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.w700)))),
+                    SizedBox(height: 15.0)
                   ],
-                ),
-                SizedBox(height: 10.0),
-                drawProfileSectionsTextField(
-                    TextInputAction.done,
-                    TextInputType.name,
-                    "كلمة مرور جديدة",
-                    'أدخل كلمة مرور جديدة لتغيير كلمة المرور',
-                    true,
-                    _userPasswordController),
-                SizedBox(height: 15.0),
-                ConstrainedBox(
-                  constraints: BoxConstraints(minWidth: double.infinity),
-                  child: ElevatedButton(
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            side: BorderSide(color: Colors.deepPurpleAccent))),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.deepPurpleAccent),
-                        textStyle: MaterialStateProperty.all(
-                            TextStyle(color: Colors.white)),
-                      ),
-                      onPressed: () => updateManagerProfile(),
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                        child: Text('حفظ',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w700,
-                            )),
-                      )),
-                ),
-                SizedBox(height: 15.0)
-              ],
-            ),
-          ),
-        ),
-      ),
+                )),
+          )),
     );
   }
 

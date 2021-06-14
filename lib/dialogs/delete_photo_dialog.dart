@@ -1,3 +1,4 @@
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:flutter/material.dart';
 
 class DeleteProductImageDialog {
@@ -14,53 +15,47 @@ class DeleteProductImageDialog {
               onWillPop: () async => false,
               child: SimpleDialog(
                   key: key,
-                  title: Text('حذف صورة المنتج', textAlign: TextAlign.center),
+                  title: TextDrawer(
+                      text: 'حذف صورة المنتج',
+                      textAlign: TextAlign.center,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20.0),
                   elevation: 3.0,
-                  titleTextStyle: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'ArabicUiDisplay',
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w700,
-                  ),
                   backgroundColor: Colors.deepPurpleAccent,
                   children: <Widget>[
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          'هل حقا تود حذف هذة الصورة؟',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17.0,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w500),
-                        ),
+                        TextDrawer(
+                            text: 'هل حقا تود حذف هذة الصورة؟',
+                            textAlign: TextAlign.center,
+                            color: Colors.white,
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.w500),
                         SizedBox(height: 10.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             ElevatedButton(
-                              child: Text('إلغاء',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 15.0)),
+                              child: TextDrawer(
+                                  text: 'إلغاء',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15.0),
                               onPressed: cancelDelete,
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
                                       Colors.deepPurpleAccent)),
                             ),
                             ElevatedButton(
-                              child: Text('تأكيد',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 15.0)),
+                              child: TextDrawer(
+                                  text: 'تأكيد',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15.0),
                               onPressed: deleteProductImageFunction,
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(

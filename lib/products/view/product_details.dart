@@ -8,6 +8,7 @@ import 'package:store_go/products/presenter/products_presenter.dart';
 import 'package:store_go/dialogs/delete_product_dialog.dart';
 import 'package:store_go/products/view/update_product.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
@@ -38,319 +39,265 @@ class _ProductDetailsState extends State<ProductDetails> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
-      child: SafeArea(
-        maintainBottomViewPadding: true,
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          body: Padding(
-            padding: EdgeInsets.only(left: 15.0, right: 15.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 15.0),
-                      SizedBox(),
-                      Text(
-                        'تفاصيل المنتج',
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontSize: 26.0,
-                            color: Colors.black),
-                      ),
-                      GestureDetector(
-                        child: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.grey[500],
-                          size: 40.0,
-                        ),
-                        onTap: () => Navigator.pop(context),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 8.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        child: TextButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(13.0),
-                                    side: BorderSide(
-                                        color: Colors.red, width: 1.5))),
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white),
-                            padding: MaterialStateProperty.all(
-                                EdgeInsets.only(top: 9.0, bottom: 9.0)),
-                          ),
-                          onPressed: () =>
-                              DeleteProductDialog.showDeleteProductDialog(
-                                  context, _keyLoader2, deleteCurrentProduct,
-                                  () {
-                            Navigator.of(context).pop();
-                          }),
-                          child: Text(
-                            'حذف',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 15.0,
-                                color: Colors.red,
-                                fontFamily: 'ArabicUiDisplay',
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 15.0),
-                      Container(
-                        child: TextButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(13.0),
-                                    side: BorderSide(
-                                        color: Colors.deepPurpleAccent,
-                                        width: 1.5))),
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white),
-                            padding: MaterialStateProperty.all(
-                                EdgeInsets.only(top: 9.0, bottom: 9.0)),
-                          ),
-                          onPressed: onEditProductPressed,
-                          child: Text(
-                            'تعديل',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 15.0,
-                                color: Colors.deepPurpleAccent,
-                                fontFamily: 'ArabicUiDisplay',
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 8.0),
-                  ConstrainedBox(
-                    constraints:
-                        BoxConstraints(maxWidth: 300.0, maxHeight: 300.0),
-                    child: Container(
-                      child: Stack(
+        color: Colors.white,
+        child: SafeArea(
+          maintainBottomViewPadding: true,
+          child: Scaffold(
+              resizeToAvoidBottomInset: true,
+              body: Padding(
+                padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                child: SingleChildScrollView(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Align(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 10.0),
-                                child: Container(
-                                  padding: EdgeInsets.only(
-                                      left: 8.0, right: 8.0, bottom: 3.0),
-                                  child: Text(
-                                    '${_presenter.getProductDisplayedState(_productDetails.status)}',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'ArabicUiDisplay',
-                                        fontWeight: FontWeight.w400),
+                          SizedBox(height: 15.0),
+                          SizedBox(),
+                          TextDrawer(
+                              text: 'تفاصيل المنتج',
+                              maxLines: 1,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 26.0,
+                              color: Colors.black),
+                          GestureDetector(
+                              child: Icon(Icons.arrow_forward_ios_outlined,
+                                  color: Colors.grey[500], size: 40.0),
+                              onTap: () => Navigator.pop(context))
+                        ]),
+                    SizedBox(height: 8.0),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                              child: TextButton(
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(13.0),
+                                            side: BorderSide(
+                                                color: Colors.red,
+                                                width: 1.5))),
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.white),
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.only(top: 9.0, bottom: 9.0)),
                                   ),
-                                  decoration: BoxDecoration(
-                                    color: _presenter.getProductStatusColor(
-                                        _productDetails.status),
-                                    borderRadius: BorderRadius.circular(15.0),
+                                  onPressed: () => DeleteProductDialog
+                                          .showDeleteProductDialog(
+                                              context,
+                                              _keyLoader2,
+                                              deleteCurrentProduct, () {
+                                        Navigator.of(context).pop();
+                                      }),
+                                  child: TextDrawer(
+                                      text: 'حذف',
+                                      textAlign: TextAlign.center,
+                                      fontSize: 15.0,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w500))),
+                          SizedBox(width: 15.0),
+                          Container(
+                              child: TextButton(
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(13.0),
+                                            side: BorderSide(
+                                                color: Colors.deepPurpleAccent,
+                                                width: 1.5))),
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.white),
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.only(top: 9.0, bottom: 9.0)),
                                   ),
-                                ),
-                              )),
-                          Opacity(
-                            opacity: 1.0,
-                            child: Align(
-                                alignment: Alignment.bottomLeft,
+                                  onPressed: onEditProductPressed,
+                                  child: TextDrawer(
+                                      text: 'تعديل',
+                                      textAlign: TextAlign.center,
+                                      fontSize: 15.0,
+                                      color: Colors.deepPurpleAccent,
+                                      fontWeight: FontWeight.w500)))
+                        ]),
+                    SizedBox(height: 8.0),
+                    ConstrainedBox(
+                        constraints:
+                            BoxConstraints(maxWidth: 300.0, maxHeight: 300.0),
+                        child: Container(
+                          child: Stack(children: [
+                            Align(
+                                alignment: Alignment.topLeft,
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                      bottom: 8.0, left: 8.0),
+                                      left: 8.0, top: 10.0),
                                   child: Container(
-                                    padding: EdgeInsets.all(13.0),
-                                    child: Text(
-                                      '${_presenter.getProductQuantity(_productDetails.quantity)}',
-                                      textAlign: TextAlign.center,
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
+                                      padding: EdgeInsets.only(
+                                          left: 8.0, right: 8.0, bottom: 3.0),
+                                      child: TextDrawer(
+                                          text:
+                                              '${_presenter.getProductDisplayedState(_productDetails.status)}',
+                                          textAlign: TextAlign.center,
                                           color: Colors.white,
-                                          fontFamily: 'ArabicUiDisplay',
                                           fontWeight: FontWeight.w400),
-                                    ),
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.deepOrangeAccent),
-                                  ),
+                                      decoration: BoxDecoration(
+                                          color:
+                                              _presenter.getProductStatusColor(
+                                                  _productDetails.status),
+                                          borderRadius:
+                                              BorderRadius.circular(15.0))),
                                 )),
-                          ),
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        image: DecorationImage(
-                          image: NetworkImage(_productDetails.image),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        '${_productDetails.name}',
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontFamily: 'ArabicUiDisplay',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15.0,
-                        ),
-                        maxLines: 1,
-                      ),
-                      SizedBox(height: 2.0),
-                      Row(
+                            Opacity(
+                                opacity: 1.0,
+                                child: Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 8.0, left: 8.0),
+                                      child: Container(
+                                          padding: EdgeInsets.all(13.0),
+                                          child: TextDrawer(
+                                              text:
+                                                  '${_presenter.getProductQuantity(_productDetails.quantity)}',
+                                              textAlign: TextAlign.center,
+                                              textOverflow:
+                                                  TextOverflow.visible,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400),
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.deepOrangeAccent)),
+                                    ))),
+                          ]),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              image: DecorationImage(
+                                image: NetworkImage(_productDetails.image),
+                                fit: BoxFit.cover,
+                              )),
+                        )),
+                    SizedBox(height: 8.0),
+                    Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            '${_presenter.getProductQuantity(_productDetails.quantity)}',
-                            style: TextStyle(
-                              color: Colors.grey[500],
-                              fontFamily: 'ArabicUiDisplay',
+                          TextDrawer(
+                              text: '${_productDetails.name}',
+                              color: Colors.grey[700],
                               fontWeight: FontWeight.w600,
-                              fontSize: 13.0,
-                            ),
-                            maxLines: 1,
-                          ),
-                          SizedBox(width: 5.0),
-                          Text(
-                            ': الكمية',
-                            style: TextStyle(
-                              color: Colors.grey[500],
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13.0,
-                            ),
-                            maxLines: 1,
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 2.0),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'ريال',
-                            style: TextStyle(
-                              color: Colors.deepPurpleAccent,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14.0,
-                            ),
-                            maxLines: 1,
-                          ),
-                          SizedBox(width: 10.0),
-                          Text(
-                            '${_productDetails.price}',
-                            style: TextStyle(
-                              color: Colors.deepPurpleAccent,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14.0,
-                            ),
-                            maxLines: 1,
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 2.0),
-                      Text(
-                        '${_presenter.getProductDescription(_productDetails.description)}',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.grey[500],
-                          fontFamily: 'ArabicUiDisplay',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13.0,
-                        ),
-                        maxLines: 3,
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 8.0),
-                  Text('حركة مخزون المنتج',
-                      style: TextStyle(
-                        color: Colors.grey[800],
-                        fontFamily: 'ArabicUiDisplay',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.0,
-                      ),
-                      maxLines: 1),
-                  SizedBox(height: 8.0),
-                  Container(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: 1,
-                      itemBuilder: (context, index) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: Text('تاريخ العملية',
-                                  style: TextStyle(
-                                    color: Colors.grey[800],
-                                    fontFamily: 'ArabicUiDisplay',
+                              fontSize: 15.0,
+                              maxLines: 1),
+                          SizedBox(height: 2.0),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                TextDrawer(
+                                    text:
+                                        '${_presenter.getProductQuantity(_productDetails.quantity)}',
+                                    color: Colors.grey[500],
                                     fontWeight: FontWeight.w600,
                                     fontSize: 13.0,
-                                  ),
-                                  maxLines: 1,
-                                  textAlign: TextAlign.center),
-                              flex: 2,
-                            ),
-                            Expanded(
-                              child: drawStockSectionsText(
-                                  'الرصيد', Colors.grey[800], 13.0),
-                              flex: 1,
-                            ),
-                            Expanded(
-                              child: drawStockSectionsText(
-                                  'الكمية', Colors.grey[800], 13.0),
-                              flex: 1,
-                            ),
-                            Expanded(
-                              child: drawStockSectionsText(
-                                  'المصدر', Colors.grey[800], 13.0),
-                              flex: 2,
-                            ),
-                            Expanded(
-                              child: drawStockSectionsText(
-                                  'نوع العملية', Colors.grey[800], 13.0),
-                              flex: 1,
-                            )
-                          ],
-                        );
-                      },
+                                    maxLines: 1),
+                                SizedBox(width: 5.0),
+                                TextDrawer(
+                                    text: ': الكمية',
+                                    color: Colors.grey[500],
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 13.0,
+                                    maxLines: 1)
+                              ]),
+                          SizedBox(height: 2.0),
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextDrawer(
+                                    text: 'ريال',
+                                    color: Colors.deepPurpleAccent,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14.0,
+                                    maxLines: 1),
+                                SizedBox(width: 10.0),
+                                TextDrawer(
+                                    text: '${_productDetails.price}',
+                                    color: Colors.deepPurpleAccent,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14.0,
+                                    maxLines: 1)
+                              ]),
+                          SizedBox(height: 2.0),
+                          TextDrawer(
+                              text:
+                                  '${_presenter.getProductDescription(_productDetails.description)}',
+                              textAlign: TextAlign.center,
+                              color: Colors.grey[500],
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13.0,
+                              maxLines: 3)
+                        ]),
+                    SizedBox(height: 8.0),
+                    TextDrawer(
+                        text: 'حركة مخزون المنتج',
+                        color: Colors.grey[800],
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16.0,
+                        maxLines: 1),
+                    SizedBox(height: 8.0),
+                    Container(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: 1,
+                        itemBuilder: (context, index) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                  child: TextDrawer(
+                                      text: 'تاريخ العملية',
+                                      color: Colors.grey[800],
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 13.0,
+                                      maxLines: 1,
+                                      textAlign: TextAlign.center),
+                                  flex: 2),
+                              Expanded(
+                                child: drawStockSectionsText(
+                                    'الرصيد', Colors.grey[800], 13.0),
+                                flex: 1,
+                              ),
+                              Expanded(
+                                child: drawStockSectionsText(
+                                    'الكمية', Colors.grey[800], 13.0),
+                                flex: 1,
+                              ),
+                              Expanded(
+                                child: drawStockSectionsText(
+                                    'المصدر', Colors.grey[800], 13.0),
+                                flex: 2,
+                              ),
+                              Expanded(
+                                child: drawStockSectionsText(
+                                    'نوع العملية', Colors.grey[800], 13.0),
+                                flex: 1,
+                              )
+                            ],
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 8.0),
-                  Container(
-                    child: ListView.builder(
+                    SizedBox(height: 8.0),
+                    Container(
+                        child: ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       itemCount: _stockTransfer.length,
@@ -391,41 +338,32 @@ class _ProductDetailsState extends State<ProductDetails> {
                               flex: 2,
                             ),
                             Expanded(
-                              child:
-                                  Text('${_stockTransfer[index].operationType}',
-                                      style: TextStyle(
-                                        color: Colors.grey[700],
-                                        fontFamily: 'ArabicUiDisplay',
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 12.0,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1),
-                              flex: 1,
-                            ),
+                                child: TextDrawer(
+                                    text:
+                                        '${_stockTransfer[index].operationType}',
+                                    color: Colors.grey[700],
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12.0,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1),
+                                flex: 1),
                           ],
                         );
                       },
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+                    ))
+                  ],
+                )),
+              )),
+        ));
   }
 
   Widget drawStockSectionsText(
       String sectionText, Color textColor, double fontSize) {
-    return Text(sectionText,
-        style: TextStyle(
-          color: Colors.grey[800],
-          fontFamily: 'ArabicUiDisplay',
-          fontWeight: FontWeight.w600,
-          fontSize: 13.0,
-        ),
+    return TextDrawer(
+        text: sectionText,
+        color: Colors.grey[800],
+        fontWeight: FontWeight.w600,
+        fontSize: 13.0,
         textAlign: TextAlign.center,
         maxLines: 1);
   }

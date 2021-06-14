@@ -1,3 +1,4 @@
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:flutter/material.dart';
 
 class OrdersCard extends StatelessWidget {
@@ -23,157 +24,118 @@ class OrdersCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-      child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 10.0),
-                  child: Text(
-                    requestCustomerName,
-                    style: TextStyle(
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: 'ArabicUiDisplay',
-                        fontSize: 16.0),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0, left: 10.0),
-                      child: Text(
-                        '$requestProductPrice',
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontSize: 18.0),
-                      ),
-                    ),
-                    SizedBox(width: 6.0),
-                    Text(
-                      'ريال',
-                      style: TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontSize: 18.0),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0, left: 10.0),
-                      child: Text(
-                        '$requestNumberOfProducts',
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontSize: 16.0),
-                      ),
-                    ),
-                    SizedBox(width: 6.0),
-                    Text(
-                      'منتج',
-                      style: TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: 'ArabicUiDisplay',
-                          fontSize: 16.0),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+        padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+        child: Container(
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        '$requestNumber#',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 20.0),
-                      ),
-                    ),
-                    SizedBox(width: 10.0),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: Text(
-                        'طلب',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'ArabicUiDisplay',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 23.0),
-                      ),
-                    ),
-                  ],
-                ),
-                TextButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(color: requestStateColor))),
-                      backgroundColor:
-                          MaterialStateProperty.all(requestStateColor)),
-                  onPressed: () {},
-                  child: Text(
-                    requestState,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                        fontFamily: 'ArabicUiDisplay',
-                        fontSize: 16.0),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
-                  child: Text(
-                    requestDate,
-                    style: TextStyle(
-                        color: Colors.grey[700],
-                        fontFamily: 'ArabicUiDisplay',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 17.0),
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
-        decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.grey[400],
-            ),
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white),
-      ),
-    );
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.only(
+                              top: 8.0, bottom: 8.0, left: 10.0),
+                          child: TextDrawer(
+                              text: requestCustomerName,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16.0)),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 8.0, left: 10.0),
+                                child: TextDrawer(
+                                    text: requestProductPrice.toString(),
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 18.0)),
+                            SizedBox(width: 6.0),
+                            TextDrawer(
+                                text: 'ريال',
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 18.0),
+                          ]),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 8.0, left: 10.0),
+                                child: TextDrawer(
+                                    text: requestNumberOfProducts.toString(),
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16.0)),
+                            SizedBox(width: 6.0),
+                            TextDrawer(
+                                text: 'منتج',
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16.0),
+                          ])
+                    ]),
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: TextDrawer(
+                                    text: '$requestNumber#',
+                                    textAlign: TextAlign.center,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 20.0)),
+                            SizedBox(width: 10.0),
+                            Padding(
+                                padding: const EdgeInsets.only(right: 10.0),
+                                child: TextDrawer(
+                                    text: 'طلب',
+                                    textAlign: TextAlign.center,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 23.0)),
+                          ]),
+                      TextButton(
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      side: BorderSide(
+                                          color: requestStateColor))),
+                              backgroundColor:
+                                  MaterialStateProperty.all(requestStateColor)),
+                          onPressed: () {},
+                          child: TextDrawer(
+                              text: requestState,
+                              textAlign: TextAlign.center,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16.0)),
+                      Padding(
+                          padding: const EdgeInsets.only(right: 10.0),
+                          child: TextDrawer(
+                              text: requestDate,
+                              color: Colors.grey[700],
+                              fontWeight: FontWeight.w400,
+                              fontSize: 17.0))
+                    ])
+              ]),
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey[400]),
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white),
+        ));
   }
 }

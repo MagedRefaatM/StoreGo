@@ -26,6 +26,7 @@ import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:store_go/shipping/view/shipping.dart';
 import 'package:store_go/my_info/view/my_info.dart';
 import 'package:store_go/dialogs/exit_dialog.dart';
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:store_go/taxes/view/taxes.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
@@ -67,25 +68,20 @@ class _SettingsState extends State<Settings> {
     return Container(
       color: Colors.white,
       child: SafeArea(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 15.0),
-          Expanded(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        SizedBox(height: 15.0),
+        Expanded(
             flex: 1,
-            child: Text(
-              'الإعدادات',
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'ArabicUiDisplay',
-                  fontSize: 26.0,
-                  color: Colors.black),
-            ),
-          ),
-          SizedBox(height: 15.0),
-          Expanded(
-            flex: 14,
-            child: Padding(
+            child: TextDrawer(
+                text: 'الإعدادات',
+                fontWeight: FontWeight.w600,
+                fontSize: 26.0,
+                color: Colors.black)),
+        SizedBox(height: 15.0),
+        Expanded(
+          flex: 14,
+          child: Padding(
               padding: EdgeInsets.only(left: 15.0, right: 15.0),
               child: SingleChildScrollView(
                 child: Column(
@@ -103,11 +99,9 @@ class _SettingsState extends State<Settings> {
                                       context, () => onLogoutClicked())),
                             ))
                         .toList()),
-              ),
-            ),
-          )
-        ],
-      )),
+              )),
+        )
+      ])),
     );
   }
 

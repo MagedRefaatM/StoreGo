@@ -9,6 +9,7 @@ import 'package:store_go/display_settings/view/social_account_cell.dart';
 import 'package:store_go/settings/model/data/settings_local_data.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:store_go/dialogs/image_dialog.dart';
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -143,14 +144,13 @@ class _DisplaySettingsState extends State<DisplaySettings> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(width: 37),
-                      Text('إعدادات المظهر',
+                      TextDrawer(
+                          text: 'إعدادات المظهر',
                           maxLines: 1,
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'ArabicUiDisplay',
-                              fontSize: 21.0,
-                              color: Colors.black)),
+                          textAlign: TextAlign.center,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 21.0),
                       GestureDetector(
                           child: Icon(
                             Icons.arrow_forward_ios_outlined,
@@ -182,12 +182,10 @@ class _DisplaySettingsState extends State<DisplaySettings> {
                         onPressed: updateDisplaySettings,
                         child: Padding(
                           padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                          child: Text('حفظ',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'ArabicUiDisplay',
-                                fontWeight: FontWeight.w700,
-                              )),
+                          child: TextDrawer(
+                              text: 'حفظ',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18.0),
                         )),
                   ),
                   SizedBox(height: 15.0)
@@ -235,17 +233,13 @@ class _DisplaySettingsState extends State<DisplaySettings> {
             ),
             SizedBox(height: 10.0),
             Expanded(
-              flex: 1,
-              child: Text(
-                _presenter.getImageHintText(index),
-                textAlign: TextAlign.center,
-                style: TextStyle(
+                flex: 1,
+                child: TextDrawer(
+                    text: _presenter.getImageHintText(index),
+                    textAlign: TextAlign.center,
                     fontSize: 17.0,
                     fontWeight: FontWeight.w400,
-                    fontFamily: 'ArabicUiDisplay',
-                    color: Colors.grey[900]),
-              ),
-            )
+                    color: Colors.grey[900]))
           ],
         );
       }),

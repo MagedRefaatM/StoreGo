@@ -8,6 +8,7 @@ import 'package:store_go/store/model/data/store_local_data.dart';
 import 'package:store_go/products/view/product_details.dart';
 import 'package:store_go/products/view/product_item.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
@@ -51,211 +52,182 @@ class _ProductsState extends State<Products> {
               children: [
                 SizedBox(height: 15.0),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(12.0, 10.0, 8.0, 15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        child: TextButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(13.0),
-                                    side: BorderSide(
-                                        color: Colors.deepPurpleAccent,
-                                        width: 1.5))),
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white),
-                            padding:
-                                MaterialStateProperty.all(EdgeInsets.all(13.0)),
-                          ),
-                          onPressed: onAddProductPressed,
-                          child: Text(
-                            'إضافة منتج',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 19.0,
-                                color: Colors.deepPurpleAccent,
-                                fontFamily: 'ArabicUiDisplay',
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                      Text(
-                        'المنتجات',
-                        maxLines: 1,
-                        style: TextStyle(
+                    padding: const EdgeInsets.fromLTRB(12.0, 10.0, 8.0, 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                            child: TextButton(
+                                style: ButtonStyle(
+                                  shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(13.0),
+                                          side: BorderSide(
+                                              color: Colors.deepPurpleAccent,
+                                              width: 1.5))),
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.white),
+                                  padding: MaterialStateProperty.all(
+                                      EdgeInsets.all(13.0)),
+                                ),
+                                onPressed: onAddProductPressed,
+                                child: TextDrawer(
+                                    text: 'إضافة منتج',
+                                    textAlign: TextAlign.center,
+                                    fontSize: 19.0,
+                                    color: Colors.deepPurpleAccent,
+                                    fontWeight: FontWeight.w500))),
+                        TextDrawer(
+                            text: 'المنتجات',
+                            maxLines: 1,
                             fontWeight: FontWeight.w600,
-                            fontFamily: 'ArabicUiDisplay',
                             fontSize: 24.0,
                             color: Colors.black),
-                      ),
-                      SizedBox(width: 5.0),
-                      GestureDetector(
-                        child: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.grey[500],
-                          size: 40.0,
-                        ),
-                        onTap: () => Navigator.pop(context),
-                      )
-                    ],
-                  ),
-                ),
+                        SizedBox(width: 5.0),
+                        GestureDetector(
+                            child: Icon(Icons.arrow_forward_ios_outlined,
+                                color: Colors.grey[500], size: 40.0),
+                            onTap: () => Navigator.pop(context))
+                      ],
+                    )),
                 IgnorePointer(
-                  ignoring: _presenter.getInteractionState(enableInteraction),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
+                    ignoring: _presenter.getInteractionState(enableInteraction),
+                    child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          GestureDetector(
-                            child: Row(
+                          Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text(
-                                  'منتهى الكمية',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.grey[600],
-                                      fontSize: 14.0,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                SizedBox(width: 8.0),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 9.0),
-                                  child: Text(
-                                    '${ProductsLocalData.totalEmptyQuantityProducts}',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14.0,
-                                        fontFamily: 'ArabicUiDisplay',
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            onTap: () => setState(() {
-                              enableInteraction = false;
-                              ProductsLocalData.products.clear();
-                              ProductsLocalData.currentProductPageFilter = 2;
-                              ProductsLocalData.currentProductPage = 1;
-                              getFilteredProducts(2, 8);
-                            }),
-                          ),
-                          Container(
-                            height: 1.5,
-                            width: 25.0,
-                            color: Colors.deepOrangeAccent,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                            child: Row(
+                                GestureDetector(
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          TextDrawer(
+                                              text: 'منتهى الكمية',
+                                              textAlign: TextAlign.center,
+                                              color: Colors.grey[600],
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w400),
+                                          SizedBox(width: 8.0),
+                                          Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 9.0),
+                                              child: TextDrawer(
+                                                  text:
+                                                      '${ProductsLocalData.totalEmptyQuantityProducts}',
+                                                  textAlign: TextAlign.center,
+                                                  color: Colors.grey[600],
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w400)),
+                                        ]),
+                                    onTap: () => setState(() {
+                                          enableInteraction = false;
+                                          ProductsLocalData.products.clear();
+                                          ProductsLocalData
+                                              .currentProductPageFilter = 2;
+                                          ProductsLocalData.currentProductPage =
+                                              1;
+                                          getFilteredProducts(2, 8);
+                                        })),
+                                Container(
+                                    height: 1.5,
+                                    width: 25.0,
+                                    color: Colors.deepOrangeAccent),
+                              ]),
+                          Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text(
-                                  'غير معروض',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.grey[600],
-                                      fontSize: 14.0,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                SizedBox(width: 8.0),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 9.0),
-                                  child: Text(
-                                    '${ProductsLocalData.totalNotDisplayedProducts}',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14.0,
-                                        fontFamily: 'ArabicUiDisplay',
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            onTap: () => setState(() {
-                              enableInteraction = false;
-                              ProductsLocalData.products.clear();
-                              ProductsLocalData.currentProductPageFilter = 0;
-                              ProductsLocalData.currentProductPage = 1;
-                              getFilteredProducts(0, 8);
-                            }),
-                          ),
-                          Container(
-                            height: 1.5,
-                            width: 25.0,
-                            color: Colors.red,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                            child: Row(
+                                GestureDetector(
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          TextDrawer(
+                                              text: 'غير معروض',
+                                              textAlign: TextAlign.center,
+                                              color: Colors.grey[600],
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w400),
+                                          SizedBox(width: 8.0),
+                                          Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 9.0),
+                                              child: TextDrawer(
+                                                  text:
+                                                      '${ProductsLocalData.totalNotDisplayedProducts}',
+                                                  textAlign: TextAlign.center,
+                                                  color: Colors.grey[600],
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w400)),
+                                        ]),
+                                    onTap: () => setState(() {
+                                          enableInteraction = false;
+                                          ProductsLocalData.products.clear();
+                                          ProductsLocalData
+                                              .currentProductPageFilter = 0;
+                                          ProductsLocalData.currentProductPage =
+                                              1;
+                                          getFilteredProducts(0, 8);
+                                        })),
+                                Container(
+                                    height: 1.5,
+                                    width: 25.0,
+                                    color: Colors.red),
+                              ]),
+                          Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text(
-                                  'معروض',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.grey[600],
-                                      fontSize: 14.0,
-                                      fontFamily: 'ArabicUiDisplay',
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                SizedBox(width: 8.0),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 9.0),
-                                  child: Text(
-                                    '${ProductsLocalData.totalDisplayedProducts}',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14.0,
-                                        fontFamily: 'ArabicUiDisplay',
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            onTap: () => setState(() {
-                              enableInteraction = false;
-                              ProductsLocalData.products.clear();
-                              ProductsLocalData.currentProductPage = 1;
-                              ProductsLocalData.currentProductPageFilter = 1;
-                              getFilteredProducts(1, 8);
-                            }),
-                          ),
-                          Container(
-                            height: 1.5,
-                            width: 25.0,
-                            color: Colors.deepPurpleAccent,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                                GestureDetector(
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          TextDrawer(
+                                              text: 'معروض',
+                                              textAlign: TextAlign.center,
+                                              color: Colors.grey[600],
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w400),
+                                          SizedBox(width: 8.0),
+                                          Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 9.0),
+                                              child: TextDrawer(
+                                                  text:
+                                                      '${ProductsLocalData.totalDisplayedProducts}',
+                                                  textAlign: TextAlign.center,
+                                                  color: Colors.grey[600],
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w400)),
+                                        ]),
+                                    onTap: () => setState(() {
+                                          enableInteraction = false;
+                                          ProductsLocalData.products.clear();
+                                          ProductsLocalData.currentProductPage =
+                                              1;
+                                          ProductsLocalData
+                                              .currentProductPageFilter = 1;
+                                          getFilteredProducts(1, 8);
+                                        })),
+                                Container(
+                                    height: 1.5,
+                                    width: 25.0,
+                                    color: Colors.deepPurpleAccent),
+                              ]),
+                        ])),
                 SizedBox(height: 15.0),
                 inflateProductsList()
               ],
