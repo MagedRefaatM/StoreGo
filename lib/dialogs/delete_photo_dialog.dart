@@ -1,3 +1,4 @@
+import 'package:store_go/drawers/elevated_button_drawer.dart';
 import 'package:store_go/drawers//text_drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -39,28 +40,24 @@ class DeleteProductImageDialog {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            ElevatedButton(
-                              child: TextDrawer(
-                                  text: 'إلغاء',
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 15.0),
-                              onPressed: cancelDelete,
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Colors.deepPurpleAccent)),
-                            ),
-                            ElevatedButton(
-                              child: TextDrawer(
-                                  text: 'تأكيد',
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 15.0),
-                              onPressed: deleteProductImageFunction,
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Colors.deepPurpleAccent)),
-                            )
+                            ElevatedButtonDrawer(
+                                backgroundColor: Colors.deepPurpleAccent,
+                                fontWeight: FontWeight.w400,
+                                onPressed: cancelDelete,
+                                borderSide: 0.0,
+                                btnText: 'إلغاء',
+                                fontSize: 15.0,
+                                paddingBottom: 0,
+                                paddingTop: 0),
+                            ElevatedButtonDrawer(
+                                backgroundColor: Colors.deepPurpleAccent,
+                                fontWeight: FontWeight.w400,
+                                onPressed: deleteProductImageFunction,
+                                borderSide: 0.0,
+                                btnText: 'تأكيد',
+                                fontSize: 15.0,
+                                paddingBottom: 0,
+                                paddingTop: 0),
                           ],
                         )
                       ],

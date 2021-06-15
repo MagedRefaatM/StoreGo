@@ -2,6 +2,7 @@ import 'package:store_go/store_settings/model/data/store_settings_local_data.dar
 import 'package:store_go/store_settings/model/service/update_store_settings.dart';
 import 'package:store_go/store_settings/presenter/store_settings_presenter.dart';
 import 'package:store_go/settings/model/data/settings_local_data.dart';
+import 'package:store_go/drawers/elevated_button_drawer.dart';
 import 'package:store_go/drawers//text_field_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -150,24 +151,8 @@ class _StoreSettingsState extends State<StoreSettings> {
                 SizedBox(height: 15.0),
                 ConstrainedBox(
                     constraints: BoxConstraints(minWidth: double.infinity),
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                    side: BorderSide(
-                                        color: Colors.deepPurpleAccent))),
-                            backgroundColor: MaterialStateProperty.all(
-                                Colors.deepPurpleAccent)),
-                        onPressed: updateStoreSettings,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                          child: TextDrawer(
-                              text: 'حفظ',
-                              color: Colors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w700),
-                        ))),
+                    child:
+                        ElevatedButtonDrawer(onPressed: updateStoreSettings)),
                 SizedBox(height: 20.0)
               ],
             ),

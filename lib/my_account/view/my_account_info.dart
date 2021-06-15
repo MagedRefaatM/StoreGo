@@ -3,6 +3,7 @@ import 'package:store_go/my_account/model/service/update_account_service.dart';
 import 'package:store_go/my_account/model/service/upload_file_service.dart';
 import 'package:store_go/my_account/model/data/my_account_local_data.dart';
 import 'package:store_go/my_account/presenter/my_account_presenter.dart';
+import 'package:store_go/drawers/elevated_button_drawer.dart';
 import 'package:store_go/my_account/view/document_cell.dart';
 import 'package:store_go/drawers//text_field_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
@@ -385,24 +386,8 @@ class _MyAccountInfoState extends State<MyAccountInfo> {
                     SizedBox(height: 60.0),
                     ConstrainedBox(
                         constraints: BoxConstraints(minWidth: double.infinity),
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5),
-                                        side: BorderSide(
-                                            color: Colors.deepPurpleAccent))),
-                                backgroundColor: MaterialStateProperty.all(
-                                    Colors.deepPurpleAccent)),
-                            onPressed: updateAccountInfo,
-                            child: Padding(
-                                padding:
-                                    EdgeInsets.only(top: 15.0, bottom: 15.0),
-                                child: TextDrawer(
-                                    text: 'حفظ',
-                                    color: Colors.white,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w700)))),
+                        child:
+                            ElevatedButtonDrawer(onPressed: updateAccountInfo)),
                     SizedBox(height: 20.0)
                   ],
                 )),

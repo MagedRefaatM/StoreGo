@@ -9,6 +9,7 @@ import 'package:store_go/my_info/model/data/my_info_local_data.dart';
 import 'package:store_go/my_info/presenter/my_info_presenter.dart';
 import 'package:store_go/dialogs/profile_image_delete_dialog.dart';
 import 'package:store_go/login/model/data/login_local_data.dart';
+import 'package:store_go/drawers/elevated_button_drawer.dart';
 import 'package:store_go/dialogs/profile_image_dialog.dart';
 import 'package:store_go/drawers//text_field_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
@@ -181,24 +182,8 @@ class _MyInfoState extends State<MyInfo> {
                     SizedBox(height: 15.0),
                     ConstrainedBox(
                         constraints: BoxConstraints(minWidth: double.infinity),
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5),
-                                        side: BorderSide(
-                                            color: Colors.deepPurpleAccent))),
-                                backgroundColor: MaterialStateProperty.all(
-                                    Colors.deepPurpleAccent)),
-                            onPressed: () => updateManagerProfile(),
-                            child: Padding(
-                                padding:
-                                    EdgeInsets.only(top: 15.0, bottom: 15.0),
-                                child: TextDrawer(
-                                    text: 'حفظ',
-                                    color: Colors.white,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w700)))),
+                        child: ElevatedButtonDrawer(
+                            onPressed: updateManagerProfile)),
                     SizedBox(height: 15.0)
                   ],
                 )),

@@ -2,6 +2,7 @@ import 'package:store_go/settings/model/data/settings_local_data.dart';
 import 'package:store_go/taxes/model/service/update_store_taxes.dart';
 import 'package:store_go/taxes/model/data/taxes_local_data.dart';
 import 'package:store_go/taxes/presenter/taxes_presenter.dart';
+import 'package:store_go/drawers/elevated_button_drawer.dart';
 import 'package:store_go/drawers//text_field_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -166,25 +167,8 @@ class _TaxesState extends State<Taxes> {
                 ),
                 SizedBox(height: 15.0),
                 ConstrainedBox(
-                  constraints: BoxConstraints(minWidth: double.infinity),
-                  child: ElevatedButton(
-                      style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                  side: BorderSide(
-                                      color: Colors.deepPurpleAccent))),
-                          backgroundColor: MaterialStateProperty.all(
-                              Colors.deepPurpleAccent)),
-                      onPressed: updateStoreTaxes,
-                      child: Padding(
-                          padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                          child: TextDrawer(
-                              text: 'حفظ',
-                              color: Colors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w700))),
-                )
+                    constraints: BoxConstraints(minWidth: double.infinity),
+                    child: ElevatedButtonDrawer(onPressed: updateStoreTaxes))
               ],
             ),
           ),

@@ -7,6 +7,7 @@ import 'package:store_go/display_settings/model/service/upload_selected_image.da
 import 'package:store_go/display_settings/model/entities/single_account_cell.dart';
 import 'package:store_go/display_settings/view/social_account_cell.dart';
 import 'package:store_go/settings/model/data/settings_local_data.dart';
+import 'package:store_go/drawers/elevated_button_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:store_go/dialogs/image_dialog.dart';
 import 'package:store_go/drawers//text_drawer.dart';
@@ -166,26 +167,9 @@ class _DisplaySettingsState extends State<DisplaySettings> {
                   inflateSocialAccountsList(),
                   SizedBox(height: 15.0),
                   ConstrainedBox(
-                    constraints: BoxConstraints(minWidth: double.infinity),
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                    side: BorderSide(
-                                        color: Colors.deepPurpleAccent))),
-                            backgroundColor: MaterialStateProperty.all(
-                                Colors.deepPurpleAccent)),
-                        onPressed: updateDisplaySettings,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                          child: TextDrawer(
-                              text: 'حفظ',
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 18.0),
-                        )),
-                  ),
+                      constraints: BoxConstraints(minWidth: double.infinity),
+                      child: ElevatedButtonDrawer(
+                          onPressed: updateDisplaySettings)),
                   SizedBox(height: 15.0)
                 ],
               ),
