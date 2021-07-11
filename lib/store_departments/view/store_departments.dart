@@ -3,10 +3,10 @@ import 'package:store_go/store_departments/presenter/store_departments_presenter
 import 'package:store_go/settings/model/entities/manager_category_response.dart';
 import 'package:store_go/store_departments/model/data/category_local_data.dart';
 import 'package:store_go/dialogs/exit_edit_product_dialog.dart';
-import 'package:store_go/drawers/elevated_button_drawer.dart';
-import 'package:store_go/drawers//text_field_drawer.dart';
+import 'package:store_go/widgets/elevated_button_drawer.dart';
+import 'package:store_go/widgets/text_field_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
-import 'package:store_go/drawers//text_drawer.dart';
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 

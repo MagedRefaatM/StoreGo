@@ -1,4 +1,4 @@
-import 'package:store_go/verification/model/entities/account_info_response.dart';
+import '../../verification/data_layer/data_model/account_info_response.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:flutter/material.dart';
 

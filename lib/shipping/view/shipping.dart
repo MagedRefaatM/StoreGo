@@ -4,11 +4,11 @@ import 'package:store_go/shipping/model/data/shipping_local_data.dart';
 import 'package:store_go/settings/model/data/settings_local_data.dart';
 import 'package:store_go/shipping/presenter/shipping_presenter.dart';
 import 'package:store_go/dialogs/exit_edit_product_dialog.dart';
-import 'package:store_go/drawers/elevated_button_drawer.dart';
-import 'package:store_go/drawers/text_field_drawer.dart';
+import 'package:store_go/widgets/elevated_button_drawer.dart';
+import 'package:store_go/widgets/text_field_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:store_go/drawers/text_drawer.dart';
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 

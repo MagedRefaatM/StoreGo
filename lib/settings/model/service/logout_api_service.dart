@@ -1,4 +1,4 @@
-import 'package:store_go/login/model/entities/logout_response_data.dart';
+import '../../../verification/data_layer/data_model/logout_response_data.dart';
 import 'package:store_go/settings/model/data/settings_local_data.dart';
 import 'package:http/http.dart';
 import 'dart:async';

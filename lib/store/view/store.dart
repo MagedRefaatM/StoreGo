@@ -5,7 +5,7 @@ import 'package:store_go/store/presenter/store_presenter.dart';
 import 'package:store_go/store/view/store_option.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:store_go/products/view/products.dart';
-import 'package:store_go/drawers//text_drawer.dart';
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

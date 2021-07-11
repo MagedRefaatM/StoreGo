@@ -7,10 +7,10 @@ import 'package:store_go/display_settings/model/service/upload_selected_image.da
 import 'package:store_go/display_settings/model/entities/single_account_cell.dart';
 import 'package:store_go/display_settings/view/social_account_cell.dart';
 import 'package:store_go/settings/model/data/settings_local_data.dart';
-import 'package:store_go/drawers/elevated_button_drawer.dart';
+import 'package:store_go/widgets/elevated_button_drawer.dart';
 import 'package:store_go/dialogs/loading_dialog.dart';
 import 'package:store_go/dialogs/image_dialog.dart';
-import 'package:store_go/drawers//text_drawer.dart';
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

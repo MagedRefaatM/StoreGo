@@ -1,5 +1,5 @@
 import 'package:store_go/store/model/data/store_local_data.dart';
-import 'package:store_go/drawers//text_drawer.dart';
+import 'package:store_go/widgets/text_drawer.dart';
 import 'package:flutter/material.dart';
 
 class StoreOption extends StatelessWidget {

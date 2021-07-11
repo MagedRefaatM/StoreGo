@@ -19,8 +19,6 @@ dependencies:
   intl:
   http:
   http_parser:
-  bloc:
-  flutter_bloc:
   flutter_switch:
   image_picker:
   toast:
@@ -31,6 +29,11 @@ dependencies:
   path_provider:
   mime:
   syncfusion_flutter_pdfviewer:
+  bloc:
+  flutter_bloc:
+  flutter_image_compress:
+  equatable:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:
